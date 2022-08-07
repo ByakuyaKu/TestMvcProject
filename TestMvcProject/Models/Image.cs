@@ -3,27 +3,27 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TestMvcProject.Models
 {
-    public class Anime
+    public class Image
     {
         [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
         [Required]
-        public string Tittle { get; set; }
+        public string Name { get; set; }
+        [Required]
+        public byte[] Data { get; set; }
         public DateTime ItemCreation { get; set; } = DateTime.Now;
-        public DateTime AnimeStarts { get; set; }
-        public DateTime AnimeEnds { get; set; }
-        public int SeriesCount { get; set; }
-        public int SeriesRealesed { get; set; }
-        public string Description { get; set; }
 
+        public Guid AnimeId { get; set; }
+        [ForeignKey("AnimeId")]
+        public Anime Anime { get; set; }
 
         public Guid MangaId { get; set; }
         [ForeignKey("MangaId")]
         public Manga Manga { get; set; }
 
-        public List<Author> Author { get; set; }
-
-        public List<Image> Images { get; set; }
+        public Guid AuthorId { get; set; }
+        [ForeignKey("AuthorId")]
+        public Author Author { get; set; }
 
     }
 }

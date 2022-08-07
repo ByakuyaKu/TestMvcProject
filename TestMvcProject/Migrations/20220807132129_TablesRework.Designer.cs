@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestMvcProject.Data;
 
@@ -11,9 +12,11 @@ using TestMvcProject.Data;
 namespace TestMvcProject.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220807132129_TablesRework")]
+    partial class TablesRework
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,7 +61,7 @@ namespace TestMvcProject.Migrations
 
                     b.HasIndex("MangaId");
 
-                    b.ToTable("Animies", (string)null);
+                    b.ToTable("Animies");
                 });
 
             modelBuilder.Entity("TestMvcProject.Models.Author", b =>
@@ -104,7 +107,7 @@ namespace TestMvcProject.Migrations
 
                     b.HasIndex("MangaId");
 
-                    b.ToTable("Authors", (string)null);
+                    b.ToTable("Authors");
                 });
 
             modelBuilder.Entity("TestMvcProject.Models.Image", b =>
@@ -141,7 +144,7 @@ namespace TestMvcProject.Migrations
 
                     b.HasIndex("MangaId");
 
-                    b.ToTable("Images", (string)null);
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("TestMvcProject.Models.Manga", b =>
@@ -175,7 +178,7 @@ namespace TestMvcProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Mangas", (string)null);
+                    b.ToTable("Mangas");
                 });
 
             modelBuilder.Entity("TestMvcProject.Models.Position", b =>
@@ -202,7 +205,7 @@ namespace TestMvcProject.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Positions", (string)null);
+                    b.ToTable("Positions");
                 });
 
             modelBuilder.Entity("TestMvcProject.Models.Anime", b =>

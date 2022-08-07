@@ -12,6 +12,9 @@ namespace TestMvcProject.Data
 
         public DbSet<Anime> Animies { get; set; }
         public DbSet<Manga> Mangas { get; set; }
+        public DbSet<Author> Authors { get; set; }
+        public DbSet<Image> Images { get; set; }
+        public DbSet<Position> Positions { get; set; }
     }
     
 }
