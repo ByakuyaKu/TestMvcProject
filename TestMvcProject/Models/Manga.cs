@@ -7,7 +7,7 @@ namespace TestMvcProject.Models
     {
         [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         public string Tittle { get; set; }
         public DateTime ItemCreation { get; set; } = DateTime.Now;
         public DateTime MangaStarts { get; set; }

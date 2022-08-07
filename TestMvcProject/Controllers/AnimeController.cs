@@ -19,10 +19,23 @@ namespace TestMvcProject.Controllers
             return View(AnimeList);
         }
 
+        //GET
         public IActionResult Create()
         {
             //IEnumerable<Anime> AnimeList = _appDbContext.Animies;
             return View();
+        }
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Anime anime)
+        {
+            if (!ModelState.IsValid)
+                return View(anime);
+
+            _appDbContext.Animies.Add(anime);
+            _appDbContext.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }

@@ -7,9 +7,9 @@ namespace TestMvcProject.Models
     {
         [Key]
         public Guid Id { get; set; } = new Guid();
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         public string Name { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public DateTime ItemCreation { get; set; } = DateTime.Now;
         public Guid AuthorId { get; set; }
         [ForeignKey("AuthorId")]

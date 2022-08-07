@@ -7,9 +7,9 @@ namespace TestMvcProject.Models
     {
         [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         public string Name { get; set; }
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         public byte[] Data { get; set; }
         public DateTime ItemCreation { get; set; } = DateTime.Now;
 

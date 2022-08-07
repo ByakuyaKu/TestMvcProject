@@ -6,13 +6,14 @@
 
 <h1>Anime</h1>
 
-@foreach(var anime in Model){
+@foreach(var anime in Model)
+{
 <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
   <div class="card-header">@anime.Tittle</div>
   <div class="card-body">
     <h4 class="card-title">About</h4>
     <p class="card-text">@anime.Description</p>
-     <p class="card-text">@anime.Manga.Tittle @anime.Manga.Description</p>
+     <p class="card-text">@anime.Images.Count , @anime.Authors.Count</p>
   </div>
 </div>
 }

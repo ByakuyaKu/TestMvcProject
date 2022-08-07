@@ -3,13 +3,48 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1 class="mt-4">Create anime</h1>
 
-<form>
+<form method="post">
   <fieldset>
+      <div class="col-sm-6">
+        <div asp-validation-summary="All"></div>
+        <div class="form-group">
+          <label asp-for="Tittle" class="form-label mt-4">Input anime tittle</label>
+          <input asp-for="Tittle"  placeholder="Input anime tittle" class="form-control" id="Tittle">
+          <span asp-validation-for="Tittle" class="text-danger"></span>
+        </div>
 
+        <div class="form-group">
+          <label asp-for="SeriesCount" class="form-label mt-4">Input anime series count</label>
+          <input asp-for="SeriesCount" min="0" placeholder="Input anime series count" class="form-control" id="SeriesCount">
+          <span asp-validation-for="SeriesCount" class="text-danger"></span>
+        </div>
 
-    <div class="form-group">
+        <div class="form-group">
+          <label asp-for="SeriesRealesed" class="form-label mt-4">Input anime series realesed</label>
+          <input asp-for="SeriesRealesed" min="0" placeholder="Input anime series realesed" class="form-control" id="SeriesRealesed">
+          <span asp-validation-for="SeriesRealesed" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Description" class="form-label mt-4">Input description</label>
+            <textarea asp-for="Description" placeholder="Input description" class="form-control" id="Description" rows="3"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Images" class="form-label mt-4">Default file input example</label>
+            <input asp-for="Images" class="form-control" type="file" id="formFile">
+            <span asp-validation-for="Images" class="text-danger"></span>
+        </div>
+    </div>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial"/>
+    }
+    
+    @*<div class="form-group">
       <label for="exampleSelect1" class="form-label mt-4">Example select</label>
       <select class="form-select" id="exampleSelect1">
         <option>1</option>
@@ -28,18 +63,12 @@
         <option>4</option>
         <option>5</option>
       </select>
-    </div>
+    </div>*@
 
-    <div class="form-group">
-      <label asp-for="Description" class="form-label mt-4">Enter description</label>
-      <textarea asp-for="Description" class="form-control" id="Description" rows="3"></textarea>
-    </div>
+    
 
-    <div class="form-group">
-      <label for="formFile" class="form-label mt-4">Default file input example</label>
-      <input class="form-control" type="file" id="formFile">
-    </div>
-    <fieldset class="form-group">
+    
+    @*<fieldset class="form-group">
       <legend class="mt-4">Radio buttons</legend>
       <div class="form-check">
         <input class="form-check-input" type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
@@ -85,16 +114,7 @@
         <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked="">
         <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox input</label>
       </div>
-    </fieldset>
-    <fieldset class="form-group">
-      <legend class="mt-4">Ranges</legend>
-        <label for="customRange1" class="form-label">Example range</label>
-        <input type="range" class="form-range" id="customRange1">
-        <label for="disabledRange" class="form-label">Disabled range</label>
-        <input type="range" class="form-range" id="disabledRange" disabled="">
-        <label for="customRange3" class="form-label">Example range</label>
-        <input type="range" class="form-range" min="0" max="5" step="0.5" id="customRange3">
-    </fieldset>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    </fieldset>*@
+    <button type="submit" class="btn btn-primary mt-4">Submit</button>
   </fieldset>
 </form>
