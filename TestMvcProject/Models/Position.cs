@@ -13,6 +13,6 @@ namespace TestMvcProject.Models
         public DateTime ItemCreation { get; set; } = DateTime.Now;
         public Guid AuthorId { get; set; }
         [ForeignKey("AuthorId")]
-        public Author Author { get; set; }
+        public Author? Author { get; set; }
     }
 }

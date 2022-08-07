@@ -15,15 +15,15 @@ namespace TestMvcProject.Models
 
         public Guid AnimeId { get; set; }
         [ForeignKey("AnimeId")]
-        public Anime Anime { get; set; }
+        public Anime? Anime { get; set; }
 
         public Guid MangaId { get; set; }
         [ForeignKey("MangaId")]
-        public Manga Manga { get; set; }
+        public Manga? Manga { get; set; }
 
         public Guid AuthorId { get; set; }
         [ForeignKey("AuthorId")]
-        public Author Author { get; set; }
+        public Author? Author { get; set; }
 
     }
 }

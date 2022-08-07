@@ -19,18 +19,14 @@ namespace TestMvcProject.Models
 
         public Guid? MangaId { get; set; }
         [ForeignKey("MangaId")]
-        public Manga? Manga { get; set; }
+        public List<Manga> Manga { get; set; } = new List<Manga>();
 
         public Guid? AnimeId { get; set; }
         [ForeignKey("AnimeId")]
-        public Anime? Anime { get; set; }
+        public List<Anime> Anime { get; set; } = new List<Anime>();
 
-        //public Guid ImageId { get; set; }
-        //[ForeignKey("ImageId")]
-        //public Image Image { get; set; }
-
-        public List<Position> Positions { get; set; }
-        public List<Image>? Images { get; set; }
+        public List<Position> Positions { get; set; } = new List<Position>();
+        public List<Image> Images { get; set; } = new List<Image>();
 
     }
 }

@@ -16,8 +16,13 @@ namespace TestMvcProject.Models
         public int ChaptersRealesed { get; set; }
         public string Description { get; set; }
 
-        public List<Anime> Animies { get; set; }
-        public List<Author> Authors { get; set; }
-        public List<Image> Images { get; set; }
+        public Guid? AnimeId { get; set; }
+        [ForeignKey("AnimeId")]
+        public List<Anime> Animies { get; set; } = new List<Anime>();
+
+        public Guid? AuthorId { get; set; }
+        [ForeignKey("AuthorId")]
+        public List<Author> Authors { get; set; } = new List<Author>();
+        public List<Image> Images { get; set; } = new List<Image>();
     }
 }

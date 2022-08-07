@@ -21,9 +21,11 @@ namespace TestMvcProject.Models
 
         public Guid? MangaId { get; set; }
         [ForeignKey("MangaId")]
-        public Manga? Manga { get; set; }
+        public List<Manga>? Manga { get; set; }
 
-        public List<Author> Authors { get; set; }
+        public Guid? AuthorId { get; set; }
+        [ForeignKey("AuthorId")]
+        public List<Author>? Authors { get; set; }
 
         public List<Image>? Images { get; set; }
 
