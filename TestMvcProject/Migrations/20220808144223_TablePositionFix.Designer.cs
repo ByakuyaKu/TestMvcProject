@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestMvcProject.Data;
 
@@ -11,9 +12,11 @@ using TestMvcProject.Data;
 namespace TestMvcProject.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220808144223_TablePositionFix")]
+    partial class TablePositionFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,21 +68,6 @@ namespace TestMvcProject.Migrations
                     b.HasIndex("MangaId");
 
                     b.ToTable("AuthorManga");
-                });
-
-            modelBuilder.Entity("AuthorPosition", b =>
-                {
-                    b.Property<Guid>("AuthorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("AuthorsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("AuthorId", "AuthorsId");
-
-                    b.HasIndex("AuthorsId");
-
-                    b.ToTable("AuthorPosition");
                 });
 
             modelBuilder.Entity("TestMvcProject.Models.Anime", b =>
@@ -254,12 +242,11 @@ namespace TestMvcProject.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("Positions");
                 });
@@ -309,21 +296,6 @@ namespace TestMvcProject.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AuthorPosition", b =>
-                {
-                    b.HasOne("TestMvcProject.Models.Position", null)
-                        .WithMany()
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TestMvcProject.Models.Author", null)
-                        .WithMany()
-                        .HasForeignKey("AuthorsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("TestMvcProject.Models.Image", b =>
                 {
                     b.HasOne("TestMvcProject.Models.Anime", "Anime")
@@ -351,6 +323,15 @@ namespace TestMvcProject.Migrations
                     b.Navigation("Manga");
                 });
 
+            modelBuilder.Entity("TestMvcProject.Models.Position", b =>
+                {
+                    b.HasOne("TestMvcProject.Models.Author", "Author")
+                        .WithMany("Positions")
+                        .HasForeignKey("AuthorId");
+
+                    b.Navigation("Author");
+                });
+
             modelBuilder.Entity("TestMvcProject.Models.Anime", b =>
                 {
                     b.Navigation("Images");
@@ -359,6 +340,8 @@ namespace TestMvcProject.Migrations
             modelBuilder.Entity("TestMvcProject.Models.Author", b =>
                 {
                     b.Navigation("Images");
+
+                    b.Navigation("Positions");
                 });
 
             modelBuilder.Entity("TestMvcProject.Models.Manga", b =>

@@ -1,0 +1,28 @@
+﻿@model Position
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1 class="mt-4">Delete position</h1>
+
+<form method="post" asp-action="DeletePost">
+    <input asp-for="Id" hidden/>
+  <fieldset>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label asp-for="Name" class="form-label mt-4">Input anime tittle</label>
+          <input asp-for="Name" disabled  placeholder="Input anime tittle" class="form-control" id="Tittle">
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Description" class="form-label mt-4">Input description</label>
+            <textarea asp-for="Description" disabled placeholder="Input description" class="form-control" id="Description" rows="3"></textarea>
+        </div>
+    </div>
+        <button type="submit" class="btn btn-danger mt-4">Delete</button>
+        <a asp-controller="Position" asp-action="Index" class="btn btn-primary mt-4"> Back</a>
+  </fieldset>
+</form>
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial"/>
+    }

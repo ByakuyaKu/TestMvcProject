@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TestMvcProject.Data;
 using TestMvcProject.Models;
 
@@ -19,9 +20,19 @@ namespace TestMvcProject.Controllers
             return View(AnimeList);
         }
 
+
+        //GET
+        public ActionResult Details(Guid id)
+        {
+            IEnumerable<Anime> AnimeList = _appDbContext.Animies.Where(a=>a.Id == id).Include(a => a.Manga).Include(a => a.Authors).ToList();
+            return View(AnimeList);
+        }
+
         //GET
         public IActionResult Create()
         {
+            //IEnumerable<Anime> AnimeList = _appDbContext.Animies.Include(a => a.Manga).Include(a => a.Authors).ToList();
+
             //IEnumerable<Anime> AnimeList = _appDbContext.Animies;
             return View();
         }

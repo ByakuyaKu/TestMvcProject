@@ -10,6 +10,11 @@ namespace TestMvcProject.Data
 
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Position>().HasIndex(u => u.Name).IsUnique();
+        }
+
         public DbSet<Anime> Animies { get; set; }
         public DbSet<Manga> Mangas { get; set; }
         public DbSet<Author> Authors { get; set; }

@@ -1,0 +1,30 @@
+﻿@model Position
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1 class="mt-4">Edit position</h1>
+
+<form method="post">
+  <fieldset>
+      <div class="col-sm-6">
+        <div asp-validation-summary="All"></div>
+        <div class="form-group">
+          <label asp-for="Name" class="form-label mt-4">Input anime tittle</label>
+          <input asp-for="Name"  placeholder="Input anime tittle" class="form-control" id="Tittle">
+          <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Description" class="form-label mt-4">Input description</label>
+            <textarea asp-for="Description" placeholder="Input description" class="form-control" id="Description" rows="3"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </div>
+        <button type="submit" class="btn btn-primary mt-4">Update</button>
+        <a asp-controller="Position" asp-action="Index" class="btn btn-primary mt-4"> Back</a>
+  </fieldset>
+</form>
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial"/>
+    }
