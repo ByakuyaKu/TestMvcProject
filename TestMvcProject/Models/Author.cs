@@ -15,6 +15,8 @@ namespace TestMvcProject.Models
         public DateTime? DateOfDeath { get; set; }
         public string? About { get; set; }
         //public bool IsDeleted { get; set; } = false;
+        [NotMapped]
+        public IFormFile? Avatar { get; set; }
         public DateTime ItemCreation { get; set; } = DateTime.Now;
 
         public Guid? MangaId { get; set; }

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Y+apVTociN8Gtkks5d/ViF9V1goca7b4VsCj3Uq0jRk=",
+  "Hash": "5MISYJDfiZ3ODJuz3QjRAxvtJkcdLZPkXoVU2dflbmQ=",
   "Source": "TestMvcProject",
   "BasePath": "_content/TestMvcProject",
   "Mode": "Default",
@@ -49,6 +49,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "D:\\Projects\\TestMvcProject\\TestMvcProject\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\TestMvcProject.bundle.scp.css"
+    },
+    {
+      "Identity": "D:\\Projects\\TestMvcProject\\TestMvcProject\\wwwroot\\404.png",
+      "SourceId": "TestMvcProject",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Projects\\TestMvcProject\\TestMvcProject\\wwwroot\\",
+      "BasePath": "_content/TestMvcProject",
+      "RelativePath": "404.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\404.png"
     },
     {
       "Identity": "D:\\Projects\\TestMvcProject\\TestMvcProject\\wwwroot\\css\\bootswatchDarkly.css",

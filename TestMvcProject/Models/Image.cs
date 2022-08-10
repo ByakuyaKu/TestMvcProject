@@ -13,15 +13,15 @@ namespace TestMvcProject.Models
         public byte[] Data { get; set; }
         public DateTime ItemCreation { get; set; } = DateTime.Now;
 
-        public Guid AnimeId { get; set; }
+        public Guid? AnimeId { get; set; }
         [ForeignKey("AnimeId")]
         public Anime? Anime { get; set; }
 
-        public Guid MangaId { get; set; }
+        public Guid? MangaId { get; set; }
         [ForeignKey("MangaId")]
         public Manga? Manga { get; set; }
 
-        public Guid AuthorId { get; set; }
+        public Guid? AuthorId { get; set; }
         [ForeignKey("AuthorId")]
         public Author? Author { get; set; }
 

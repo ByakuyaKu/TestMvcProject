@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestMvcProject.Data;
 
@@ -11,9 +12,11 @@ using TestMvcProject.Data;
 namespace TestMvcProject.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220809201246_TableImgFix")]
+    partial class TableImgFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +37,7 @@ namespace TestMvcProject.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("AnimeAuthor", (string)null);
+                    b.ToTable("AnimeAuthor");
                 });
 
             modelBuilder.Entity("AnimeManga", b =>
@@ -49,7 +52,7 @@ namespace TestMvcProject.Migrations
 
                     b.HasIndex("MangaId");
 
-                    b.ToTable("AnimeManga", (string)null);
+                    b.ToTable("AnimeManga");
                 });
 
             modelBuilder.Entity("AuthorManga", b =>
@@ -64,7 +67,7 @@ namespace TestMvcProject.Migrations
 
                     b.HasIndex("MangaId");
 
-                    b.ToTable("AuthorManga", (string)null);
+                    b.ToTable("AuthorManga");
                 });
 
             modelBuilder.Entity("AuthorPosition", b =>
@@ -79,7 +82,7 @@ namespace TestMvcProject.Migrations
 
                     b.HasIndex("AuthorsId");
 
-                    b.ToTable("AuthorPosition", (string)null);
+                    b.ToTable("AuthorPosition");
                 });
 
             modelBuilder.Entity("TestMvcProject.Models.Anime", b =>
@@ -118,7 +121,7 @@ namespace TestMvcProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Animies", (string)null);
+                    b.ToTable("Animies");
                 });
 
             modelBuilder.Entity("TestMvcProject.Models.Author", b =>
@@ -157,7 +160,7 @@ namespace TestMvcProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors", (string)null);
+                    b.ToTable("Authors");
                 });
 
             modelBuilder.Entity("TestMvcProject.Models.Image", b =>
@@ -194,7 +197,7 @@ namespace TestMvcProject.Migrations
 
                     b.HasIndex("MangaId");
 
-                    b.ToTable("Images", (string)null);
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("TestMvcProject.Models.Manga", b =>
@@ -234,7 +237,7 @@ namespace TestMvcProject.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Mangas", (string)null);
+                    b.ToTable("Mangas");
                 });
 
             modelBuilder.Entity("TestMvcProject.Models.Position", b =>
@@ -261,7 +264,7 @@ namespace TestMvcProject.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Positions", (string)null);
+                    b.ToTable("Positions");
                 });
 
             modelBuilder.Entity("AnimeAuthor", b =>
