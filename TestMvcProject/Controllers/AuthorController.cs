@@ -64,12 +64,14 @@ namespace TestMvcProject.Controllers
             if (id == Guid.Empty || id == null)
                 return NotFound();
 
-            var author = _appDbContext.Authors.Where(x=>x.Id==id).Include(p => p.Positions).Include(a => a.Images).ToList();
+            //var author = _appDbContext.Authors.Where(a=>a.Id==id).Include(a => a.Positions).Include(a => a.Images).FirstOrDefault();
+            //var author = _appDbContext.Authors.Where(a => a.Id == id).FirstOrDefault();
+            var author = _appDbContext.Authors.Find(id);
 
             if (author == null)
                 return NotFound();
 
-            return View(author[0]);
+            return View(author);
         }
         private Image GetImg(Author author)
         {
@@ -82,10 +84,9 @@ namespace TestMvcProject.Controllers
             // установка массива байтов
             var img = new Image();
             img.Data = imageData;
-            img.Author = author;
-            img.AuthorId = author.Id;
+            //img.Author = author;
+            //img.AuthorId = author.Id;
             img.Name = "AvatarOf" + author.FirstName + author.LastName;
-
             return img;
         }
 
@@ -94,22 +95,21 @@ namespace TestMvcProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Author author)
         {
+            //author.Images = _appDbContext.Authors.Where(a => a.Id == author.Id).Include(a => a.Positions).Include(a => a.Images).FirstOrDefault().Images;
+
             if (!ModelState.IsValid)
                 return View(author);
-
-            //IEnumerable<Author> authorList = _appDbContext.Authors.Include(p => p.Positions).Include(a => a.Images).ToList();
-
-            //var _author = authorList.FirstOrDefault(a=>a.Id == author.Id);
 
             if (author.Avatar != null)
             {
                 var img = GetImg(author);
+
+                _appDbContext.Images.Add(img);
+                _appDbContext.SaveChanges();
+
                 author.Images.Add(img);
             }
-            
-
             _appDbContext.Authors.Update(author);
-
             _appDbContext.SaveChanges();
 
             TempData["success"] = "Author updated successfully!";
@@ -139,10 +139,16 @@ namespace TestMvcProject.Controllers
             if (id == Guid.Empty || id == null)
                 return NotFound();
 
-            var author = _appDbContext.Authors.Find(id);
+            var author = _appDbContext.Authors.Where(a => a.Id == id).Include(a => a.Images).FirstOrDefault();
 
             if (author == null)
                 return NotFound();
+
+            if (author.Images != null && author.Images.Count > 0)
+            {
+                _appDbContext.Images.RemoveRange(author.Images);
+                _appDbContext.SaveChanges();
+            }
 
             _appDbContext.Authors.Remove(author);
 

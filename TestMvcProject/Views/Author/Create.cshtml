@@ -6,55 +6,56 @@
 <h1 class="mt-4">Create author</h1>
 
 <form method="post" enctype="multipart/form-data">
-  <fieldset>
-      <div class="col-sm-6">
-        <div asp-validation-summary="All"></div>
-        <div class="form-group">
-          <label asp-for="FirstName" class="form-label mt-4">Input first name</label>
-          <input asp-for="FirstName"  placeholder="Input first name" class="form-control" id="FirstName">
-          <span asp-validation-for="FirstName" class="text-danger"></span>
-        </div>
+    <fieldset>
+        <div class="col-sm-6">
+            <div asp-validation-summary="All"></div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="form-label mt-4">Input first name</label>
+                <input asp-for="FirstName" placeholder="Input first name" class="form-control" id="FirstName">
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
 
-        <div class="form-group">
-          <label asp-for="LastName" class="form-label mt-4">Input last name</label>
-          <input asp-for="LastName"  placeholder="Input last name" class="form-control" id="LastName">
-          <span asp-validation-for="LastName" class="text-danger"></span>
-        </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="form-label mt-4">Input last name</label>
+                <input asp-for="LastName" placeholder="Input last name" class="form-control" id="LastName">
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
 
-        <div class="form-group">
-          <label asp-for="AdditionalName" class="form-label mt-4">Input additional name</label>
-          <input asp-for="AdditionalName"  placeholder="Input additional name" class="form-control" id="AdditionalName">
-          <span asp-validation-for="AdditionalName" class="text-danger"></span>
-        </div>
+            <div class="form-group">
+                <label asp-for="AdditionalName" class="form-label mt-4">Input additional name</label>
+                <input asp-for="AdditionalName" placeholder="Input additional name" class="form-control" id="AdditionalName">
+                <span asp-validation-for="AdditionalName" class="text-danger"></span>
+            </div>
 
-        <div class="form-group">
-          <label asp-for="DateOfBirth" class="form-label mt-4">Input date of birth</label>
-          <input type="datetime-local" asp-for="DateOfBirth"  placeholder="Input date of birth" class="form-control" id="DateOfBirth">
-          <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-        </div>
+            <div class="form-group">
+                <label asp-for="DateOfBirth" class="form-label mt-4">Input date of birth</label>
+                <input type="datetime-local" asp-for="DateOfBirth" placeholder="Input date of birth" class="form-control" id="DateOfBirth">
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
 
-        <div class="form-group">
-          <label asp-for="DateOfDeath" class="form-label mt-4">Input date of death</label>
-          <input type="datetime-local" asp-for="DateOfDeath"  placeholder="Input date of death" class="form-control" id="DateOfDeath">
-          <span asp-validation-for="DateOfDeath" class="text-danger"></span>
-        </div>
+            <div class="form-group">
+                <label asp-for="DateOfDeath" class="form-label mt-4">Input date of death</label>
+                <input type="datetime-local" asp-for="DateOfDeath" placeholder="Input date of death" class="form-control" id="DateOfDeath">
+                <span asp-validation-for="DateOfDeath" class="text-danger"></span>
+            </div>
 
-        <div class="form-group">
-            <label asp-for="About" class="form-label mt-4">Input about author information</label>
-            <textarea asp-for="About" placeholder="Input about author information" class="form-control" id="About" rows="3"></textarea>
-            <span asp-validation-for="About" class="text-danger"></span>
-        </div>
+            <div class="form-group">
+                <label asp-for="About" class="form-label mt-4">Input about author information</label>
+                <textarea asp-for="About" placeholder="Input about author information" class="form-control" id="About" rows="3"></textarea>
+                <span asp-validation-for="About" class="text-danger"></span>
+            </div>
 
-        <div class="form-group">
-            <label asp-for="Avatar" class="form-label mt-4">Default file input example</label>
-            <input asp-for="Avatar" class="form-control" type="file" id="Images">
-            <span asp-validation-for="Avatar" class="text-danger"></span>
+            <div class="form-group">
+                <label asp-for="Avatar" class="form-label mt-4">Default file input example</label>
+                <input asp-for="Avatar" class="form-control" type="file" id="Images">
+                <span asp-validation-for="Avatar" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary mt-4">Create</button>
+            <a asp-controller="Author" asp-action="Index" class="btn btn-primary mt-4"> Back</a>
         </div>
-        <button type="submit" class="btn btn-primary mt-4">Create</button>
-        <a asp-controller="Author" asp-action="Index" class="btn btn-primary mt-4"> Back</a>
-  </fieldset>
+    </fieldset>
 </form>
-    @section Scripts {
-        <partial name="_ValidationScriptsPartial"/>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
     }
 
