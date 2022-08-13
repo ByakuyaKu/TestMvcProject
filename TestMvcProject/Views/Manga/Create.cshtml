@@ -1,5 +1,6 @@
-﻿@model Manga
+﻿@*@model TestMvcProject.ViewModels.MangaViewModel*@
 
+@model Manga
 @{
     ViewData["Title"] = "Create";
 }
@@ -41,15 +42,20 @@
             </div>
 
             <div class="form-group">
-                <label for="Animies" class="form-label mt-4">Example select</label>
-                <select class="form-select" id="exampleSelect1">
-                    @foreach(var anime in Model.Animies)
-                    {
-                        <option>@anime.Tittle</option>
-                    }
+                <label asp-for="AnimeId" class="form-label mt-4">Select anime adaptation</label>
+                <select class="form-select" asp-for="AnimeId" asp-items="ViewBag.AnimeList">
+                    <option value="">Select anime adaptation</option>
                 </select>
+                <span asp-validation-for="AnimeId" class="text-danger"></span>
             </div>
 
+            <div class="form-group">
+                <label asp-for="AuthorId" class="form-label mt-4">Select author</label>
+                <select class="form-select" asp-for="AuthorId" asp-items="ViewBag.AuthorList">
+                    <option value="">Select author</option>
+                </select>
+                <span asp-validation-for="AuthorId" class="text-danger"></span>
+            </div>
         </div>
         <button type="submit" class="btn btn-primary mt-4">Create</button>
         <a asp-controller="Manga" asp-action="Index" class="btn btn-primary mt-4"> Back</a>

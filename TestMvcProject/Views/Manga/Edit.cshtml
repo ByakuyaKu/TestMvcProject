@@ -39,6 +39,22 @@
                 <input asp-for="Avatar" class="form-control" type="file" id="formFile">
                 <span asp-validation-for="Avatar" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label asp-for="AnimeId" class="form-label mt-4">Edit anime adaptation</label>
+                <select class="form-select" asp-for="AnimeId" asp-items="ViewBag.AnimeList">
+                    <option value="">Select anime adaptation</option>
+                </select>
+                <span asp-validation-for="AnimeId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="AuthorId" class="form-label mt-4">Edit author</label>
+                <select class="form-select" asp-for="AuthorId" asp-items="ViewBag.AuthorList">
+                    <option value="">Select author</option>
+                </select>
+                <span asp-validation-for="AuthorId" class="text-danger"></span>
+            </div>
         </div>
         <button type="submit" class="btn btn-primary mt-4">Edit</button>
         <a asp-controller="Manga" asp-action="Index" class="btn btn-primary mt-4"> Back</a>

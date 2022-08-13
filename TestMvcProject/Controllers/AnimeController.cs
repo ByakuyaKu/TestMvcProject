@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using TestMvcProject.Data;
 using TestMvcProject.Models;
+using TestMvcProject.ViewModels;
 
 namespace TestMvcProject.Controllers
 {
@@ -14,9 +15,9 @@ namespace TestMvcProject.Controllers
             _appDbContext = appDbContext;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            IEnumerable<Anime> AnimeList = _appDbContext.Animies.Include(a => a.Manga).Include(a => a.Images).Include(a=>a.Authors).ThenInclude(a=>a.Positions).ToList();
+            IEnumerable<Anime> AnimeList = await _appDbContext.Animies.Include(a => a.Manga).Include(a => a.Images).Include(a=>a.Authors).ThenInclude(a=>a.Positions).ToListAsync();
             return View(AnimeList);
         }
 
@@ -29,44 +30,29 @@ namespace TestMvcProject.Controllers
         //}
 
         //GET
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.AuthorList = await ViewHelper.FillViewBagAuthorList(_appDbContext);
+            ViewBag.MangaList = await ViewHelper.FillViewBagMangaList(_appDbContext);
             return View();
-        }
-
-        private Image GetImg(Anime anime)
-        {
-            byte[] imageData;
-            // считываем переданный файл в массив байтов
-            using (var binaryReader = new BinaryReader(anime.Avatar.OpenReadStream()))
-            {
-                imageData = binaryReader.ReadBytes((int)anime.Avatar.Length);
-            }
-            // установка массива байтов
-            var img = new Image();
-            img.Data = imageData;
-            //img.Author = author;
-            //img.AuthorId = author.Id;
-            img.Name = "AvatarOf" + anime.Tittle;
-            return img;
         }
 
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Anime anime)
+        public async Task<IActionResult> Create(Anime anime)
         {
             if (!ModelState.IsValid)
                 return View(anime);
 
             if (anime.Avatar != null)
             {
-                var img = GetImg(anime);
+                var img = ViewHelper.GetImg(anime.Avatar, "PosterOf" + anime.Tittle);
                 anime.Images.Add(img);
             }
 
             _appDbContext.Animies.Add(anime);
-            _appDbContext.SaveChanges();
+            await _appDbContext.SaveChangesAsync();
 
             TempData["success"] = "Anime created successfully!";
 
@@ -74,15 +60,18 @@ namespace TestMvcProject.Controllers
         }
 
         // GET: PositionController/Delete/5
-        public ActionResult Delete(Guid? id)
+        public async Task<ActionResult> DeleteAsync(Guid? id)
         {
             if (id == Guid.Empty || id == null)
                 return NotFound();
 
-            var anime = _appDbContext.Animies.Find(id);
+            var anime = await _appDbContext.Animies.FirstOrDefaultAsync(a => a.Id == id);
 
             if (anime == null)
                 return NotFound();
+
+            ViewBag.AuthorList = await ViewHelper.FillViewBagAuthorList(_appDbContext);
+            ViewBag.MangaList = await ViewHelper.FillViewBagMangaList(_appDbContext);
 
             return View(anime);
         }
@@ -90,25 +79,25 @@ namespace TestMvcProject.Controllers
         // POST: PositionController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeletePost(Guid? id)
+        public async Task<ActionResult> DeletePost(Guid? id)
         {
             if (id == Guid.Empty || id == null)
                 return NotFound();
 
-            var anime = _appDbContext.Animies.Where(a => a.Id == id).Include(a => a.Images).Include(a=>a.Manga).Include(a => a.Authors).ThenInclude(a => a.Positions).FirstOrDefault();
+            var anime = await _appDbContext.Animies.Where(a => a.Id == id).Include(a => a.Images).Include(a=>a.Manga).Include(a => a.Authors).ThenInclude(a => a.Positions).FirstOrDefaultAsync();
 
-            if (anime == null)
+            if (anime == null)  
                 return NotFound();
 
             if (anime.Images != null && anime.Images.Count > 0)
             {
                 _appDbContext.Images.RemoveRange(anime.Images);
-                _appDbContext.SaveChanges();
+                await _appDbContext.SaveChangesAsync();
             }
 
             _appDbContext.Animies.Remove(anime);
 
-            _appDbContext.SaveChanges();
+            await _appDbContext.SaveChangesAsync();
 
             TempData["success"] = "Anime deleted successfully!";
 
@@ -116,14 +105,12 @@ namespace TestMvcProject.Controllers
         }
 
         // GET: PositionController/Edit/5
-        public ActionResult Edit(Guid? id)
+        public async Task<ActionResult> Edit(Guid? id)
         {
             if (id == Guid.Empty || id == null)
                 return NotFound();
 
-            //var author = _appDbContext.Authors.Where(a=>a.Id==id).Include(a => a.Positions).Include(a => a.Images).FirstOrDefault();
-            //var author = _appDbContext.Authors.Where(a => a.Id == id).FirstOrDefault();
-            var anime = _appDbContext.Animies.Find(id);
+            var anime = await _appDbContext.Animies.FirstOrDefaultAsync(a => a.Id == id);
 
             if (anime == null)
                 return NotFound();
@@ -134,22 +121,22 @@ namespace TestMvcProject.Controllers
         // POST: PositionController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Anime anime)
+        public async Task<ActionResult> Edit(Anime anime)
         {
             if (!ModelState.IsValid)
                 return View(anime);
 
             if (anime.Avatar != null)
             {
-                var img = GetImg(anime);
+                var img = ViewHelper.GetImg(anime.Avatar, "PosterOf" + anime.Tittle);
 
                 _appDbContext.Images.Add(img);
-                _appDbContext.SaveChanges();
+                await _appDbContext.SaveChangesAsync();
 
                 anime.Images.Add(img);
             }
             _appDbContext.Animies.Update(anime);
-            _appDbContext.SaveChanges();
+            await _appDbContext.SaveChangesAsync();
 
             TempData["success"] = "Anime updated successfully!";
 

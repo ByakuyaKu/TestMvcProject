@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TestMvcProject.Data;
 using TestMvcProject.Models;
+using TestMvcProject.ViewModels;
 
 namespace TestMvcProject.Controllers
 {
@@ -33,11 +34,13 @@ namespace TestMvcProject.Controllers
             if (id == null || id == Guid.Empty)
                 return NotFound();
 
-            var manga = await _appDbContext.Mangas
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var manga = await _appDbContext.Mangas.FirstOrDefaultAsync(m => m.Id == id);
 
             if (manga == null)
                 return NotFound();
+
+            ViewBag.AnimeList = await FillViewBagAnimeList();
+            ViewBag.AuthorList = await FillViewBagAuthorList();
 
             return View(manga);
         }
@@ -45,8 +48,33 @@ namespace TestMvcProject.Controllers
         // GET: Manga/Create
         public async Task<IActionResult> Create()
         {
-            //IEnumerable<Manga> MangaList = await _appDbContext.Mangas.Include(a => a.Animies).Include(a => a.Images).Include(a => a.Authors).ThenInclude(a => a.Positions).ToListAsync();
+            ViewBag.AnimeList = await FillViewBagAnimeList();
+            ViewBag.AuthorList = await FillViewBagAuthorList();
             return View();
+        }
+
+        public async Task<SelectList> FillViewBagAuthorList()
+        {
+            var authors = await _appDbContext.Authors
+                .Include(p => p.Positions)
+                .Include(a => a.Images).ToListAsync();
+
+            if (authors == null)
+                authors = new List<Author>();
+
+            return new SelectList(authors, "Id", "FirstName", "LastName");
+        }
+
+        public async Task<SelectList> FillViewBagAnimeList()
+        {
+            var animies = await _appDbContext.Animies
+                .Include(a => a.Images)
+                .Include(a => a.Manga).ToListAsync();
+
+            if (animies == null)
+                animies = new List<Anime>();
+
+            return new SelectList(animies, "Id", "Tittle");
         }
 
         // POST: Manga/Create
@@ -61,11 +89,11 @@ namespace TestMvcProject.Controllers
 
             if (manga.Avatar != null)
             {
-                var img = GetImg(manga);
+                var img = ViewHelper.GetImg(manga.Avatar, "AvatarOf" + manga.Tittle);
                 manga.Images.Add(img);
             }
 
-            _appDbContext.Add(manga);
+            _appDbContext.Mangas.Add(manga);
             await _appDbContext.SaveChangesAsync();
 
             TempData["success"] = "Manga created successfully!";
@@ -79,10 +107,13 @@ namespace TestMvcProject.Controllers
             if (id == null || Guid.Empty == id)
                 return NotFound();
 
-            var manga = await _appDbContext.Mangas.FindAsync(id);
+            var manga = await _appDbContext.Mangas.FirstOrDefaultAsync(m => m.Id == id);
 
             if (manga == null)
                 return NotFound();
+
+            ViewBag.AnimeList = await FillViewBagAnimeList();
+            ViewBag.AuthorList = await FillViewBagAuthorList();
 
             return View(manga);
         }
@@ -94,12 +125,13 @@ namespace TestMvcProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Manga manga)
         {
+
             if (!ModelState.IsValid)
                 return View(manga);
 
             if (manga.Avatar != null)
             {
-                var img = GetImg(manga);
+                var img = ViewHelper.GetImg(manga.Avatar, "AvatarOf" + manga.Tittle);
 
                 _appDbContext.Images.Add(img);
                 await _appDbContext.SaveChangesAsync();
@@ -107,8 +139,10 @@ namespace TestMvcProject.Controllers
                 manga.Images.Add(img);
             }
 
-            _appDbContext.Update(manga);
+            _appDbContext.Mangas.Update(manga);
             await _appDbContext.SaveChangesAsync();
+
+            TempData["success"] = "Manga updated successfully!";
 
             return RedirectToAction("Index");
 
@@ -117,37 +151,37 @@ namespace TestMvcProject.Controllers
         // GET: Manga/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
-            if (id == null || _appDbContext.Mangas == null)
-            {
+            if (id == Guid.Empty || id == null)
                 return NotFound();
-            }
 
-            var manga = await _appDbContext.Mangas
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var manga = await _appDbContext.Mangas.FirstOrDefaultAsync(m => m.Id == id);
+
             if (manga == null)
-            {
                 return NotFound();
-            }
+
+            ViewBag.AnimeList = await FillViewBagAnimeList();
+            ViewBag.AuthorList = await FillViewBagAuthorList();
 
             return View(manga);
         }
 
         // POST: Manga/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeletePost(Guid? id)
         {
             if (id == Guid.Empty || id == null)
                 return NotFound();
 
-            var manga = await _appDbContext.Mangas.FindAsync(id);
-            //var anime = _appDbContext.Animies.Where(a => a.Id == id).Include(a => a.Images).Include(a => a.Manga).Include(a => a.Authors).ThenInclude(a => a.Positions).FirstOrDefault();
+            var manga = await _appDbContext.Mangas.FirstOrDefaultAsync(m => m.Id == id);
 
             if (manga == null)
                 return NotFound();
 
             _appDbContext.Mangas.Remove(manga);
             await _appDbContext.SaveChangesAsync();
+
+            TempData["success"] = "Manga deleted successfully!";
 
             return RedirectToAction("Index");
         }
@@ -156,20 +190,5 @@ namespace TestMvcProject.Controllers
         //{
         //    return (_appDbContext.Mangas?.Any(e => e.Id == id)).GetValueOrDefault();
         //}
-
-        private Image GetImg(Manga manga)
-        {
-            byte[] imageData;
-            // считываем переданный файл в массив байтов
-            using (var binaryReader = new BinaryReader(manga.Avatar.OpenReadStream()))
-            {
-                imageData = binaryReader.ReadBytes((int)manga.Avatar.Length);
-            }
-            // установка массива байтов
-            var img = new Image();
-            img.Data = imageData;
-            img.Name = "AvatarOf" + manga.Tittle;
-            return img;
-        }
     }
 }
