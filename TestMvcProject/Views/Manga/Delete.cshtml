@@ -1,0 +1,41 @@
+﻿@model Manga
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1 class="mt-4">Delete manga - @Html.DisplayFor(model => model.Tittle)?</h1>
+<hr />
+<form method="post" enctype="multipart/form-data" asp-action="DeletePost">
+    <input asp-for="Id" hidden />
+    <fieldset>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label asp-for="Tittle" class="form-label mt-4"> Tittle</label>
+                <input asp-for="Tittle" disabled placeholder="Tittle" class="form-control" id="Tittle">
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ChaptersCount" class="form-label mt-4"> Chapters count</label>
+                <input asp-for="ChaptersCount" disabled min="0" placeholder="Chapters count" class="form-control" id="ChaptersCount">
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ChaptersRealesed" class="form-label mt-4"> Chapters realesed</label>
+                <input asp-for="ChaptersRealesed" disabled min="0" placeholder="Chapters realesed" class="form-control" id="ChaptersRealesed">
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="form-label mt-4">Description</label>
+                <textarea asp-for="Description" disabled placeholder=" Description" class="form-control" id="Description" rows="3"></textarea>
+            </div>
+
+            @*            <div class="form-group">
+            <label asp-for="Avatar" class="form-label mt-4">Default file input example</label>
+            <input asp-for="Avatar" class="form-control" type="file" id="formFile">
+            </div>*@
+        </div>
+        <button type="submit" class="btn btn-danger mt-4">Delete</button>
+        <a asp-controller="Manga" asp-action="Index" class="btn btn-primary mt-4"> Back</a>
+    </fieldset>
+</form>

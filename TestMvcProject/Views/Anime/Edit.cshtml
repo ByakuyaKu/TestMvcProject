@@ -1,0 +1,50 @@
+﻿@model Anime
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1 class="mt-4">Edit anime</h1>
+<hr />
+
+<form method="post" enctype="multipart/form-data">
+    <fieldset>
+        <div class="col-sm-6">
+            <div asp-validation-summary="All"class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Tittle" class="form-label mt-4">Edit anime tittle</label>
+                <input asp-for="Tittle" placeholder="Edit anime tittle" class="form-control" id="Tittle">
+                <span asp-validation-for="Tittle" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SeriesCount" class="form-label mt-4">Edit anime series count</label>
+                <input asp-for="SeriesCount" min="0" placeholder="Input anime series count" class="form-control" id="SeriesCount">
+                <span asp-validation-for="SeriesCount" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SeriesRealesed" class="form-label mt-4">Edit anime series realesed</label>
+                <input asp-for="SeriesRealesed" min="0" placeholder="Edit anime series realesed" class="form-control" id="SeriesRealesed">
+                <span asp-validation-for="SeriesRealesed" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="form-label mt-4">Edit description</label>
+                <textarea asp-for="Description" placeholder="Edit description" class="form-control" id="Description" rows="3"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Avatar" class="form-label mt-4">Edit anime poster</label>
+                <input asp-for="Avatar" class="form-control" type="file" id="formFile">
+                <span asp-validation-for="Avatar" class="text-danger"></span>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-4">Edit</button>
+        <a asp-controller="Anime" asp-action="Index" class="btn btn-primary mt-4"> Back</a>
+    </fieldset>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    }

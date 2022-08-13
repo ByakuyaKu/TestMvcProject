@@ -17,6 +17,8 @@ namespace TestMvcProject.Models
         [Range(0, int.MaxValue)]
         public int? SeriesRealesed { get; set; }
         public string? Description { get; set; }
+        [NotMapped]
+        public IFormFile? Avatar { get; set; }
 
 
         public Guid? MangaId { get; set; }
@@ -27,7 +29,7 @@ namespace TestMvcProject.Models
         [ForeignKey("AuthorId")]
         public List<Author>? Authors { get; set; }
 
-        public List<Image>? Images { get; set; }
+        public List<Image>? Images { get; set; } = new List<Image>();
 
     }
 }

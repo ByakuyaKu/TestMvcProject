@@ -4,11 +4,12 @@
 }
 
 <h1 class="mt-4">Create author</h1>
+<hr />
 
 <form method="post" enctype="multipart/form-data">
     <fieldset>
         <div class="col-sm-6">
-            <div asp-validation-summary="All"></div>
+            <div asp-validation-summary="All"class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="FirstName" class="form-label mt-4">Input first name</label>
                 <input asp-for="FirstName" placeholder="Input first name" class="form-control" id="FirstName">

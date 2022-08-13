@@ -19,6 +19,14 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQW5pbWVcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Projects/TestMvcProject/TestMvcProject/Views/Anime/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQW5pbWVcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/TestMvcProject/TestMvcProject/Views/Anime/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQW5pbWVcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Projects/TestMvcProject/TestMvcProject/Views/Anime/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQW5pbWVcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -45,6 +53,26 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Projects/TestMvcProject/TestMvcProject/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/TestMvcProject/TestMvcProject/Views/Manga/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuZ2FcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/TestMvcProject/TestMvcProject/Views/Manga/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuZ2FcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/TestMvcProject/TestMvcProject/Views/Manga/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuZ2FcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/TestMvcProject/TestMvcProject/Views/Manga/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuZ2FcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/TestMvcProject/TestMvcProject/Views/Manga/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuZ2FcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Projects/TestMvcProject/TestMvcProject/Views/Position/Create.cshtml]

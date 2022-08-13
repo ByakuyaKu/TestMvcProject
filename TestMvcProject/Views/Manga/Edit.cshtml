@@ -1,0 +1,51 @@
+﻿@model Manga
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1 class="mt-4">Edit manga</h1>
+<hr />
+<form method="post" enctype="multipart/form-data">
+    <fieldset>
+        <div class="col-sm-6">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Tittle" class="form-label mt-4">Edit tittle</label>
+                <input asp-for="Tittle" placeholder="Edit tittle" class="form-control" id="Tittle">
+                <span asp-validation-for="Tittle" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ChaptersCount" class="form-label mt-4">Edit chapters count</label>
+                <input asp-for="ChaptersCount" min="0" placeholder="Edit chapters count" class="form-control" id="ChaptersCount">
+                <span asp-validation-for="ChaptersCount" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ChaptersRealesed" class="form-label mt-4">Edit chapters realesed</label>
+                <input asp-for="ChaptersRealesed" min="0" placeholder="Edit chapters realesed" class="form-control" id="ChaptersRealesed">
+                <span asp-validation-for="ChaptersRealesed" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="form-label mt-4">Edit description</label>
+                <textarea asp-for="Description" placeholder="Edit description" class="form-control" id="Description" rows="3"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Avatar" class="form-label mt-4">Default file input example</label>
+                <input asp-for="Avatar" class="form-control" type="file" id="formFile">
+                <span asp-validation-for="Avatar" class="text-danger"></span>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-4">Edit</button>
+        <a asp-controller="Manga" asp-action="Index" class="btn btn-primary mt-4"> Back</a>
+    </fieldset>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    }
+
