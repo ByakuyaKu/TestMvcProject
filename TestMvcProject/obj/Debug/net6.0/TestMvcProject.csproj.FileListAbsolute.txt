@@ -273,3 +273,13 @@ D:\Projects\TestMvcProject\TestMvcProject\bin\Debug\net6.0\runtimes\unix\lib\net
 D:\Projects\TestMvcProject\TestMvcProject\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
 D:\Projects\TestMvcProject\TestMvcProject\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 D:\Projects\TestMvcProject\TestMvcProject\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+D:\Projects\TestMvcProject\TestMvcProject\bin\Debug\net6.0\Magick.NET-Q16-HDRI-AnyCPU.dll
+D:\Projects\TestMvcProject\TestMvcProject\bin\Debug\net6.0\Magick.NET.Core.dll
+D:\Projects\TestMvcProject\TestMvcProject\bin\Debug\net6.0\runtimes\linux-arm64\native\Magick.Native-Q16-HDRI-arm64.dll.so
+D:\Projects\TestMvcProject\TestMvcProject\bin\Debug\net6.0\runtimes\linux-musl-x64\native\Magick.Native-Q16-HDRI-x64.dll.so
+D:\Projects\TestMvcProject\TestMvcProject\bin\Debug\net6.0\runtimes\linux-x64\native\Magick.Native-Q16-HDRI-x64.dll.so
+D:\Projects\TestMvcProject\TestMvcProject\bin\Debug\net6.0\runtimes\osx-x64\native\Magick.Native-Q16-HDRI-x64.dll.dylib
+D:\Projects\TestMvcProject\TestMvcProject\bin\Debug\net6.0\runtimes\win-arm64\native\Magick.Native-Q16-HDRI-arm64.dll
+D:\Projects\TestMvcProject\TestMvcProject\bin\Debug\net6.0\runtimes\win-x64\native\Magick.Native-Q16-HDRI-x64.dll
+D:\Projects\TestMvcProject\TestMvcProject\bin\Debug\net6.0\runtimes\win-x86\native\Magick.Native-Q16-HDRI-x86.dll
+D:\Projects\TestMvcProject\TestMvcProject\bin\Debug\net6.0\JikanDotNet.dll

@@ -37,44 +37,46 @@
     @foreach (var author in Model)
     {
         <div class="card  col-3 p-0 m-4">
-            <h3 class="card-header">@(author.FirstName + " " + author.LastName + " " + author.AdditionalName)</h3>
-            <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <h6 class="card-subtitle text-muted">Support card subtitle</h6>
-            </div>
-            <div class="card-body">
-                @if (author.Images == null || author.Images.Count == 0)
-                {
-                    <img src="~/404.png" class="img-thumbnail card-img" asp-append-version="true" />
-                }
-                else
-                {
-                    <img src="data:image/png;base64,@(Convert.ToBase64String(author.Images.Last().Data))" class="img-thumbnail card-img mb-3" asp-append-version="true" />
-                }
-            </div>
-            <div class="card-body">
-                @if (author.About != null)
-                {
-                    <p class="card-text">About author: @author.About</p>
-                }
-                else
-                {
-                    <p class="card-text">About author: no information.</p>
-                }
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">Cras justo odio</li>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
-                <li class="list-group-item">Vestibulum at eros</li>
-            </ul>
-            <div class="card-body">
-                <a asp-controller="Author" asp-action="Edit" asp-route-id="@author.Id" class="btn btn-secondary "><i class="bi bi-pencil-square"></i> &nbsp Edit</a>
-                <a asp-controller="Author" asp-action="Delete" asp-route-id="@author.Id" class="btn btn-secondary "><i class="bi bi-trash"></i> &nbsp Delete</a>
-            </div>
-            <div class="card-footer text-muted">
-                @*Added: @(DateTime.Now.Subtract(author.ItemCreation))*@
-                Added: @((author.ItemCreation.ToString("dd.MM.yy")))
-            </div>
+            <a class="text-decoration-none text-white" asp-controller="Author" asp-action="Details" asp-route-id="@author.Id">
+                <h3 class="card-header">@(author.FirstName + " " + author.LastName + " " + author.AdditionalName)</h3>
+                <div class="card-body">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <h6 class="card-subtitle text-muted">Support card subtitle</h6>
+                </div>
+                <div class="card-body">
+                    @if (author.Images == null || author.Images.Count == 0)
+                    {
+                        <img src="~/404.png" class="img-thumbnail card-img" asp-append-version="true" />
+                    }
+                    else
+                    {
+                        <img src="data:image/png;base64,@(Convert.ToBase64String(author.Images.Last().Data))" class="img-thumbnail card-img mb-3" asp-append-version="true" />
+                    }
+                </div>
+                <div class="card-body">
+                    @if (author.About != null)
+                    {
+                        <p class="card-text">About author: @author.About</p>
+                    }
+                    else
+                    {
+                        <p class="card-text">About author: no information.</p>
+                    }
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Cras justo odio</li>
+                    <li class="list-group-item">Dapibus ac facilisis in</li>
+                    <li class="list-group-item">Vestibulum at eros</li>
+                </ul>
+                <div class="card-body">
+                    <a asp-controller="Author" asp-action="Edit" asp-route-id="@author.Id" class="btn btn-secondary "><i class="bi bi-pencil-square"></i> &nbsp Edit</a>
+                    <a asp-controller="Author" asp-action="Delete" asp-route-id="@author.Id" class="btn btn-secondary "><i class="bi bi-trash"></i> &nbsp Delete</a>
+                </div>
+                <div class="card-footer text-muted">
+                    @*Added: @(DateTime.Now.Subtract(author.ItemCreation))*@
+                    Added: @((author.ItemCreation.ToString("dd.MM.yy")))
+                </div>
+            </a>
         </div>
     }
 </div>

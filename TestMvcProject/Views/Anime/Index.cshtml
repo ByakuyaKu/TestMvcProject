@@ -38,44 +38,47 @@
     @foreach (var anime in Model)
     {
         <div class="card  col-3 p-0 m-4">
-            <h3 class="card-header">@anime.Tittle</h3>
-            <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <h6 class="card-subtitle text-muted">Support card subtitle</h6>
-            </div>
-            <div class="card-body">
-                @if (anime.Images == null || anime.Images.Count == 0)
-                {
-                    <img src="~/404.png" class="img-thumbnail card-img" asp-append-version="true" />
-                }
-                else
-                {
-                    <img src="data:image/png;base64,@(Convert.ToBase64String(anime.Images.Last().Data))" class="img-thumbnail card-img mb-3" asp-append-version="true" />
-                }
-            </div>
-            <div class="card-body">
-                @if (anime.Description != null)
-                {
-                    <p class="card-text">Anime discription: @anime.Description</p>
-                }
-                else
-                {
-                    <p class="card-text">Anime discription: no discription.</p>
-                }
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">Series count: @anime.SeriesCount</li>
-                <li class="list-group-item">Series realised: @anime.SeriesRealesed</li>
-                <li class="list-group-item">Vestibulum at eros</li>
-            </ul>
-            <div class="card-body">
-                <a asp-controller="Anime" asp-action="Edit" asp-route-id="@anime.Id" class="btn btn-secondary "><i class="bi bi-pencil-square"></i> &nbsp Edit</a>
-                <a asp-controller="Anime" asp-action="Delete" asp-route-id="@anime.Id" class="btn btn-secondary "><i class="bi bi-trash"></i> &nbsp Delete</a>
-            </div>
-            <div class="card-footer text-muted">
-                @*Added: @(DateTime.Now.Subtract(author.ItemCreation))*@
-                Added: @((anime.ItemCreation.ToString("dd.MM.yy")))
-            </div>
+            <a class="text-decoration-none text-white" asp-controller="Anime" asp-action="Details" asp-route-id="@anime.Id">
+
+                <h3 class="card-header">@anime.Tittle</h3>
+                <div class="card-body">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <h6 class="card-subtitle text-muted">Support card subtitle</h6>
+                </div>
+                <div class="card-body">
+                    @if (anime.Images == null || anime.Images.Count == 0)
+                    {
+                        <img src="~/404.png" class="img-thumbnail card-img" asp-append-version="true" />
+                    }
+                    else
+                    {
+                        <img src="data:image/png;base64,@(Convert.ToBase64String(anime.Images.Last().Data))" class="img-thumbnail card-img mb-3" asp-append-version="true" />
+                    }
+                </div>
+                <div class="card-body">
+                    @if (anime.Description != null)
+                    {
+                        <p class="card-text">Anime discription: @anime.Description</p>
+                    }
+                    else
+                    {
+                        <p class="card-text">Anime discription: no discription.</p>
+                    }
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Series count: @anime.SeriesCount</li>
+                    <li class="list-group-item">Series realised: @anime.SeriesRealesed</li>
+                    <li class="list-group-item">Vestibulum at eros</li>
+                </ul>
+                <div class="card-body">
+                    <a asp-controller="Anime" asp-action="Edit" asp-route-id="@anime.Id" class="btn btn-secondary "><i class="bi bi-pencil-square"></i> &nbsp Edit</a>
+                    <a asp-controller="Anime" asp-action="Delete" asp-route-id="@anime.Id" class="btn btn-secondary "><i class="bi bi-trash"></i> &nbsp Delete</a>
+                </div>
+                <div class="card-footer text-muted">
+                    @*Added: @(DateTime.Now.Subtract(author.ItemCreation))*@
+                    Added: @((anime.ItemCreation.ToString("dd.MM.yy")))
+                </div>
+            </a>
         </div>
     }
 </div>

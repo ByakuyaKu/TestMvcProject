@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "5MISYJDfiZ3ODJuz3QjRAxvtJkcdLZPkXoVU2dflbmQ=",
+  "Hash": "seY0/Mep4U0+izEIsk93ND2SZQ+UZHgC9h4gI0vdxbE=",
   "Source": "TestMvcProject",
   "BasePath": "_content/TestMvcProject",
   "Mode": "Default",
@@ -66,6 +66,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\404.png"
+    },
+    {
+      "Identity": "D:\\Projects\\TestMvcProject\\TestMvcProject\\wwwroot\\4041.png",
+      "SourceId": "TestMvcProject",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Projects\\TestMvcProject\\TestMvcProject\\wwwroot\\",
+      "BasePath": "_content/TestMvcProject",
+      "RelativePath": "4041.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\4041.png"
     },
     {
       "Identity": "D:\\Projects\\TestMvcProject\\TestMvcProject\\wwwroot\\css\\bootswatchDarkly.css",

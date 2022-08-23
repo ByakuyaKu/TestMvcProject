@@ -17,6 +17,16 @@ namespace TestMvcProject.Models
         public string? Description { get; set; }
         [NotMapped]
         public IFormFile? Avatar { get; set; }
+        [NotMapped]
+        [FileExtensions(Extensions = "jpg,jpeg,png")]
+        public string? AvatarFileName => Avatar?.FileName;
+        [NotMapped]
+        [Range(1, 1048576)]
+        public long? AvatarFileLength => Avatar?.Length;
+        [NotMapped]
+        public List<Guid>? AnimeIdList { get; set; } = new List<Guid>();
+        [NotMapped]
+        public List<Guid>? AuthorIdList { get; set; } = new List<Guid>();
         public Guid? AnimeId { get; set; }
         [ForeignKey("AnimeId")]
         public List<Anime>? Animies { get; set; } = new List<Anime>();

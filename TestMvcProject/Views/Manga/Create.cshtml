@@ -42,19 +42,19 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="AnimeId" class="form-label mt-4">Select anime adaptation</label>
-                <select class="form-select" asp-for="AnimeId" asp-items="ViewBag.AnimeList">
-                    <option value="">Select anime adaptation</option>
-                </select>
-                <span asp-validation-for="AnimeId" class="text-danger"></span>
+                <label asp-for="AnimeIdList" class="form-label mt-4">Select anime adaptation</label>
+                <select class="form-select" asp-for="AnimeIdList" asp-items="ViewBag.AnimeList" multiple>
+@*                    <option value="">Select anime adaptation</option>
+*@                </select>
+                <span asp-validation-for="AnimeIdList" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="AuthorId" class="form-label mt-4">Select author</label>
-                <select class="form-select" asp-for="AuthorId" asp-items="ViewBag.AuthorList">
-                    <option value="">Select author</option>
-                </select>
-                <span asp-validation-for="AuthorId" class="text-danger"></span>
+                <label asp-for="AuthorIdList" class="form-label mt-4">Select author</label>
+                <select class="form-select" asp-for="AuthorIdList" asp-items="ViewBag.AuthorList" multiple>
+@*                    <option value="">Select author</option>
+*@                </select>
+                <span asp-validation-for="AuthorIdList" class="text-danger"></span>
             </div>
         </div>
         <button type="submit" class="btn btn-primary mt-4">Create</button>

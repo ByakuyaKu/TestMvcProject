@@ -59,6 +59,81 @@
           }
         }
       },
+      "JikanDotNet/2.2.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/JikanDotNet.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/JikanDotNet.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Magick.NET-Q16-HDRI-AnyCPU/12.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Magick.NET.Core": "12.0.1"
+        },
+        "compile": {
+          "lib/netstandard21/Magick.NET-Q16-HDRI-AnyCPU.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard21/Magick.NET-Q16-HDRI-AnyCPU.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "build/netstandard20/Magick.NET-Q16-HDRI-AnyCPU.targets": {}
+        },
+        "runtimeTargets": {
+          "runtimes/linux-arm64/native/Magick.Native-Q16-HDRI-arm64.dll.so": {
+            "assetType": "native",
+            "rid": "linux-arm64"
+          },
+          "runtimes/linux-musl-x64/native/Magick.Native-Q16-HDRI-x64.dll.so": {
+            "assetType": "native",
+            "rid": "linux-musl-x64"
+          },
+          "runtimes/linux-x64/native/Magick.Native-Q16-HDRI-x64.dll.so": {
+            "assetType": "native",
+            "rid": "linux-x64"
+          },
+          "runtimes/osx-x64/native/Magick.Native-Q16-HDRI-x64.dll.dylib": {
+            "assetType": "native",
+            "rid": "osx-x64"
+          },
+          "runtimes/win-arm64/native/Magick.Native-Q16-HDRI-arm64.dll": {
+            "assetType": "native",
+            "rid": "win-arm64"
+          },
+          "runtimes/win-x64/native/Magick.Native-Q16-HDRI-x64.dll": {
+            "assetType": "native",
+            "rid": "win-x64"
+          },
+          "runtimes/win-x86/native/Magick.Native-Q16-HDRI-x86.dll": {
+            "assetType": "native",
+            "rid": "win-x86"
+          }
+        }
+      },
+      "Magick.NET.Core/12.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard21/Magick.NET.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard21/Magick.NET.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "MessagePack/2.1.152": {
         "type": "package",
         "dependencies": {
@@ -3660,6 +3735,68 @@
         "lib/netstandard2.0/Humanizer.dll",
         "lib/netstandard2.0/Humanizer.xml",
         "logo.png"
+      ]
+    },
+    "JikanDotNet/2.2.0": {
+      "sha512": "qYNGe2xeYXzYB5pQpoYj+/uHuJXnIn8y7/YgfeWnAYVs5CL4HYC0WMfr67PSPZz9wH+Aj0IUQaLFkojC+kKyFg==",
+      "type": "package",
+      "path": "jikandotnet/2.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "jikandotnet.2.2.0.nupkg.sha512",
+        "jikandotnet.nuspec",
+        "lib/net6.0/JikanDotNet.dll",
+        "lib/net6.0/JikanDotNet.xml",
+        "lib/netcoreapp3.1/JikanDotNet.dll",
+        "lib/netcoreapp3.1/JikanDotNet.xml",
+        "lib/netstandard2.0/JikanDotNet.dll",
+        "lib/netstandard2.0/JikanDotNet.xml"
+      ]
+    },
+    "Magick.NET-Q16-HDRI-AnyCPU/12.0.1": {
+      "sha512": "42Hr3IFWSOWWYeE7eexTfFFJqhKJgxkbPtuBitYq0kwOn4Cys6U/Rh9BZvg5BzNj2+GwI8vtqU5K+qRhgaGtZA==",
+      "type": "package",
+      "path": "magick.net-q16-hdri-anycpu/12.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Magick.NET.icon.png",
+        "Notice.linux-musl.txt",
+        "Notice.linux.txt",
+        "Notice.osx.txt",
+        "Notice.win.txt",
+        "build/netstandard20/Magick.NET-Q16-HDRI-AnyCPU.targets",
+        "lib/netstandard20/Magick.NET-Q16-HDRI-AnyCPU.dll",
+        "lib/netstandard20/Magick.NET-Q16-HDRI-AnyCPU.xml",
+        "lib/netstandard21/Magick.NET-Q16-HDRI-AnyCPU.dll",
+        "lib/netstandard21/Magick.NET-Q16-HDRI-AnyCPU.xml",
+        "magick.net-q16-hdri-anycpu.12.0.1.nupkg.sha512",
+        "magick.net-q16-hdri-anycpu.nuspec",
+        "runtimes/linux-arm64/native/Magick.Native-Q16-HDRI-arm64.dll.so",
+        "runtimes/linux-musl-x64/native/Magick.Native-Q16-HDRI-x64.dll.so",
+        "runtimes/linux-x64/native/Magick.Native-Q16-HDRI-x64.dll.so",
+        "runtimes/osx-x64/native/Magick.Native-Q16-HDRI-x64.dll.dylib",
+        "runtimes/win-arm64/native/Magick.Native-Q16-HDRI-arm64.dll",
+        "runtimes/win-x64/native/Magick.Native-Q16-HDRI-x64.dll",
+        "runtimes/win-x86/native/Magick.Native-Q16-HDRI-x86.dll"
+      ]
+    },
+    "Magick.NET.Core/12.0.1": {
+      "sha512": "gBAeI62GoeqmvaytutJSY9s65/97opf/OhS4PCiAaKhW9aoNFUWtXcrr2+w1/n3R5z81kzFZMiObFj4l2sc6Ow==",
+      "type": "package",
+      "path": "magick.net.core/12.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Copyright.txt",
+        "Magick.NET.icon.png",
+        "lib/netstandard20/Magick.NET.Core.dll",
+        "lib/netstandard20/Magick.NET.Core.xml",
+        "lib/netstandard21/Magick.NET.Core.dll",
+        "lib/netstandard21/Magick.NET.Core.xml",
+        "magick.net.core.12.0.1.nupkg.sha512",
+        "magick.net.core.nuspec"
       ]
     },
     "MessagePack/2.1.152": {
@@ -10224,6 +10361,8 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "JikanDotNet >= 2.2.0",
+      "Magick.NET-Q16-HDRI-AnyCPU >= 12.0.1",
       "Microsoft.EntityFrameworkCore >= 7.0.0-preview.6.22329.4",
       "Microsoft.EntityFrameworkCore.SqlServer >= 7.0.0-preview.6.22329.4",
       "Microsoft.EntityFrameworkCore.Tools >= 7.0.0-preview.6.22329.4",
@@ -10274,6 +10413,14 @@
       "net6.0": {
         "targetAlias": "net6.0",
         "dependencies": {
+          "JikanDotNet": {
+            "target": "Package",
+            "version": "[2.2.0, )"
+          },
+          "Magick.NET-Q16-HDRI-AnyCPU": {
+            "target": "Package",
+            "version": "[12.0.1, )"
+          },
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",
             "version": "[7.0.0-preview.6.22329.4, )"

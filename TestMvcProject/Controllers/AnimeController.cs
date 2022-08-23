@@ -84,7 +84,7 @@ namespace TestMvcProject.Controllers
             if (id == Guid.Empty || id == null)
                 return NotFound();
 
-            var anime = await _appDbContext.Animies.Where(a => a.Id == id).Include(a => a.Images).Include(a=>a.Manga).Include(a => a.Authors).ThenInclude(a => a.Positions).FirstOrDefaultAsync();
+            var anime = await _appDbContext.Animies.Include(a => a.Images).Include(a=>a.Manga).Include(a => a.Authors).ThenInclude(a => a.Positions).FirstOrDefaultAsync(a => a.Id == id);
 
             if (anime == null)  
                 return NotFound();
@@ -96,7 +96,6 @@ namespace TestMvcProject.Controllers
             }
 
             _appDbContext.Animies.Remove(anime);
-
             await _appDbContext.SaveChangesAsync();
 
             TempData["success"] = "Anime deleted successfully!";
@@ -114,6 +113,9 @@ namespace TestMvcProject.Controllers
 
             if (anime == null)
                 return NotFound();
+
+            ViewBag.AuthorList = await ViewHelper.FillViewBagAuthorList(_appDbContext);
+            ViewBag.MangaList = await ViewHelper.FillViewBagMangaList(_appDbContext);
 
             return View(anime);
         }
@@ -135,6 +137,7 @@ namespace TestMvcProject.Controllers
 
                 anime.Images.Add(img);
             }
+
             _appDbContext.Animies.Update(anime);
             await _appDbContext.SaveChangesAsync();
 

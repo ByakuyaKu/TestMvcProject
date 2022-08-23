@@ -4,69 +4,117 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="card mt-4">
+    <div class="card-body">
+        <h1 class="card-title">@Html.DisplayFor(model => model.Tittle)</h1>
+        <hr />
+        <h6 class="card-subtitle mb-2 text-muted">Manga</h6>
+        <div class="row mt-4">
+            <div class="col-3">
+                @if (ViewBag.Poster == null)
+                {
+                    <img src="~/404.png" class="img-thumbnail card-img" asp-append-version="true" />
+                }
+                else
+                {
+                    <img src="@ViewBag.Poster" class="img-thumbnail card-img mb-3" asp-append-version="true" />
+                }
+            </div>
+            <div class="col-6">
+                <dl class="col-4">
+                    <div class="row">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.MangaStarts)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.MangaStarts)
+                        </dd>
+                    </div>
 
-<div>
-    <h4>Manga</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Tittle)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Tittle)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ItemCreation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ItemCreation)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MangaStarts)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MangaStarts)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MangaEnds)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MangaEnds)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ChaptersCount)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ChaptersCount)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ChaptersRealesed)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ChaptersRealesed)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AnimeId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AnimeId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AuthorId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AuthorId)
-        </dd>
-    </dl>
+                    <div class="row">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.MangaEnds)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.MangaEnds)
+                        </dd>
+                    </div>
+
+                    <div class="row">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.ChaptersCount)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.ChaptersCount)
+                        </dd>
+                    </div>
+
+                    <div class="row">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.ChaptersRealesed)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.ChaptersRealesed)
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+        <p class="card-text">@Html.DisplayNameFor(model => model.Description): @Html.DisplayFor(model => model.Description)</p> 
+
+        <div class="row">
+            <div class="col-3">
+                <div class="row">
+                    <h4 class="card-title"> Anime adaptation </h4>
+                </div>
+                <div class="row">
+                    @foreach(var anime in Model.Animies)
+                    {
+                        <div class="row">
+                            <div class="col-12">
+                                <h6 class="card-title"> @anime.Tittle </h6>
+                                @if (anime.Images == null || anime.Images.Count < 1)
+                                {
+                                    <img src="~/404.png" class="img-thumbnail card-img" asp-append-version="true" />
+                                }
+                                else
+                                {
+                                    <img src="data:image/png;base64,@(Convert.ToBase64String(anime.Images.Last().Data))" class="img-thumbnail card-img" asp-append-version="true" />
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="row">
+                    <h4 class="card-title"> Author </h4>
+                </div>
+                <div class="row">
+                    @foreach (var author in Model.Authors)
+                    {
+                        <div class="row">
+                            <div class="col-12">
+                                <h6 class="card-title"> @author.FirstName </h6>
+                                @if (author.Images == null || author.Images.Count < 1)
+                                {
+                                    <img src="~/404.png" class="img-thumbnail card-img" asp-append-version="true" />
+                                }
+                                else
+                                {
+                                    <img src="data:image/png;base64,@(Convert.ToBase64String(author.Images.Last().Data))" class="img-thumbnail card-img mb-3" asp-append-version="true" />
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+
+
+        <a asp-controller="Manga" asp-action="Index" class="btn btn-primary mt-4"> Back</a>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+

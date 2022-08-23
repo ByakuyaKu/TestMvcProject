@@ -1,3 +1,5 @@
+using JikanDotNet;
+using Microsoft.DotNet.Scaffolding.Shared.ProjectModel;
 using Microsoft.EntityFrameworkCore;
 using TestMvcProject.Data;
 
@@ -9,6 +11,12 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DBConnectionString")
     ));
+
+//builder.Services.AddSingleton<IJikan, Jikan>()
+//    .BuildServiceProvider();
+
+builder.Services.AddScoped<IJikan, Jikan>();
+
 
 var app = builder.Build();
 

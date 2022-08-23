@@ -58,5 +58,17 @@ namespace TestMvcProject.ViewModels
 
             return new SelectList(mangas, "Id", "Tittle");
         }
+
+        public static async Task<SelectList> s(AppDbContext _appDbContext)
+        {
+            var mangas = await _appDbContext.Mangas
+                .Include(a => a.Animies)
+                .Include(m => m.Images).ToListAsync();
+
+            if (mangas == null)
+                mangas = new List<Manga>();
+
+            return new SelectList(mangas, "Id", "Tittle");
+        }
     }
 }
