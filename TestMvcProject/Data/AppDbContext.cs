@@ -19,6 +19,7 @@ namespace TestMvcProject.Data
         public DbSet<Author> Authors { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<Position> Positions { get; set; }
+        public DbSet<Genre> Genres { get; set; }
     }
     
 }
