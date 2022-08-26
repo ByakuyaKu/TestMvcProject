@@ -5,9 +5,9 @@ using TestMvcProject.Models;
 
 namespace TestMvcProject.ViewModels
 {
-    public class ViewHelper
+    public class ViewHelper : IViewHelper
     {
-        public static Image GetImg(IFormFile avatar, string fileName)
+        public Image GetImg(IFormFile avatar, string fileName)
         {
             byte[] imageData;
             // считываем переданный файл в массив байтов
@@ -23,7 +23,7 @@ namespace TestMvcProject.ViewModels
             return img;
         }
 
-        public static async Task<SelectList> FillViewBagAuthorList(AppDbContext _appDbContext)
+        public async Task<SelectList> FillViewBagAuthorList(AppDbContext _appDbContext)
         {
             var authors = await _appDbContext.Authors
                 .Include(p => p.Positions)
@@ -35,7 +35,7 @@ namespace TestMvcProject.ViewModels
             return new SelectList(authors, "Id", "FirstName", "LastName");
         }
 
-        public static async Task<SelectList> FillViewBagAnimeList(AppDbContext _appDbContext)
+        public async Task<SelectList> FillViewBagAnimeList(AppDbContext _appDbContext)
         {
             var animies = await _appDbContext.Animies
                 .Include(a => a.Images)
@@ -47,7 +47,7 @@ namespace TestMvcProject.ViewModels
             return new SelectList(animies, "Id", "Tittle");
         }
 
-        public static async Task<SelectList> FillViewBagMangaList(AppDbContext _appDbContext)
+        public async Task<SelectList> FillViewBagMangaList(AppDbContext _appDbContext)
         {
             var mangas = await _appDbContext.Mangas
                 .Include(a => a.Animies)
@@ -59,7 +59,7 @@ namespace TestMvcProject.ViewModels
             return new SelectList(mangas, "Id", "Tittle");
         }
 
-        public static async Task<SelectList> FillViewBagGenreList(AppDbContext _appDbContext)
+        public async Task<SelectList> FillViewBagGenreList(AppDbContext _appDbContext)
         {
             var genres = await _appDbContext.Genres.ToListAsync();
 
@@ -69,16 +69,16 @@ namespace TestMvcProject.ViewModels
             return new SelectList(genres, "Id", "Name");
         }
 
-        public static async Task<SelectList> s(AppDbContext _appDbContext)
-        {
-            var mangas = await _appDbContext.Mangas
-                .Include(a => a.Animies)
-                .Include(m => m.Images).ToListAsync();
+        //public static async Task<SelectList> s(AppDbContext _appDbContext)
+        //{
+        //    var mangas = await _appDbContext.Mangas
+        //        .Include(a => a.Animies)
+        //        .Include(m => m.Images).ToListAsync();
 
-            if (mangas == null)
-                mangas = new List<Manga>();
+        //    if (mangas == null)
+        //        mangas = new List<Manga>();
 
-            return new SelectList(mangas, "Id", "Tittle");
-        }
+        //    return new SelectList(mangas, "Id", "Tittle");
+        //}
     }
 }

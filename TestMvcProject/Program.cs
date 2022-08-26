@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using TestMvcProject.Data;
 using TestMvcProject.Jikan;
+using TestMvcProject.ViewModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +17,7 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
 
 //builder.Services.AddSingleton<IJikan, Jikan>()
 //    .BuildServiceProvider();
-
+builder.Services.AddScoped<IViewHelper, ViewHelper>();
 builder.Services.AddScoped<IJikan, Jikan>();
 builder.Services.AddScoped<IMangaLogicService, MangaLogicService>();
 builder.Services.AddHostedService<MangaService>();

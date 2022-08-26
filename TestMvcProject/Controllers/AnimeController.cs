@@ -9,10 +9,13 @@ namespace TestMvcProject.Controllers
     public class AnimeController : Controller
     {
         private readonly AppDbContext _appDbContext;
+        private readonly IViewHelper _viewHelper;
 
-        public AnimeController(AppDbContext appDbContext)
+
+        public AnimeController(AppDbContext appDbContext, IViewHelper viewHelper)
         {
             _appDbContext = appDbContext;
+            _viewHelper = viewHelper;
         }
 
         public async Task<IActionResult> Index()
@@ -32,8 +35,8 @@ namespace TestMvcProject.Controllers
         //GET
         public async Task<IActionResult> Create()
         {
-            ViewBag.AuthorList = await ViewHelper.FillViewBagAuthorList(_appDbContext);
-            ViewBag.MangaList = await ViewHelper.FillViewBagMangaList(_appDbContext);
+            ViewBag.AuthorList = await _viewHelper.FillViewBagAuthorList(_appDbContext);
+            ViewBag.MangaList = await _viewHelper.FillViewBagMangaList(_appDbContext);
             return View();
         }
 
@@ -47,7 +50,7 @@ namespace TestMvcProject.Controllers
 
             if (anime.Avatar != null)
             {
-                var img = ViewHelper.GetImg(anime.Avatar, "PosterOf" + anime.Tittle);
+                var img = _viewHelper.GetImg(anime.Avatar, "PosterOf" + anime.Tittle);
                 anime.Images.Add(img);
             }
 
@@ -70,8 +73,8 @@ namespace TestMvcProject.Controllers
             if (anime == null)
                 return NotFound();
 
-            ViewBag.AuthorList = await ViewHelper.FillViewBagAuthorList(_appDbContext);
-            ViewBag.MangaList = await ViewHelper.FillViewBagMangaList(_appDbContext);
+            ViewBag.AuthorList = await _viewHelper.FillViewBagAuthorList(_appDbContext);
+            ViewBag.MangaList = await _viewHelper.FillViewBagMangaList(_appDbContext);
 
             return View(anime);
         }
@@ -114,8 +117,8 @@ namespace TestMvcProject.Controllers
             if (anime == null)
                 return NotFound();
 
-            ViewBag.AuthorList = await ViewHelper.FillViewBagAuthorList(_appDbContext);
-            ViewBag.MangaList = await ViewHelper.FillViewBagMangaList(_appDbContext);
+            ViewBag.AuthorList = await _viewHelper.FillViewBagAuthorList(_appDbContext);
+            ViewBag.MangaList = await _viewHelper.FillViewBagMangaList(_appDbContext);
 
             return View(anime);
         }
@@ -130,7 +133,7 @@ namespace TestMvcProject.Controllers
 
             if (anime.Avatar != null)
             {
-                var img = ViewHelper.GetImg(anime.Avatar, "PosterOf" + anime.Tittle);
+                var img = _viewHelper.GetImg(anime.Avatar, "PosterOf" + anime.Tittle);
 
                 _appDbContext.Images.Add(img);
                 await _appDbContext.SaveChangesAsync();
