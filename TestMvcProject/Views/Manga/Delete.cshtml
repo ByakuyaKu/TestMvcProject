@@ -6,49 +6,194 @@
 
 <h1 class="mt-4">Delete manga - @Html.DisplayFor(model => model.Tittle)?</h1>
 <hr />
+<div class="card mt-4">
+    <div class="card-body">
+        <h1 class="card-title">@Html.DisplayFor(model => model.Tittle) | @Html.DisplayFor(model => model.TitleJapanese)</h1>
+        @*<h2 class="card-title">@Html.DisplayFor(model => model.TitleJapanese)</h2>*@
+        <hr />
+        <h6 class="card-subtitle mb-2 text-muted">@Model.Type</h6>
+        @if (Model.Genres == null || Model.Genres.Count < 1)
+        {
+            <span class="badge bg-primary">No genres</span>
+        }
+        else
+        {
+            @foreach (var genre in Model.Genres)
+            {
+                <span class="badge bg-primary">@genre.Name</span>
+            }
+        }
+        <div class="row mt-4">
+            <div class="col-3">
+                @if (ViewBag.Poster == null)
+                {
+                    <img src="~/404.png" class="img-thumbnail card-img" asp-append-version="true" />
+                }
+                else
+                {
+                    <img src="@ViewBag.Poster" class="img-thumbnail card-img mb-3" asp-append-version="true" />
+                }
+            </div>
+            <div class="col-6">
+                <div class="row">
+
+                    @if (Model.Score != null)
+                    {
+                        <p>Score: @Model.Score</p>
+                    }
+                    else
+                    {
+                        <p>Score: unknown</p>
+                    }
+                    @if (Model.ScoredBy != null)
+                    {
+                        <p>Scored by: @Model.ScoredBy</p>
+                    }
+                    else
+                    {
+                        <p>Scored by: unknown</p>
+                    }
+                    @if (Model.Popularity != null)
+                    {
+                        <p>Popularity: @Model.Popularity</p>
+                    }
+                    else
+                    {
+                        <p>Popularity: unknown</p>
+                    }
+
+                    @if (Model.Rank != null)
+                    {
+                        <p>Rank: @Model.Rank</p>
+                    }
+                    else
+                    {
+                        <p>Rank: unknown</p>
+                    }
+                    @if (Model.Favorites != null)
+                    {
+                        <p>Favorites: @Model.Favorites</p>
+                    }
+                    else
+                    {
+                        <p>Favorites: unknown</p>
+                    }
+                    @if (Model.Volumes != null)
+                    {
+                        <p>Volumes: @Model.Volumes</p>
+                    }
+                    else
+                    {
+                        <p>Volumes: unknown</p>
+                    }
+                    @if (Model.ChaptersCount != null)
+                    {
+                        <p>Chapters: @Model.ChaptersCount</p>
+                    }
+                    else
+                    {
+                        <p>Chapters: unknown</p>
+                    }
+
+
+                    @if (Model.MangaStarts != null)
+                    {
+                        <p>Manga starts: @Model.MangaStarts?.ToString("dd.MM.yyyy")</p>
+                    }
+                    else
+                    {
+                        <p>Manga starts: unknown</p>
+                    }
+                    @if (Model.MangaEnds != null)
+                    {
+                        <p>Manga ends: @Model.MangaEnds?.ToString("dd.MM.yyyy")</p>
+                    }
+                    else
+                    {
+                        <p>Manga ends: unknown</p>
+                    }
+                    @if (Model.Status != null)
+                    {
+                        <p>Status: @Model.Status</p>
+                    }
+                    else
+                    {
+                        <p>Status: unknown</p>
+                    }
+                </div>
+            </div>
+        </div>
+        <h4 class="mt-4">Description</h4>
+        <p class="card-text">@Html.DisplayFor(model => model.Description)</p>
+
+        <div class="row mt-4">
+            <div class="col-2">
+                <div class="row">
+                    <h4 class="card-title"> Anime adaptation</h4>
+                </div>
+                <div class="row">
+                    @if (Model.Animies == null || Model.Animies.Count < 1)
+                    {
+                        <p class="card-text">No adaptations</p>
+                    }
+                    else
+                    {
+                        @foreach (var anime in Model.Animies)
+                        {
+                            <div class="row">
+                                <div class="col-12">
+                                    <h6 class="card-title"> @anime.Tittle </h6>
+                                    @if (anime.Images == null || anime.Images.Count < 1)
+                                    {
+                                        <img src="~/404.png" class="img-thumbnail card-img" asp-append-version="true" />
+                                    }
+                                    else
+                                    {
+                                        <img src="data:image/png;base64,@(Convert.ToBase64String(anime.Images.Last().Data))" class="img-thumbnail card-img" asp-append-version="true" />
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="row">
+                    <h4 class="card-title"> Authors </h4>
+                </div>
+                <div class="row">
+                    @if (Model.Authors == null || Model.Authors.Count < 1)
+                    {
+                        <p class="card-text">No authors</p>
+                    }
+                    else
+                    {
+                        @foreach (var author in Model.Authors)
+                        {
+                            <div class="row">
+                                <div class="col-12">
+                                    <h6 class="card-title"> @author.FirstName </h6>
+                                    @if (author.Images == null || author.Images.Count < 1)
+                                    {
+                                        <img src="~/404.png" class="img-thumbnail card-img" asp-append-version="true" />
+                                    }
+                                    else
+                                    {
+                                        <img src="data:image/png;base64,@(Convert.ToBase64String(author.Images.Last().Data))" class="img-thumbnail card-img mb-3" asp-append-version="true" />
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <form method="post" enctype="multipart/form-data" asp-action="DeletePost">
     <input asp-for="Id" hidden />
     <fieldset>
-        <div class="col-sm-6">
-            <div class="form-group">
-                <label asp-for="Tittle" class="form-label mt-4"> Tittle</label>
-                <input asp-for="Tittle" disabled placeholder="Tittle" class="form-control" id="Tittle">
-            </div>
 
-            <div class="form-group">
-                <label asp-for="ChaptersCount" class="form-label mt-4"> Chapters count</label>
-                <input asp-for="ChaptersCount" disabled min="0" placeholder="Chapters count" class="form-control" id="ChaptersCount">
-            </div>
-
-            <div class="form-group">
-                <label asp-for="ChaptersRealesed" class="form-label mt-4"> Chapters realesed</label>
-                <input asp-for="ChaptersRealesed" disabled min="0" placeholder="Chapters realesed" class="form-control" id="ChaptersRealesed">
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Description" class="form-label mt-4">Description</label>
-                <textarea asp-for="Description" disabled placeholder=" Description" class="form-control" id="Description" rows="3"></textarea>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="AnimeId" class="form-label mt-4">Anime adaptation</label>
-                <select disabled class="form-select" asp-for="AnimeId" asp-items="ViewBag.AnimeList">
-@*                    <option value="">Select anime adaptation</option>
-*@                </select>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="AuthorId" class="form-label mt-4">Author</label>
-                <select disabled class="form-select" asp-for="AuthorId" asp-items="ViewBag.AuthorList">
-@*                    <option value="">Select author</option>
-*@                </select>
-            </div>
-
-            @*            <div class="form-group">
-            <label asp-for="Avatar" class="form-label mt-4">Default file input example</label>
-            <input asp-for="Avatar" class="form-control" type="file" id="formFile">
-            </div>*@
-        </div>
         <button type="submit" class="btn btn-danger mt-4">Delete</button>
         <a asp-controller="Manga" asp-action="Index" class="btn btn-primary mt-4"> Back</a>
     </fieldset>

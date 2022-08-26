@@ -6,7 +6,7 @@ namespace TestMvcProject.Models
     public class Genre
     {
         [Key]
-        public Guid Id { get; set; } = new Guid();
+        public Guid Id { get; set; } = Guid.NewGuid();
         [Required]
         public string Name { get; set; }
         public string? Description { get; set; }

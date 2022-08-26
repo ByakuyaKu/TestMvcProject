@@ -8,9 +8,9 @@
     <div class="col-6">
         <h1>Manga</h1>
     </div>
-    <div class="col-6 text-end mt-3">
+    @*<div class="col-6 text-end mt-3">
         <a asp-controller="Manga" asp-action="Create" class="btn btn-primary "><i class="bi bi-plus-circle"></i>&nbsp Create мanga</a>
-    </div>
+    </div>*@
 </div>
 <hr />
 
@@ -59,7 +59,7 @@
                 <div class="card-body">
                     @if (мanga.Description != null)
                     {
-                        <p class="card-text">Description: @(мanga.Description.Substring(0, 150)+"...")</p>
+                        <p class="card-text">Description: @(мanga.Description.Substring(0, 150) + "...")</p>
                     }
                     else
                     {
@@ -92,11 +92,10 @@
                     {
                         <li class="list-group-item">Chapters: unknown</li>
                     }
-
                 </ul>
                 <div class="card-body">
-                    <a asp-controller="Manga" asp-action="Edit" asp-route-id="@мanga.Id" class="btn btn-secondary "><i class="bi bi-pencil-square"></i> &nbsp Edit</a>
-                    <a asp-controller="Manga" asp-action="Delete" asp-route-id="@мanga.Id" class="btn btn-secondary "><i class="bi bi-trash"></i> &nbsp Delete</a>
+                    <a asp-controller="Manga" asp-action="Details" asp-route-id="@мanga.Id" class="btn btn-secondary "><i class="bi bi-eye"></i> &nbsp Details</a>
+                    @*<a asp-controller="Manga" asp-action="Delete" asp-route-id="@мanga.Id" class="btn btn-secondary "><i class="bi bi-trash"></i> &nbsp Delete</a>*@
                 </div>
                 <div class="card-footer text-muted">
                     @*Added: @(DateTime.Now.Subtract(мanga.ItemCreation))*@
@@ -107,3 +106,4 @@
     }
 
 </div>
+

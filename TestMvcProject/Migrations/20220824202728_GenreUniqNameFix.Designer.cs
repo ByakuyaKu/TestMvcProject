@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestMvcProject.Data;
 
@@ -11,9 +12,11 @@ using TestMvcProject.Data;
 namespace TestMvcProject.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220824202728_GenreUniqNameFix")]
+    partial class GenreUniqNameFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -292,11 +295,17 @@ namespace TestMvcProject.Migrations
                     b.Property<int?>("Rank")
                         .HasColumnType("int");
 
-                    b.Property<decimal?>("Score")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("Rating")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float?>("Score")
+                        .HasColumnType("real");
 
                     b.Property<int?>("ScoredBy")
                         .HasColumnType("int");
+
+                    b.Property<string>("Source")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");

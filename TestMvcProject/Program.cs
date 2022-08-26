@@ -1,7 +1,9 @@
 using JikanDotNet;
 using Microsoft.DotNet.Scaffolding.Shared.ProjectModel;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using TestMvcProject.Data;
+using TestMvcProject.Jikan;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,9 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
 //    .BuildServiceProvider();
 
 builder.Services.AddScoped<IJikan, Jikan>();
+builder.Services.AddScoped<IMangaLogicService, MangaLogicService>();
+builder.Services.AddHostedService<MangaService>();
+
 
 
 var app = builder.Build();

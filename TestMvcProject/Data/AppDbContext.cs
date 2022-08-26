@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Net;
+using TestMvcProject.Jikan;
 using TestMvcProject.Models;
 
 namespace TestMvcProject.Data
@@ -12,6 +14,7 @@ namespace TestMvcProject.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Position>().HasIndex(u => u.Name).IsUnique();
+            modelBuilder.Entity<Genre>().HasIndex(g => g.Name).IsUnique();
         }
 
         public DbSet<Anime> Animies { get; set; }
@@ -21,5 +24,5 @@ namespace TestMvcProject.Data
         public DbSet<Position> Positions { get; set; }
         public DbSet<Genre> Genres { get; set; }
     }
-    
+
 }

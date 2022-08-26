@@ -59,6 +59,16 @@ namespace TestMvcProject.ViewModels
             return new SelectList(mangas, "Id", "Tittle");
         }
 
+        public static async Task<SelectList> FillViewBagGenreList(AppDbContext _appDbContext)
+        {
+            var genres = await _appDbContext.Genres.ToListAsync();
+
+            if (genres == null)
+                genres = new List<Genre>();
+
+            return new SelectList(genres, "Id", "Name");
+        }
+
         public static async Task<SelectList> s(AppDbContext _appDbContext)
         {
             var mangas = await _appDbContext.Mangas

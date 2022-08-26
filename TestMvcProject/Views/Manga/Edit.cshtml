@@ -6,6 +6,17 @@
 
 <h1 class="mt-4">@Html.DisplayFor(model => model.Tittle) editing</h1>
 <hr />
+@if (Model.Genres == null || Model.Genres.Count < 1)
+{
+    <span class="badge bg-primary">No genres</span>
+}
+else
+{
+    @foreach (var genre in Model.Genres)
+    {
+        <span class="badge bg-primary">@genre.Name</span>
+    }
+}
 <form method="post" enctype="multipart/form-data" class="align-content-center">
     <fieldset>
         <div class="row">
@@ -56,7 +67,18 @@
                     </select>
                     <span asp-validation-for="AuthorIdList" class="text-danger"></span>
                 </div>
+
+                <div class="form-group">
+                    <label asp-for="GenreIdList" class="form-label mt-4">Edit genres</label>
+                    <select class="form-select" asp-for="GenreIdList" asp-items="ViewBag.GenreList" multiple>
+                        @*                    <option value="">Select genre</option>
+                        *@
+                    </select>
+                    <span asp-validation-for="GenreIdList" class="text-danger"></span>
+                </div>
             </div>
+
+
 
             <div class="col-6">
                 <div class="row">
@@ -79,19 +101,26 @@
                     <h4 class="card-title"> Current anime adaptations</h4>
                 </div>
                 <div class="row mt-4">
-                    @foreach (var anime in Model.Animies)
+                    @if (Model.Animies == null || Model.Animies.Count < 1)
                     {
-                        <div class="col-4">
-                            <h6 class="card-title"> @anime.Tittle </h6>
-                            @if (anime.Images == null || anime.Images.Count < 1)
-                            {
-                                <img src="~/404.png" class="img-thumbnail card-img mt-2" asp-append-version="true" />
-                            }
-                            else
-                            {
-                                <img src="data:image/png;base64,@(Convert.ToBase64String(anime.Images.Last().Data))" class="img-thumbnail card-img mt-2" asp-append-version="true" />
-                            }
-                        </div>
+                        <p class="card-text">No adaptations</p>
+                    }
+                    else
+                    {
+                        @foreach (var anime in Model.Animies)
+                        {
+                            <div class="col-4">
+                                <h6 class="card-title"> @anime.Tittle </h6>
+                                @if (anime.Images == null || anime.Images.Count < 1)
+                                {
+                                    <img src="~/404.png" class="img-thumbnail card-img mt-2" asp-append-version="true" />
+                                }
+                                else
+                                {
+                                    <img src="data:image/png;base64,@(Convert.ToBase64String(anime.Images.Last().Data))" class="img-thumbnail card-img mt-2" asp-append-version="true" />
+                                }
+                            </div>
+                        }
                     }
                 </div>
 
@@ -100,19 +129,26 @@
                 </div>
 
                 <div class="row mt-4">
-                    @foreach (var author in Model.Authors)
+                    @if (Model.Authors == null || Model.Authors.Count < 1)
                     {
-                        <div class="col-4">
-                            <h6 class="card-title"> @author.FirstName </h6>
-                            @if (author.Images == null || author.Images.Count < 1)
-                            {
-                                <img src="~/404.png" class="img-thumbnail card-img mt-2" asp-append-version="true" />
-                            }
-                            else
-                            {
-                                <img src="data:image/png;base64,@(Convert.ToBase64String(author.Images.Last().Data))" class="img-thumbnail card-img mt-2" asp-append-version="true" />
-                            }
-                        </div>
+                        <p class="card-text">No authors</p>
+                    }
+                    else
+                    {
+                        @foreach (var author in Model.Authors)
+                        {
+                            <div class="col-4">
+                                <h6 class="card-title"> @author.FirstName </h6>
+                                @if (author.Images == null || author.Images.Count < 1)
+                                {
+                                    <img src="~/404.png" class="img-thumbnail card-img mt-2" asp-append-version="true" />
+                                }
+                                else
+                                {
+                                    <img src="data:image/png;base64,@(Convert.ToBase64String(author.Images.Last().Data))" class="img-thumbnail card-img mt-2" asp-append-version="true" />
+                                }
+                            </div>
+                        }
                     }
                 </div>
             </div>

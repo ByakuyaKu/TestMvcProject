@@ -6,9 +6,21 @@
 
 <div class="card mt-4">
     <div class="card-body">
-        <h1 class="card-title">@Html.DisplayFor(model => model.Tittle)</h1>
+        <h1 class="card-title">@Html.DisplayFor(model => model.Tittle) | @Html.DisplayFor(model => model.TitleJapanese)</h1>
+        @*<h2 class="card-title">@Html.DisplayFor(model => model.TitleJapanese)</h2>*@
         <hr />
-        <h6 class="card-subtitle mb-2 text-muted">Manga</h6>
+        <h6 class="card-subtitle mb-2 text-muted">@Model.Type</h6>
+        @if (Model.Genres == null || Model.Genres.Count < 1)
+        {
+            <span class="badge bg-primary">No genres</span>
+        }
+        else
+        {
+            @foreach (var genre in Model.Genres)
+            {
+                <span class="badge bg-primary">@genre.Name</span>
+            }
+        }
         <div class="row mt-4">
             <div class="col-3">
                 @if (ViewBag.Poster == null)
@@ -21,91 +33,155 @@
                 }
             </div>
             <div class="col-6">
-                <dl class="col-4">
-                    <div class="row">
-                        <dt>
-                            @Html.DisplayNameFor(model => model.MangaStarts)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.MangaStarts)
-                        </dd>
-                    </div>
+                <div class="row">
 
-                    <div class="row">
-                        <dt>
-                            @Html.DisplayNameFor(model => model.MangaEnds)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.MangaEnds)
-                        </dd>
-                    </div>
+                    @if (Model.Score != null)
+                    {
+                        <p>Score: @Model.Score</p>
+                    }
+                    else
+                    {
+                        <p>Score: unknown</p>
+                    }
+                    @if (Model.ScoredBy != null)
+                    {
+                        <p>Scored by: @Model.ScoredBy</p>
+                    }
+                    else
+                    {
+                        <p>Scored by: unknown</p>
+                    }
+                    @if (Model.Popularity != null)
+                    {
+                        <p>Popularity: @Model.Popularity</p>
+                    }
+                    else
+                    {
+                        <p>Popularity: unknown</p>
+                    }
 
-                    <div class="row">
-                        <dt>
-                            @Html.DisplayNameFor(model => model.ChaptersCount)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.ChaptersCount)
-                        </dd>
-                    </div>
+                    @if (Model.Rank != null)
+                    {
+                        <p>Rank: @Model.Rank</p>
+                    }
+                    else
+                    {
+                        <p>Rank: unknown</p>
+                    }
+                    @if (Model.Favorites != null)
+                    {
+                        <p>Favorites: @Model.Favorites</p>
+                    }
+                    else
+                    {
+                        <p>Favorites: unknown</p>
+                    }
+                    @if (Model.Volumes != null)
+                    {
+                        <p>Volumes: @Model.Volumes</p>
+                    }
+                    else
+                    {
+                        <p>Volumes: unknown</p>
+                    }
+                    @if (Model.ChaptersCount != null)
+                    {
+                        <p>Chapters: @Model.ChaptersCount</p>
+                    }
+                    else
+                    {
+                        <p>Chapters: unknown</p>
+                    }
 
-                    <div class="row">
-                        <dt>
-                            @Html.DisplayNameFor(model => model.ChaptersRealesed)
-                        </dt>
-                        <dd>
-                            @Html.DisplayFor(model => model.ChaptersRealesed)
-                        </dd>
-                    </div>
-                </dl>
+
+                    @if (Model.MangaStarts != null)
+                    {
+                        <p>Manga starts: @Model.MangaStarts?.ToString("dd.MM.yyyy")</p>
+                    }
+                    else
+                    {
+                        <p>Manga starts: unknown</p>
+                    }
+                    @if (Model.MangaEnds != null)
+                    {
+                        <p>Manga ends: @Model.MangaEnds?.ToString("dd.MM.yyyy")</p>
+                    }
+                    else
+                    {
+                        <p>Manga ends: unknown</p>
+                    }
+                    @if (Model.Status != null)
+                    {
+                        <p>Status: @Model.Status</p>
+                    }
+                    else
+                    {
+                        <p>Status: unknown</p>
+                    }
+                </div>
             </div>
         </div>
-        <p class="card-text">@Html.DisplayNameFor(model => model.Description): @Html.DisplayFor(model => model.Description)</p> 
+        <h4 class="mt-4">Description</h4>
+        <p class="card-text">@Html.DisplayFor(model => model.Description)</p>
 
-        <div class="row">
-            <div class="col-3">
+        <div class="row mt-4">
+            <div class="col-2">
                 <div class="row">
                     <h4 class="card-title"> Anime adaptation </h4>
                 </div>
                 <div class="row">
-                    @foreach(var anime in Model.Animies)
+                    @if (Model.Animies == null || Model.Animies.Count < 1)
                     {
-                        <div class="row">
-                            <div class="col-12">
-                                <h6 class="card-title"> @anime.Tittle </h6>
-                                @if (anime.Images == null || anime.Images.Count < 1)
-                                {
-                                    <img src="~/404.png" class="img-thumbnail card-img" asp-append-version="true" />
-                                }
-                                else
-                                {
-                                    <img src="data:image/png;base64,@(Convert.ToBase64String(anime.Images.Last().Data))" class="img-thumbnail card-img" asp-append-version="true" />
-                                }
+                        <p class="card-text">No adaptations</p>
+                    }
+                    else
+                    {
+                        @foreach (var anime in Model.Animies)
+                        {
+                            <div class="row">
+                                <div class="col-12">
+                                    <h6 class="card-title"> @anime.Tittle </h6>
+                                    @if (anime.Images == null || anime.Images.Count < 1)
+                                    {
+                                        <img src="~/404.png" class="img-thumbnail card-img" asp-append-version="true" />
+                                    }
+                                    else
+                                    {
+                                        <img src="data:image/png;base64,@(Convert.ToBase64String(anime.Images.Last().Data))" class="img-thumbnail card-img" asp-append-version="true" />
+                                    }
+                                </div>
                             </div>
-                        </div>
+                        }
                     }
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-2">
                 <div class="row">
-                    <h4 class="card-title"> Author </h4>
+                    <h4 class="card-title"> Authors </h4>
                 </div>
                 <div class="row">
-                    @foreach (var author in Model.Authors)
+                    @if (Model.Authors == null || Model.Authors.Count < 1)
                     {
-                        <div class="row">
-                            <div class="col-12">
-                                <h6 class="card-title"> @author.FirstName </h6>
-                                @if (author.Images == null || author.Images.Count < 1)
-                                {
-                                    <img src="~/404.png" class="img-thumbnail card-img" asp-append-version="true" />
-                                }
-                                else
-                                {
-                                    <img src="data:image/png;base64,@(Convert.ToBase64String(author.Images.Last().Data))" class="img-thumbnail card-img mb-3" asp-append-version="true" />
-                                }
+                        <p class="card-text">No authors</p>
+                    }
+                    else
+                    {
+                        @foreach (var author in Model.Authors)
+                        {
+                            <div class="row">
+                                <div class="col-12">
+                                    <h6 class="card-title"> @author.FirstName </h6>
+                                    @if (author.Images == null || author.Images.Count < 1)
+                                    {
+                                        <img src="~/404.png" class="img-thumbnail card-img" asp-append-version="true" />
+                                    }
+                                    else
+                                    {
+                                        <img src="data:image/png;base64,@(Convert.ToBase64String(author.Images.Last().Data))" class="img-thumbnail card-img mb-3" asp-append-version="true" />
+                                    }
+                                </div>
                             </div>
-                        </div>
+                        }
                     }
                 </div>
             </div>
@@ -113,7 +189,8 @@
 
 
 
-        <a asp-controller="Manga" asp-action="Index" class="btn btn-primary mt-4"> Back</a>
+        @*        <a asp-controller="Manga" asp-action="Index" class="btn btn-primary mt-4"> Back</a>
+        *@
     </div>
 </div>
 

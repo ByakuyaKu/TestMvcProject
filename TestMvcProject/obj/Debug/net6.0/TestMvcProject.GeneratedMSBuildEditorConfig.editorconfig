@@ -75,6 +75,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuZ2FcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Projects/TestMvcProject/TestMvcProject/Views/Manga/IndexUneditable.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuZ2FcSW5kZXhVbmVkaXRhYmxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Projects/TestMvcProject/TestMvcProject/Views/Position/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUG9zaXRpb25cQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
