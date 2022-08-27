@@ -10,7 +10,6 @@ namespace TestMvcProject.Models
         #region
         //api fields
         #region
-        public string? Duration { get; set; }
         public int? Favorites { get; set; }
         public decimal? Score { get; set; }
         public int? ScoredBy { get; set; }
@@ -18,8 +17,6 @@ namespace TestMvcProject.Models
         public int? Volumes { get; set; }
         public int? Popularity { get; set; }
         public int? Rank { get; set; }
-        //public string? Rating { get; set; }
-        //public string? Source { get; set; }
         public string? Status { get; set; }
         public string? Type { get; set; }
         #endregion

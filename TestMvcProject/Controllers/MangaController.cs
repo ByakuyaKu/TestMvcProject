@@ -21,13 +21,11 @@ namespace TestMvcProject.Controllers
     public class MangaController : Controller
     {
         private readonly AppDbContext _appDbContext;
-        private readonly IJikan _jikan;
         private readonly IViewHelper _viewHelper;
 
-        public MangaController(AppDbContext appDbContext, IJikan jikan, IViewHelper viewHelper)
+        public MangaController(AppDbContext appDbContext, IViewHelper viewHelper)
         {
             _appDbContext = appDbContext;
-            _jikan = jikan;
             _viewHelper = viewHelper;
         }
 

@@ -5,6 +5,25 @@ namespace TestMvcProject.Models
 {
     public class Anime
     {
+        //main fields
+        #region
+        //api fields
+        #region
+        public string? Duration { get; set; }
+        public int? Favorites { get; set; }
+        public decimal? Score { get; set; }
+        public int? ScoredBy { get; set; }
+        public string? TitleJapanese { get; set; }
+        public int? Volumes { get; set; }
+        public string? LinkCanonical { get; set; }
+        public int? Popularity { get; set; }
+        public string? Premiered { get; set; }
+        public int? Rank { get; set; }
+        public string? Rating { get; set; }
+        public string? Source { get; set; }
+        public string? Status { get; set; }
+        public string? Type { get; set; }
+        #endregion
         [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
         [Required(AllowEmptyStrings = false)]
@@ -17,9 +36,13 @@ namespace TestMvcProject.Models
         [Range(0, int.MaxValue)]
         public int? SeriesRealesed { get; set; }
         public string? Description { get; set; }
-        [NotMapped]
-        public IFormFile? Avatar { get; set; }
+        #endregion
 
+        //foreign keys
+        #region
+        public Guid? GenreId { get; set; }
+        [ForeignKey("GenreId")]
+        public List<Genre>? Genres { get; set; } = new List<Genre>();
 
         public Guid? MangaId { get; set; }
         [ForeignKey("MangaId")]
@@ -30,6 +53,25 @@ namespace TestMvcProject.Models
         public List<Author>? Authors { get; set; }
 
         public List<Image>? Images { get; set; } = new List<Image>();
+        #endregion
+
+        //NotMapped fields
+        #region
+        [NotMapped]
+        public IFormFile? Avatar { get; set; }
+        [NotMapped]
+        [FileExtensions(Extensions = "jpg,jpeg,png")]
+        public string? AvatarFileName => Avatar?.FileName;
+        [NotMapped]
+        [Range(1, 1048576)]
+        public long? AvatarFileLength => Avatar?.Length;
+        [NotMapped]
+        public List<Guid>? MangaIdList { get; set; } = new List<Guid>();
+        [NotMapped]
+        public List<Guid>? AuthorIdList { get; set; } = new List<Guid>();
+        [NotMapped]
+        public List<Guid>? GenreIdList { get; set; } = new List<Guid>();
+        #endregion
 
     }
 }
