@@ -5,7 +5,6 @@
 
 <h1 class="mt-4">Create author</h1>
 <hr />
-
 <form method="post" enctype="multipart/form-data">
     <fieldset>
         <div class="col-sm-6">
@@ -47,10 +46,38 @@
             </div>
 
             <div class="form-group">
+                <label asp-for="WebsiteUrl" class="form-label mt-4">Input website url</label>
+                <input asp-for="WebsiteUrl" placeholder="Input website url" class="form-control" id="WebsiteUrl">
+                <span asp-validation-for="WebsiteUrl" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
                 <label asp-for="Avatar" class="form-label mt-4">Default file input example</label>
                 <input asp-for="Avatar" class="form-control" type="file" id="Images">
                 <span asp-validation-for="Avatar" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label asp-for="MangaIdList" class="form-label mt-4">Select related manga</label>
+                <select class="form-select" asp-for="MangaIdList" asp-items="ViewBag.MangaList" multiple>
+                </select>
+                <span asp-validation-for="MangaIdList" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="AnimeIdList" class="form-label mt-4">Select related anime</label>
+                <select class="form-select" asp-for="AnimeIdList" asp-items="ViewBag.AnimeList" multiple>
+                </select>
+                <span asp-validation-for="AnimeIdList" class="text-danger"></span>
+            </div>
+
+            @*<div class="form-group">
+                <label asp-for="GenreIdList" class="form-label mt-4">Select genres</label>
+                <select class="form-select" asp-for="GenreIdList" asp-items="ViewBag.GenreList" multiple>
+                </select>
+                <span asp-validation-for="GenreIdList" class="text-danger"></span>
+            </div>*@
+
             <button type="submit" class="btn btn-primary mt-4">Create</button>
             <a asp-controller="Author" asp-action="Index" class="btn btn-primary mt-4"> Back</a>
         </div>

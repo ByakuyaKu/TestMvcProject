@@ -1,26 +1,24 @@
 ﻿@model Author
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Details";
 }
 
-<h1 class="mt-4">Delete author - @Model.FirstName @Model.LastName?</h1>
-<hr />
 <div class="card mt-4">
     <div class="card-body">
         <h1 class="card-title">@(Model.FirstName + " " + Model.LastName)</h1>
         @*<h2 class="card-title">@Html.DisplayFor(model => model.TitleJapanese)</h2>*@
         <hr />
-        @*        <h6 class="card-subtitle mb-2 text-muted">@Model.</h6>
-        *@       @* @if (Model.Genres == null || Model.Genres.Count < 1)
+@*        <h6 class="card-subtitle mb-2 text-muted">@Model.</h6>
+*@       @* @if (Model.Genres == null || Model.Genres.Count < 1)
         {
-        <span class="badge bg-primary">No genres</span>
+            <span class="badge bg-primary">No genres</span>
         }
         else
         {
-        @foreach (var genre in Model.Genres)
-        {
-        <span class="badge bg-primary">@genre.Name</span>
-        }
+            @foreach (var genre in Model.Genres)
+            {
+                <span class="badge bg-primary">@genre.Name</span>
+            }
         }*@
         <div class="row mt-4">
             <div class="col-3">
@@ -142,12 +140,4 @@
         </div>
     </div>
 </div>
-
-<form method="post" enctype="multipart/form-data" asp-action="DeletePost">
-    <input asp-for="Id" hidden/>
-    <fieldset>
-            <button type="submit" class="btn btn-danger mt-4">Delete</button>
-            <a asp-controller="Author" asp-action="index" class="btn btn-primary mt-4"> Back</a>
-    </fieldset>
-</form>
 
