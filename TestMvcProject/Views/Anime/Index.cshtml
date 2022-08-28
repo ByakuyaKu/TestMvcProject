@@ -39,11 +39,24 @@
     {
         <div class="card  col-3 p-0 m-4">
             <a class="text-decoration-none text-white" asp-controller="Anime" asp-action="Details" asp-route-id="@anime.Id">
-
                 <h3 class="card-header">@anime.Tittle</h3>
                 <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <h6 class="card-subtitle text-muted">Support card subtitle</h6>
+                    @if (anime.TitleJapanese != null)// && anime.TitleJapanese != string.Empty)
+                    {
+                        <h5 class="card-title">@(anime.TitleJapanese)</h5>
+                    }
+                    else
+                    {
+                        <h5 class="card-title">Unknown</h5>
+                    }
+                    @if (anime.Score != null)
+                    {
+                        <h6 class="card-subtitle text-muted">Score @(anime.Score)</h6>
+                    }
+                    else
+                    {
+                        <h6 class="card-subtitle text-muted">Score unknown</h6>
+                    }
                 </div>
                 <div class="card-body">
                     @if (anime.Images == null || anime.Images.Count == 0)
@@ -56,27 +69,60 @@
                     }
                 </div>
                 <div class="card-body">
-                    @if (anime.Description != null)
+                    @if (anime.Description != null && anime.Description.Length > 150)
                     {
-                        <p class="card-text">Anime discription: @anime.Description</p>
+                        <p class="card-text">Description: @(anime.Description.Substring(0, 150) + "...")</p>
+                    }
+                    else if (anime.Description != null)// && anime.Type != string.Empty)
+                    {
+                        <p class="card-text">Description: @(anime.Description)</p>
                     }
                     else
                     {
-                        <p class="card-text">Anime discription: no discription.</p>
+                        <p class="card-text">Description: no information.</p>
                     }
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Series count: @anime.SeriesCount</li>
-                    <li class="list-group-item">Series realised: @anime.SeriesRealesed</li>
-                    <li class="list-group-item">Vestibulum at eros</li>
+                    @if (anime.Type != null)// && anime.Type != string.Empty)
+                    {
+                        <li class="list-group-item">Type: @anime.Type</li>
+                    }
+                    else
+                    {
+                        <li class="list-group-item">Type: unknown</li>
+                    }
+
+                    @if (anime.Volumes != null)
+                    {
+                        <li class="list-group-item">Volumes: @anime.Volumes</li>
+                    }
+                    else
+                    {
+                        <li class="list-group-item">Volumes: unknown</li>
+                    }
+                    @if (anime.SeriesCount != null)
+                    {
+                        <li class="list-group-item">Episodes: @anime.SeriesCount</li>
+                    }
+                    else
+                    {
+                        <li class="list-group-item">Episodes: unknown</li>
+                    }
+
                 </ul>
                 <div class="card-body">
                     <a asp-controller="Anime" asp-action="Edit" asp-route-id="@anime.Id" class="btn btn-secondary "><i class="bi bi-pencil-square"></i> &nbsp Edit</a>
                     <a asp-controller="Anime" asp-action="Delete" asp-route-id="@anime.Id" class="btn btn-secondary "><i class="bi bi-trash"></i> &nbsp Delete</a>
                 </div>
                 <div class="card-footer text-muted">
-                    @*Added: @(DateTime.Now.Subtract(author.ItemCreation))*@
-                    Added: @((anime.ItemCreation.ToString("dd.MM.yy")))
+                    @if (anime.AnimeStarts != null)
+                    {
+                        <p class="card-text">Year @((anime.AnimeStarts?.ToString("yyyy")))</p>
+                    }
+                    else
+                    {
+                        <p class="card-text">Year unknown</p>
+                    }
                 </div>
             </a>
         </div>

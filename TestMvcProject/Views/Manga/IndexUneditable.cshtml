@@ -8,9 +8,6 @@
     <div class="col-6">
         <h1>Manga</h1>
     </div>
-    @*<div class="col-6 text-end mt-3">
-        <a asp-controller="Manga" asp-action="Create" class="btn btn-primary "><i class="bi bi-plus-circle"></i>&nbsp Create мanga</a>
-    </div>*@
 </div>
 <hr />
 
@@ -33,33 +30,50 @@
 <div class="row justify-content-md-center">
     @if (Model.Count() == 0)
     {
-        <div class="mt-4">No мangas</div>
+        <div class="mt-4">No mangas</div>
     }
-    @foreach (var мanga in Model)
+    @foreach (var manga in Model)
     {
 
         <div class="card  col-3 p-0 m-4">
-            <a class="text-decoration-none text-white" asp-controller="Manga" asp-action="Details" asp-route-id="@мanga.Id">
-                <h3 class="card-header">@(мanga.Tittle)</h3>
+            <a class="text-decoration-none text-white" asp-controller="Manga" asp-action="Details" asp-route-id="@manga.Id">
+                <h3 class="card-header">@(manga.Tittle)</h3>
                 <div class="card-body">
-                    <h5 class="card-title">@(мanga.TitleJapanese)</h5>
-                    <h6 class="card-subtitle text-muted">Score @(мanga.Score)</h6>
-                    @*<h6 class="card-subtitle text-muted">Scored by @мanga.ScoredBy</h6>*@
+                    @if (manga.TitleJapanese != null)// && manga.TitleJapanese != string.Empty)
+                    {
+                        <h5 class="card-title">@(manga.TitleJapanese)</h5>
+                    }
+                    else
+                    {
+                        <h5 class="card-title">Unknown</h5>
+                    }
+                    @if (manga.Score != null)
+                    {
+                        <h6 class="card-subtitle text-muted">Score @(manga.Score)</h6>
+                    }
+                    else
+                    {
+                        <h6 class="card-subtitle text-muted">Score unknown</h6>
+                    }
                 </div>
                 <div class="card-body">
-                    @if (мanga.Images == null || мanga.Images.Count == 0)
+                    @if (manga.Images == null || manga.Images.Count == 0)
                     {
                         <img src="~/404.png" class="img-thumbnail card-img" asp-append-version="true" />
                     }
                     else
                     {
-                        <img src="data:image/png;base64,@(Convert.ToBase64String(мanga.Images.Last().Data))" class="img-thumbnail card-img" asp-append-version="true" />
+                        <img src="data:image/png;base64,@(Convert.ToBase64String(manga.Images.Last().Data))" class="img-thumbnail card-img" asp-append-version="true" />
                     }
                 </div>
                 <div class="card-body">
-                    @if (мanga.Description != null)
+                    @if (manga.Description != null && manga.Description.Length > 150)
                     {
-                        <p class="card-text">Description: @(мanga.Description.Substring(0, 150) + "...")</p>
+                        <p class="card-text">Description: @(manga.Description.Substring(0, 150) + "...")</p>
+                    }
+                    else if (manga.Description != null)// && manga.Description != string.Empty)
+                    {
+                        <p class="card-text">Description: @(manga.Description)</p>
                     }
                     else
                     {
@@ -67,26 +81,26 @@
                     }
                 </div>
                 <ul class="list-group list-group-flush">
-                    @if (мanga.Type != null)
+                    @if (manga.Type != null)// && manga.Type != string.Empty)
                     {
-                        <li class="list-group-item">Type: @мanga.Type</li>
+                        <li class="list-group-item">Type: @manga.Type</li>
                     }
                     else
                     {
                         <li class="list-group-item">Type: unknown</li>
                     }
 
-                    @if (мanga.Volumes != null)
+                    @if (manga.Volumes != null)
                     {
-                        <li class="list-group-item">Volumes: @мanga.Volumes</li>
+                        <li class="list-group-item">Volumes: @manga.Volumes</li>
                     }
                     else
                     {
                         <li class="list-group-item">Volumes: unknown</li>
                     }
-                    @if (мanga.ChaptersCount != null)
+                    @if (manga.ChaptersCount != null)
                     {
-                        <li class="list-group-item">Chapters: @мanga.ChaptersCount</li>
+                        <li class="list-group-item">Chapters: @manga.ChaptersCount</li>
                     }
                     else
                     {
@@ -94,12 +108,17 @@
                     }
                 </ul>
                 <div class="card-body">
-                    <a asp-controller="Manga" asp-action="Details" asp-route-id="@мanga.Id" class="btn btn-secondary "><i class="bi bi-eye"></i> &nbsp Details</a>
-                    @*<a asp-controller="Manga" asp-action="Delete" asp-route-id="@мanga.Id" class="btn btn-secondary "><i class="bi bi-trash"></i> &nbsp Delete</a>*@
+                    <a asp-controller="Manga" asp-action="Details" asp-route-id="@manga.Id" class="btn btn-secondary "><i class="bi bi-eye"></i> &nbsp Details</a>
                 </div>
                 <div class="card-footer text-muted">
-                    @*Added: @(DateTime.Now.Subtract(мanga.ItemCreation))*@
-                    Year @((мanga.MangaStarts?.ToString("yyyy")))
+                    @if (manga.MangaStarts != null)
+                    {
+                        <p class="card-text">Year @((manga.MangaStarts?.ToString("yyyy")))</p>
+                    }
+                    else
+                    {
+                        <p class="card-text">Year unknown</p>
+                    }
                 </div>
             </a>
         </div>

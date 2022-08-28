@@ -3,59 +3,190 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1 class="mt-4">Edit anime</h1>
+<h1 class="mt-4">@Html.DisplayFor(model => model.Tittle) editing</h1>
 <hr />
-
+@if (Model.Genres == null || Model.Genres.Count < 1)
+{
+    <span class="badge bg-primary">No genres</span>
+}
+else
+{
+    @foreach (var genre in Model.Genres)
+    {
+        <span class="badge bg-primary">@genre.Name</span>
+    }
+}
 <form method="post" enctype="multipart/form-data">
     <fieldset>
-        <div class="col-sm-6">
-            <div asp-validation-summary="All"class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Tittle" class="form-label mt-4">Edit anime tittle</label>
-                <input asp-for="Tittle" placeholder="Edit anime tittle" class="form-control" id="Tittle">
-                <span asp-validation-for="Tittle" class="text-danger"></span>
+        <div class="row">
+            <div class="col-5">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Type" class="form-label mt-4">Edit type</label>
+                    <input asp-for="Type" class="form-control" placeholder="Edit type" id="Type">
+                    <span asp-validation-for="Type" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Tittle" class="form-label mt-4">Edit anime tittle</label>
+                    <input asp-for="Tittle" placeholder="Edit anime tittle" class="form-control" id="Tittle">
+                    <span asp-validation-for="Tittle" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="TitleJapanese" class="form-label mt-4">Edit title japanese</label>
+                    <input asp-for="TitleJapanese" class="form-control" placeholder="Edit tittle japanese" id="TitleJapanese">
+                    <span asp-validation-for="TitleJapanese" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="AnimeStarts" class="form-label mt-4">Edit title japanese</label>
+                    <input asp-for="AnimeStarts" class="form-control" placeholder="Edit Anime start day" id="AnimeStarts">
+                    <span asp-validation-for="AnimeStarts" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="AnimeEnds" class="form-label mt-4">Edit title japanese</label>
+                    <input asp-for="AnimeEnds" class="form-control" placeholder="Edit Anime end day" id="AnimeEnds">
+                    <span asp-validation-for="AnimeEnds" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="SeriesCount" class="form-label mt-4">Edit anime series count</label>
+                    <input asp-for="SeriesCount" min="0" placeholder="Input anime series count" class="form-control" id="SeriesCount">
+                    <span asp-validation-for="SeriesCount" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="SeriesRealesed" class="form-label mt-4">Edit anime series realesed</label>
+                    <input asp-for="SeriesRealesed" min="0" placeholder="Edit anime series realesed" class="form-control" id="SeriesRealesed">
+                    <span asp-validation-for="SeriesRealesed" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Description" class="form-label mt-4">Edit description</label>
+                    <textarea asp-for="Description" placeholder="Edit description" class="form-control" id="Description" rows="3"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Avatar" class="form-label mt-4">Edit anime poster</label>
+                    <input asp-for="Avatar" class="form-control" type="file" id="formFile">
+                    <span asp-validation-for="Avatar" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Duration" class="form-label mt-4">Edit episode duration</label>
+                    <input asp-for="Duration" class="form-control" placeholder="Edit duration" id="Duration">
+                    <span asp-validation-for="Duration" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Status" class="form-label mt-4">Edit status</label>
+                    <input asp-for="Status" class="form-control" placeholder="Edit status" id="Status">
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="MangaIdList" class="form-label mt-4">Edit related manga</label>
+                    <select class="form-select" asp-for="MangaIdList" asp-items="ViewBag.AnimeList" multiple>
+                        @*<option value="">Select anime adaptation</option>*@
+                    </select>
+                    <span asp-validation-for="MangaIdList" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="AuthorIdList" class="form-label mt-4">Edit author</label>
+                    <select class="form-select" asp-for="AuthorIdList" asp-items="ViewBag.AuthorList" multiple>
+                        @*<option value="">Select author</option>*@
+                    </select>
+                    <span asp-validation-for="AuthorIdList" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="GenreIdList" class="form-label mt-4">Edit genres</label>
+                    <select class="form-select" asp-for="GenreIdList" asp-items="ViewBag.GenreList" multiple>
+                        @*                    <option value="">Select genre</option>
+                        *@
+                    </select>
+                    <span asp-validation-for="GenreIdList" class="text-danger"></span>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label asp-for="SeriesCount" class="form-label mt-4">Edit anime series count</label>
-                <input asp-for="SeriesCount" min="0" placeholder="Input anime series count" class="form-control" id="SeriesCount">
-                <span asp-validation-for="SeriesCount" class="text-danger"></span>
-            </div>
+            <div class="col-6">
+                <div class="row">
+                    <h4 class="card-title"> Current anime poster</h4>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-6">
+                        @if (Model.Images == null || Model.Images.Count == 0)
+                        {
+                            <img src="~/404.png" class="img-thumbnail card-img mt-4" asp-append-version="true" />
+                        }
+                        else
+                        {
+                            <img src="data:image/png;base64,@(Convert.ToBase64String(Model.Images.Last().Data))" class="img-thumbnail card-img" asp-append-version="true" />
+                        }
+                    </div>
 
-            <div class="form-group">
-                <label asp-for="SeriesRealesed" class="form-label mt-4">Edit anime series realesed</label>
-                <input asp-for="SeriesRealesed" min="0" placeholder="Edit anime series realesed" class="form-control" id="SeriesRealesed">
-                <span asp-validation-for="SeriesRealesed" class="text-danger"></span>
-            </div>
+                </div>
+                <div class="row mt-4">
+                    <h4 class="card-title"> Current related manga</h4>
+                </div>
+                <div class="row mt-4">
+                    @if (Model.Manga == null || Model.Manga.Count < 1)
+                    {
+                        <p class="card-text">No manga</p>
+                    }
+                    else
+                    {
+                        @foreach (var anime in Model.Manga)
+                        {
+                            <div class="col-4">
+                                <h6 class="card-title"> @anime.Tittle </h6>
+                                @if (anime.Images == null || anime.Images.Count < 1)
+                                {
+                                    <img src="~/404.png" class="img-thumbnail card-img mt-2" asp-append-version="true" />
+                                }
+                                else
+                                {
+                                    <img src="data:image/png;base64,@(Convert.ToBase64String(anime.Images.Last().Data))" class="img-thumbnail card-img mt-2" asp-append-version="true" />
+                                }
+                            </div>
+                        }
+                    }
+                </div>
 
-            <div class="form-group">
-                <label asp-for="Description" class="form-label mt-4">Edit description</label>
-                <textarea asp-for="Description" placeholder="Edit description" class="form-control" id="Description" rows="3"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
+                <div class="row mt-4">
+                    <h4 class="card-title">Current authors</h4>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="Avatar" class="form-label mt-4">Edit anime poster</label>
-                <input asp-for="Avatar" class="form-control" type="file" id="formFile">
-                <span asp-validation-for="Avatar" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="MangaId" class="form-label mt-4">Edit manga adaptation</label>
-                <select class="form-select" asp-for="MangaId" asp-items="ViewBag.MangaList">
-                    <option value="">Select manga adaptation</option>
-                </select>
-                <span asp-validation-for="MangaId" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="AuthorId" class="form-label mt-4">Edit author</label>
-                <select class="form-select" asp-for="AuthorId" asp-items="ViewBag.AuthorList">
-                    <option value="">Select author</option>
-                </select>
-                <span asp-validation-for="AuthorId" class="text-danger"></span>
+                <div class="row mt-4">
+                    @if (Model.Authors == null || Model.Authors.Count < 1)
+                    {
+                        <p class="card-text">No authors</p>
+                    }
+                    else
+                    {
+                        @foreach (var author in Model.Authors)
+                        {
+                            <div class="col-4">
+                                <h6 class="card-title"> @author.FirstName </h6>
+                                @if (author.Images == null || author.Images.Count < 1)
+                                {
+                                    <img src="~/404.png" class="img-thumbnail card-img mt-2" asp-append-version="true" />
+                                }
+                                else
+                                {
+                                    <img src="data:image/png;base64,@(Convert.ToBase64String(author.Images.Last().Data))" class="img-thumbnail card-img mt-2" asp-append-version="true" />
+                                }
+                            </div>
+                        }
+                    }
+                </div>
             </div>
         </div>
+
         <button type="submit" class="btn btn-primary mt-4">Edit</button>
         <a asp-controller="Anime" asp-action="Index" class="btn btn-primary mt-4"> Back</a>
     </fieldset>

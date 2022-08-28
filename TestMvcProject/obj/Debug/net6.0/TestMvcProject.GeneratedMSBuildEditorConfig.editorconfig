@@ -23,12 +23,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQW5pbWVcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Projects/TestMvcProject/TestMvcProject/Views/Anime/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQW5pbWVcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Projects/TestMvcProject/TestMvcProject/Views/Anime/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQW5pbWVcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Projects/TestMvcProject/TestMvcProject/Views/Anime/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQW5pbWVcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/TestMvcProject/TestMvcProject/Views/Anime/IndexUneditable.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQW5pbWVcSW5kZXhVbmVkaXRhYmxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Projects/TestMvcProject/TestMvcProject/Views/Author/Create.cshtml]

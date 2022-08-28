@@ -10,9 +10,33 @@
         <div class="col-sm-6">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
+                <label asp-for="Type" class="form-label mt-4">Input type</label>
+                <input asp-for="Type" class="form-control" placeholder="Input type" id="Type">
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
                 <label asp-for="Tittle" class="form-label mt-4">Input anime tittle</label>
                 <input asp-for="Tittle" placeholder="Input anime tittle" class="form-control" id="Tittle">
                 <span asp-validation-for="Tittle" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TitleJapanese" class="form-label mt-4">Input title japanese</label>
+                <input asp-for="TitleJapanese" class="form-control" placeholder="Input tittle japanese" id="TitleJapanese">
+                <span asp-validation-for="TitleJapanese" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="AnimeStarts" class="form-label mt-4">Input title japanese</label>
+                <input asp-for="AnimeStarts" class="form-control" placeholder="Input Anime start day" id="AnimeStarts">
+                <span asp-validation-for="AnimeStarts" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="AnimeEnds" class="form-label mt-4">Input title japanese</label>
+                <input asp-for="AnimeEnds" class="form-control" placeholder="Input Anime end day" id="AnimeEnds">
+                <span asp-validation-for="AnimeEnds" class="text-danger"></span>
             </div>
 
             <div class="form-group">
@@ -40,19 +64,40 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="MangaId" class="form-label mt-4">Select manga adaptation</label>
-                <select class="form-select" asp-for="MangaId" asp-items="ViewBag.MangaList">
-                    <option value="">Select manga adaptation</option>
-                </select>
-                <span asp-validation-for="MangaId" class="text-danger"></span>
+                <label asp-for="Duration" class="form-label mt-4">Input episode duration</label>
+                <input asp-for="Duration" class="form-control" placeholder="Input duration" id="Duration">
+                <span asp-validation-for="Duration" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="AuthorId" class="form-label mt-4">Select author</label>
-                <select class="form-select" asp-for="AuthorId" asp-items="ViewBag.AuthorList">
-                    <option value="">Select author</option>
+                <label asp-for="Status" class="form-label mt-4">Input status</label>
+                <input asp-for="Status" class="form-control" placeholder="Input status" id="Status">
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MangaIdList" class="form-label mt-4">Select related manga</label>
+                <select class="form-select" asp-for="MangaIdList" asp-items="ViewBag.AnimeList" multiple>
+                    @*<option value="">Select anime adaptation</option>*@
                 </select>
-                <span asp-validation-for="AuthorId" class="text-danger"></span>
+                <span asp-validation-for="MangaIdList" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="AuthorIdList" class="form-label mt-4">Select author</label>
+                <select class="form-select" asp-for="AuthorIdList" asp-items="ViewBag.AuthorList" multiple>
+                    @*<option value="">Select author</option>*@
+                </select>
+                <span asp-validation-for="AuthorIdList" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="GenreIdList" class="form-label mt-4">Select genres</label>
+                <select class="form-select" asp-for="GenreIdList" asp-items="ViewBag.GenreList" multiple>
+                    @*                    <option value="">Select genre</option>
+                    *@
+                </select>
+                <span asp-validation-for="GenreIdList" class="text-danger"></span>
             </div>
         </div>
         <button type="submit" class="btn btn-primary mt-4">Create</button>

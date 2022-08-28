@@ -1,5 +1,4 @@
-﻿@model TestMvcProject.Models.Manga
-
+﻿@model Anime
 @{
     ViewData["Title"] = "Details";
 }
@@ -43,6 +42,7 @@
                     {
                         <p>Score: unknown</p>
                     }
+
                     @if (Model.ScoredBy != null)
                     {
                         <p>Scored by: @Model.ScoredBy</p>
@@ -51,6 +51,7 @@
                     {
                         <p>Scored by: unknown</p>
                     }
+
                     @if (Model.Popularity != null)
                     {
                         <p>Popularity: @Model.Popularity</p>
@@ -68,6 +69,7 @@
                     {
                         <p>Rank: unknown</p>
                     }
+
                     @if (Model.Favorites != null)
                     {
                         <p>Favorites: @Model.Favorites</p>
@@ -76,6 +78,7 @@
                     {
                         <p>Favorites: unknown</p>
                     }
+
                     @if (Model.Volumes != null)
                     {
                         <p>Volumes: @Model.Volumes</p>
@@ -84,32 +87,43 @@
                     {
                         <p>Volumes: unknown</p>
                     }
-                    @if (Model.ChaptersCount != null)
+
+                    @if (Model.SeriesCount != null)
                     {
-                        <p>Chapters: @Model.ChaptersCount</p>
+                        <p>Episodes: @Model.SeriesCount</p>
                     }
                     else
                     {
-                        <p>Chapters: unknown</p>
+                        <p>Episodes: unknown</p>
                     }
 
+                    @if (Model.Duration != null)
+                    {
+                        <p>Duration: @Model.Duration</p>
+                    }
+                    else
+                    {
+                        <p>Duration: unknown</p>
+                    }
 
-                    @if (Model.MangaStarts != null)
+                    @if (Model.AnimeStarts != null)
                     {
-                        <p>Manga starts: @Model.MangaStarts?.ToString("dd.MM.yyyy")</p>
+                        <p>Anime starts: @Model.AnimeStarts?.ToString("dd.MM.yyyy")</p>
                     }
                     else
                     {
-                        <p>Manga starts: unknown</p>
+                        <p>Anime starts: unknown</p>
                     }
-                    @if (Model.MangaEnds != null)
+
+                    @if (Model.AnimeEnds != null)
                     {
-                        <p>Manga ends: @Model.MangaEnds?.ToString("dd.MM.yyyy")</p>
+                        <p>Anime ends: @Model.AnimeEnds?.ToString("dd.MM.yyyy")</p>
                     }
                     else
                     {
-                        <p>Manga ends: unknown</p>
+                        <p>Anime ends: unknown</p>
                     }
+
                     @if (Model.Status != null)
                     {
                         <p>Status: @Model.Status</p>
@@ -130,24 +144,24 @@
                     <h4 class="card-title"> Anime adaptation </h4>
                 </div>
                 <div class="row">
-                    @if (Model.Animies == null || Model.Animies.Count < 1)
+                    @if (Model.Manga == null || Model.Manga.Count < 1)
                     {
-                        <p class="card-text">No adaptations</p>
+                        <p class="card-text">No manga</p>
                     }
                     else
                     {
-                        @foreach (var anime in Model.Animies)
+                        @foreach (var manga in Model.Manga)
                         {
                             <div class="row">
                                 <div class="col-12">
-                                    <h6 class="card-title"> @anime.Tittle </h6>
-                                    @if (anime.Images == null || anime.Images.Count < 1)
+                                    <h6 class="card-title"> @manga.Tittle </h6>
+                                    @if (manga.Images == null || manga.Images.Count < 1)
                                     {
                                         <img src="~/404.png" class="img-thumbnail card-img" asp-append-version="true" />
                                     }
                                     else
                                     {
-                                        <img src="data:image/png;base64,@(Convert.ToBase64String(anime.Images.Last().Data))" class="img-thumbnail card-img" asp-append-version="true" />
+                                        <img src="data:image/png;base64,@(Convert.ToBase64String(manga.Images.Last().Data))" class="img-thumbnail card-img" asp-append-version="true" />
                                     }
                                 </div>
                             </div>
@@ -188,5 +202,4 @@
         </div>
     </div>
 </div>
-
 

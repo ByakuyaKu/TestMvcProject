@@ -17,20 +17,49 @@ namespace TestMvcProject.Controllers
             _appDbContext = appDbContext;
             _viewHelper = viewHelper;
         }
-
+        // GET: Anime
         public async Task<IActionResult> Index()
         {
-            IEnumerable<Anime> AnimeList = await _appDbContext.Animies.Include(a => a.Manga).Include(a => a.Images).Include(a=>a.Authors).ThenInclude(a=>a.Positions).ToListAsync();
+            IEnumerable<Anime> AnimeList = await _appDbContext.Animies
+                .AsNoTracking()
+                .Include(a => a.Images)
+                .ToListAsync();
             return View(AnimeList);
         }
 
+        // GET: Anime
+        public async Task<IActionResult> IndexUneditable()
+        {
+            IEnumerable<Anime> AnimeList = await _appDbContext.Animies
+                .AsNoTracking()
+                .Include(a => a.Images)
+                .ToListAsync();
+            return View(AnimeList);
+        }
 
-        //GET
-        //public ActionResult Details(Guid id)
-        //{
-        //    IEnumerable<Anime> AnimeList = _appDbContext.Animies.Where(a=>a.Id == id).Include(a => a.Manga).Include(a => a.Authors).ToList();
-        //    return View(AnimeList);
-        //}
+        // GET: Anime/Details/5
+        public async Task<IActionResult> Details(Guid? id)
+        {
+            if (id == null || id == Guid.Empty)
+                return NotFound();
+
+            var anime = await _appDbContext.Animies
+                .AsNoTracking()
+                .Include(a => a.Manga)
+                //.ThenInclude(m => m.Images)
+                .Include(a => a.Images)
+                .Include(a => a.Authors)
+                //.ThenInclude(a => a.Images)
+                .Include(a => a.Genres)
+                .FirstOrDefaultAsync(a => a.Id == id);
+            if (anime == null)
+                return NotFound();
+
+            if (anime.Images != null && anime.Images.Count > 0)
+                ViewBag.Poster = string.Format("data:image/png;base64,{0}", (Convert.ToBase64String(anime.Images.Last().Data)));
+
+            return View(anime);
+        }
 
         //GET
         public async Task<IActionResult> Create()

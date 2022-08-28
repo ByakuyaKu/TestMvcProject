@@ -32,10 +32,9 @@ namespace TestMvcProject.Controllers
         // GET: Manga
         public async Task<IActionResult> Index()
         {
-            IEnumerable<Manga> MangaList = await _appDbContext.Mangas.AsNoTracking().Include(a => a.Animies)
+            IEnumerable<Manga> MangaList = await _appDbContext.Mangas
+                .AsNoTracking()
                 .Include(a => a.Images)
-                .Include(a => a.Authors)
-                .ThenInclude(a => a.Positions)
                 .ToListAsync();
             return View(MangaList);
         }
@@ -46,7 +45,10 @@ namespace TestMvcProject.Controllers
             if (id == null || id == Guid.Empty)
                 return NotFound();
 
-            var manga = await _appDbContext.Mangas.AsNoTracking().Include(m => m.Animies)//.ThenInclude(a => a.Images)
+            var manga = await _appDbContext.Mangas
+                .AsNoTracking()
+                .Include(m => m.Animies)
+                //.ThenInclude(a => a.Images)
                 .Include(m => m.Images)
                 .Include(m => m.Authors)
                 //.ThenInclude(a => a.Images)
@@ -56,7 +58,7 @@ namespace TestMvcProject.Controllers
                 return NotFound();
 
             if (manga.Images != null && manga.Images.Count > 0)
-                ViewBag.Poster = String.Format("data:image/png;base64,{0}", (Convert.ToBase64String(manga.Images.Last().Data)));
+                ViewBag.Poster = string.Format("data:image/png;base64,{0}", (Convert.ToBase64String(manga.Images.Last().Data)));
 
             return View(manga);
         }
@@ -257,10 +259,10 @@ namespace TestMvcProject.Controllers
         // GET: Manga
         public async Task<IActionResult> IndexUneditable()
         {
-            IEnumerable<Manga> MangaList = await _appDbContext.Mangas.AsNoTracking().Include(a => a.Animies)
+            IEnumerable<Manga> MangaList = await _appDbContext.Mangas
+                .AsNoTracking()
                 .Include(a => a.Images)
-                .Include(a => a.Authors)
-                .ThenInclude(a => a.Positions)
+ 
                 .ToListAsync();
             return View(MangaList);
         }
