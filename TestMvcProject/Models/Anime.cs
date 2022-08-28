@@ -53,6 +53,8 @@ namespace TestMvcProject.Models
         public List<Author>? Authors { get; set; }
 
         public List<Image>? Images { get; set; } = new List<Image>();
+
+        public List<Position>? Positions { get; set; } = new List<Position>();
         #endregion
 
         //NotMapped fields

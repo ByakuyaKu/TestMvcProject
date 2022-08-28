@@ -87,13 +87,6 @@ namespace TestMvcProject.Controllers
             if (anime.Avatar != null)
             {
                 var img = _viewHelper.GetImg(anime.Avatar, "AvatarOf" + anime.Tittle);
-
-                //using (var image = new MagickImage(img.Data))
-                //{
-                //    image.Resize(300, 0);
-                //    img.Data = image.ToByteArray();
-                //}
-
                 anime.Images?.Add(img);
             }
 
@@ -112,39 +105,50 @@ namespace TestMvcProject.Controllers
             _appDbContext.Animies.Add(anime);
             await _appDbContext.SaveChangesAsync();
 
-            TempData["success"] = "Manga created successfully!";
+            TempData["success"] = "Anime created successfully!";
 
             return RedirectToAction("Index");
         }
 
         // GET: Anime/Delete/5
-        public async Task<ActionResult> DeleteAsync(Guid? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == Guid.Empty || id == null)
                 return NotFound();
 
-            var anime = await _appDbContext.Animies.FirstOrDefaultAsync(a => a.Id == id);
+            var anime = await _appDbContext.Animies
+                .Include(m => m.Genres)
+                .Include(m => m.Authors)
+                .Include(m => m.Manga)
+                .Include(m => m.Images)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (anime == null)
                 return NotFound();
 
-            ViewBag.AuthorList = await _viewHelper.FillViewBagAuthorList(_appDbContext);
             ViewBag.MangaList = await _viewHelper.FillViewBagMangaList(_appDbContext);
+            ViewBag.AuthorList = await _viewHelper.FillViewBagAuthorList(_appDbContext);
+            ViewBag.GenreList = await _viewHelper.FillViewBagGenreList(_appDbContext);
+
+            if (anime.Images != null && anime.Images.Count > 0)
+                ViewBag.Poster = String.Format("data:image/png;base64,{0}", (Convert.ToBase64String(anime.Images.Last().Data)));
 
             return View(anime);
         }
 
-        // POST: PositionController/Delete/5
+        // POST: Anime/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeletePost(Guid? id)
+        public async Task<IActionResult> DeletePost(Guid? id)
         {
             if (id == Guid.Empty || id == null)
                 return NotFound();
 
-            var anime = await _appDbContext.Animies.Include(a => a.Images).Include(a=>a.Manga).Include(a => a.Authors).ThenInclude(a => a.Positions).FirstOrDefaultAsync(a => a.Id == id);
+            var anime = await _appDbContext.Animies
+                .Include(m => m.Images)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
-            if (anime == null)  
+            if (anime == null)
                 return NotFound();
 
             if (anime.Images != null && anime.Images.Count > 0)
@@ -183,13 +187,28 @@ namespace TestMvcProject.Controllers
             return View(anime);
         }
 
-        // POST: PositionController/Edit/5
+        // POST: Anime/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(Anime anime)
+        public async Task<IActionResult> Edit(Anime anime)
         {
+            if (anime == null)
+                return NotFound();
+
             if (!ModelState.IsValid)
                 return View(anime);
+
+            var _anime = await _appDbContext.Animies
+                .Include(m => m.Manga)
+                .Include(m => m.Authors)
+                .Include(m => m.Genres)
+                .FirstOrDefaultAsync(m => m.Id == anime.Id);
+
+            anime.Manga = _anime?.Manga;
+            anime.Authors = _anime?.Authors;
+            anime.Genres = _anime?.Genres;
 
             if (anime.Avatar != null)
             {
@@ -198,15 +217,36 @@ namespace TestMvcProject.Controllers
                 _appDbContext.Images.Add(img);
                 await _appDbContext.SaveChangesAsync();
 
-                anime.Images.Add(img);
+                anime.Images?.Add(img);
             }
 
-            _appDbContext.Animies.Update(anime);
+            if (anime.MangaIdList != null && anime.MangaIdList.Count > 0)
+            {
+                var mangaList = await _appDbContext.Mangas.Where(a => anime.MangaIdList.Any(m => m == a.Id)).ToListAsync();
+                anime.Manga?.RemoveRange(0, anime.Manga.Count);
+                anime.Manga?.AddRange(mangaList);
+            }
+
+            if (anime.AuthorIdList != null && anime.AuthorIdList.Count > 0)
+            {
+                var authorList = await _appDbContext.Authors.Where(a => anime.AuthorIdList.Any(m => m == a.Id)).ToListAsync();
+                anime.Authors?.RemoveRange(0, anime.Authors.Count);
+                anime.Authors?.AddRange(authorList);
+            }
+
+            if (anime.GenreIdList != null && anime.GenreIdList.Count > 0)
+            {
+                var genreList = await _appDbContext.Genres.Where(g => anime.GenreIdList.Any(m => m == g.Id)).ToListAsync();
+                anime.Genres?.RemoveRange(0, anime.Genres.Count);
+                anime.Genres?.AddRange(genreList);
+            }
+
             await _appDbContext.SaveChangesAsync();
 
             TempData["success"] = "Anime updated successfully!";
 
             return RedirectToAction("Index");
+
         }
     }
 }

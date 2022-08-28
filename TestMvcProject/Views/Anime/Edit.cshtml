@@ -89,7 +89,7 @@ else
 
                 <div class="form-group">
                     <label asp-for="MangaIdList" class="form-label mt-4">Edit related manga</label>
-                    <select class="form-select" asp-for="MangaIdList" asp-items="ViewBag.AnimeList" multiple>
+                    <select class="form-select" asp-for="MangaIdList" asp-items="ViewBag.MangaList" multiple>
                         @*<option value="">Select anime adaptation</option>*@
                     </select>
                     <span asp-validation-for="MangaIdList" class="text-danger"></span>
