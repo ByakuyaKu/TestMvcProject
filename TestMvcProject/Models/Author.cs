@@ -38,5 +38,13 @@ namespace TestMvcProject.Models
         public List<Image>? Images { get; set; } = new List<Image>();
         #endregion
 
+        //NotMapped fields
+        #region
+        [NotMapped]
+        public List<Guid>? AnimeIdList { get; set; } = new List<Guid>();
+        [NotMapped]
+        public List<Guid>? MangaIdList { get; set; } = new List<Guid>();
+        #endregion
+
     }
 }

@@ -100,8 +100,8 @@ namespace TestMvcProject.Controllers
 
             }
 
-            if (manga.AuthorId != null)
-                manga.Authors?.AddRange(_appDbContext.Authors.Where(a => a.Id == manga.AuthorId));
+            //if (manga.AuthorId != null)
+            //    manga.Authors?.AddRange(_appDbContext.Authors.Where(a => a.Id == manga.AuthorId));
 
             if (manga.AnimeIdList != null && manga.AnimeIdList.Count > 0)
                 manga.Animies?.AddRange(animies.Where(a => manga.AnimeIdList.Any(m => m == a.Id)).ToList());
@@ -126,7 +126,8 @@ namespace TestMvcProject.Controllers
             if (id == null || Guid.Empty == id)
                 return NotFound();
 
-            var manga = await _appDbContext.Mangas.Include(m => m.Images)
+            var manga = await _appDbContext.Mangas
+                .Include(m => m.Images)
                 .Include(m => m.Authors)
                 .Include(m => m.Animies)
                 .Include(m => m.Genres)
@@ -155,7 +156,8 @@ namespace TestMvcProject.Controllers
             if (!ModelState.IsValid)
                 return View(manga);
 
-            var _manga = await _appDbContext.Mangas.Include(m => m.Animies)
+            var _manga = await _appDbContext.Mangas
+                .Include(m => m.Animies)
                 .Include(m => m.Authors)
                 .Include(m => m.Genres)
                 .FirstOrDefaultAsync(m => m.Id == manga.Id);
@@ -209,7 +211,8 @@ namespace TestMvcProject.Controllers
             if (id == Guid.Empty || id == null)
                 return NotFound();
 
-            var manga = await _appDbContext.Mangas.Include(m => m.Genres)
+            var manga = await _appDbContext.Mangas
+                .Include(m => m.Genres)
                 .Include(m => m.Authors)
                 .Include(m => m.Animies)
                 .Include(m => m.Images)
@@ -223,7 +226,7 @@ namespace TestMvcProject.Controllers
             ViewBag.GenreList = await _viewHelper.FillViewBagGenreList(_appDbContext);
 
             if (manga.Images != null && manga.Images.Count > 0)
-                ViewBag.Poster = String.Format("data:image/png;base64,{0}", (Convert.ToBase64String(manga.Images.Last().Data)));
+                ViewBag.Poster = string.Format("data:image/png;base64,{0}", (Convert.ToBase64String(manga.Images.Last().Data)));
 
             return View(manga);
         }
@@ -236,7 +239,8 @@ namespace TestMvcProject.Controllers
             if (id == Guid.Empty || id == null)
                 return NotFound();
 
-            var manga = await _appDbContext.Mangas.Include(m => m.Images)
+            var manga = await _appDbContext.Mangas
+                .Include(m => m.Images)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (manga == null)

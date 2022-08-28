@@ -2,144 +2,234 @@
 using Microsoft.EntityFrameworkCore;
 using TestMvcProject.Data;
 using TestMvcProject.Models;
+using TestMvcProject.ViewModels;
 
 namespace TestMvcProject.Controllers
 {
     public class AuthorController : Controller
     {
         private readonly AppDbContext _appDbContext;
+        private readonly IViewHelper _viewHelper;
 
-        public AuthorController(AppDbContext appDbContext)
+
+        public AuthorController(AppDbContext appDbContext, IViewHelper viewHelper)
         {
             _appDbContext = appDbContext;
-        }
-        // GET: PositionController
-        public ActionResult Index()
-        {
-            IEnumerable<Author> authorList = _appDbContext.Authors.Include(p => p.Positions).Include(a => a.Images).ToList();
-            return View(authorList);
+            _viewHelper = viewHelper;
         }
 
-        // GET: PositionController/Details/5
-        public ActionResult Details(Guid id)
+        // GET: Author
+        public async Task<IActionResult> Index()
         {
-            var author = _appDbContext.Authors.Where(p => p.Id == id).Include(p => p.Positions).Include(a=>a.Images).ToList();
+            IEnumerable<Author> AuthorList = await _appDbContext.Authors
+                .AsNoTracking()
+                .Include(a => a.Images)
+                .ToListAsync();
+            return View(AuthorList);
+        }
+
+        // GET: Author
+        public async Task<IActionResult> IndexUneditable()
+        {
+            IEnumerable<Author> AuthorList = await _appDbContext.Authors
+                .AsNoTracking()
+                .Include(a => a.Images)
+                .ToListAsync();
+            return View(AuthorList);
+        }
+
+        // GET: Author/Details/5
+        public async Task<IActionResult> Details(Guid? id)
+        {
+            if (id == null || id == Guid.Empty)
+                return NotFound();
+
+            var author = await _appDbContext.Authors
+                .AsNoTracking()
+                .Include(a => a.Manga)
+                //.ThenInclude(m => m.Images)
+                .Include(a => a.Images)
+                .Include(a => a.Anime)
+                .Include(a => a.Positions)
+                //.ThenInclude(a => a.Images)
+                .FirstOrDefaultAsync(a => a.Id == id);
             if (author == null)
                 return NotFound();
+
+            if (author.Images != null && author.Images.Count > 0)
+                ViewBag.Poster = string.Format("data:image/png;base64,{0}", (Convert.ToBase64String(author.Images.Last().Data)));
 
             return View(author);
         }
 
-        // GET: PositionController/Create
-        public ActionResult Create()
+        // GET: Author/Create
+        public async Task<IActionResult> Create()
         {
+            ViewBag.AnimeList = await _viewHelper.FillViewBagAnimeList(_appDbContext);
+            ViewBag.MangaList = await _viewHelper.FillViewBagMangaList(_appDbContext);
+            //ViewBag.GenreList = await _viewHelper.FillViewBagGenreList(_appDbContext);
             return View();
         }
 
-        // POST: PositionController/Create
+        // POST: Author/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Author author)
+        public async Task<IActionResult> Create(Author author)
         {
             if (!ModelState.IsValid)
                 return View(author);
 
+            var animies = _appDbContext.Animies;
+            var mangas = _appDbContext.Mangas;
+
             if (author.Avatar != null)
             {
-                var img = GetImg(author);
-                author.Images.Add(img);
+                var img = _viewHelper.GetImg(author.Avatar, "AvatarOf" + author.FirstName);
+                author.Images?.Add(img);
+
             }
 
+            //if (author.MangaId != null)
+            //    author.Manga?.AddRange(_appDbContext.Mangas.Where(a => a.Id == author.MangaId));
+
+            if (author.AnimeIdList != null && author.AnimeIdList.Count > 0)
+                author.Anime?.AddRange(animies.Where(a => author.AnimeIdList.Any(m => m == a.Id)).ToList());
+
+            if (author.MangaIdList != null && author.MangaIdList.Count > 0)
+                author.Manga?.AddRange(mangas.Where(a => author.MangaIdList.Any(m => m == a.Id)).ToList());
+
             _appDbContext.Authors.Add(author);
-            _appDbContext.SaveChanges();
+            await _appDbContext.SaveChangesAsync();
 
             TempData["success"] = "Author created successfully!";
 
             return RedirectToAction("Index");
         }
 
-        // GET: PositionController/Edit/5
-        public ActionResult Edit(Guid? id)
+        // GET: Author/Edit/5
+        public async Task<IActionResult> Edit(Guid? id)
         {
-            if (id == Guid.Empty || id == null)
+            if (id == null || Guid.Empty == id)
                 return NotFound();
 
-            //var author = _appDbContext.Authors.Where(a=>a.Id==id).Include(a => a.Positions).Include(a => a.Images).FirstOrDefault();
-            //var author = _appDbContext.Authors.Where(a => a.Id == id).FirstOrDefault();
-            var author = _appDbContext.Authors.Find(id);
+            var author = await _appDbContext.Authors
+                .Include(a => a.Images)
+                .Include(a => a.Manga)
+                .Include(a => a.Anime)
+                .Include(a => a.Positions)
+                .FirstOrDefaultAsync(a => a.Id == id);
 
             if (author == null)
                 return NotFound();
 
+            ViewBag.AnimeList = await _viewHelper.FillViewBagAnimeList(_appDbContext);
+            ViewBag.MangaList = await _viewHelper.FillViewBagMangaList(_appDbContext);
+            //ViewBag.GenreList = await _viewHelper.FillViewBagGenreList(_appDbContext);
+
             return View(author);
         }
-        private Image GetImg(Author author)
-        {
-            byte[] imageData;
-            // считываем переданный файл в массив байтов
-            using (var binaryReader = new BinaryReader(author.Avatar.OpenReadStream()))
-            {
-                imageData = binaryReader.ReadBytes((int)author.Avatar.Length);
-            }
-            // установка массива байтов
-            var img = new Image();
-            img.Data = imageData;
-            //img.Author = author;
-            //img.AuthorId = author.Id;
-            img.Name = "AvatarOf" + author.FirstName + author.LastName;
-            return img;
-        }
 
-        // POST: PositionController/Edit/5
+        // POST: Author/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Author author)
+        public async Task<IActionResult> Edit(Author author)
         {
-            //author.Images = _appDbContext.Authors.Where(a => a.Id == author.Id).Include(a => a.Positions).Include(a => a.Images).FirstOrDefault().Images;
+            if (author == null)
+                return NotFound();
 
             if (!ModelState.IsValid)
                 return View(author);
 
+            var _manga = await _appDbContext.Authors
+                .Include(a => a.Anime)
+                .Include(a => a.Manga)
+                .Include(a => a.Positions)
+                .FirstOrDefaultAsync(a => a.Id == author.Id);
+
+            author.Anime = _manga?.Anime;
+            author.Manga = _manga?.Manga;
+            author.Positions = _manga?.Positions;
+
             if (author.Avatar != null)
             {
-                var img = GetImg(author);
+                var img = _viewHelper.GetImg(author.Avatar, "AvatarOf" + author.FirstName);
 
                 _appDbContext.Images.Add(img);
-                _appDbContext.SaveChanges();
+                await _appDbContext.SaveChangesAsync();
 
-                author.Images.Add(img);
+                author.Images?.Add(img);
             }
-            _appDbContext.Authors.Update(author);
-            _appDbContext.SaveChanges();
+
+            if (author.AnimeIdList != null && author.AnimeIdList.Count > 0)
+            {
+                var animeList = await _appDbContext.Animies.Where(a => author.AnimeIdList.Any(m => m == a.Id)).ToListAsync();
+                author.Anime?.RemoveRange(0, author.Anime.Count);
+                author.Anime?.AddRange(animeList);
+            }
+
+            if (author.MangaIdList != null && author.MangaIdList.Count > 0)
+            {
+                var mangaList = await _appDbContext.Mangas.Where(a => author.MangaIdList.Any(m => m == a.Id)).ToListAsync();
+                author.Manga?.RemoveRange(0, author.Manga.Count);
+                author.Manga?.AddRange(mangaList);
+            }
+
+            //if (author.GenreIdList != null && author.GenreIdList.Count > 0)
+            //{
+            //    var genreList = await _appDbContext.Genres.Where(g => author.GenreIdList.Any(m => m == g.Id)).ToListAsync();
+            //    author.Genres?.RemoveRange(0, author.Genres.Count);
+            //    author.Genres?.AddRange(genreList);
+            //}
+
+            await _appDbContext.SaveChangesAsync();
 
             TempData["success"] = "Author updated successfully!";
 
             return RedirectToAction("Index");
+
         }
 
-        // GET: PositionController/Delete/5
-        public ActionResult Delete(Guid? id)
+        // GET: Author/Delete/5
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == Guid.Empty || id == null)
                 return NotFound();
 
-            var author = _appDbContext.Authors.Find(id);
+            var author = await _appDbContext.Authors
+                .Include(a => a.Positions)
+                .Include(a => a.Manga)
+                .Include(a => a.Anime)
+                .Include(a => a.Images)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (author == null)
                 return NotFound();
 
+            ViewBag.AnimeList = await _viewHelper.FillViewBagAnimeList(_appDbContext);
+            ViewBag.AuthorList = await _viewHelper.FillViewBagAuthorList(_appDbContext);
+            //ViewBag.GenreList = await _viewHelper.FillViewBagGenreList(_appDbContext);
+
+            if (author.Images != null && author.Images.Count > 0)
+                ViewBag.Poster = string.Format("data:image/png;base64,{0}", (Convert.ToBase64String(author.Images.Last().Data)));
+
             return View(author);
         }
 
-        // POST: PositionController/Delete/5
+        // POST: Author/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeletePost(Guid? id)
+        public async Task<IActionResult> DeletePost(Guid? id)
         {
             if (id == Guid.Empty || id == null)
                 return NotFound();
 
-            var author = _appDbContext.Authors.Where(a => a.Id == id).Include(a => a.Images).FirstOrDefault();
+            var author = await _appDbContext.Authors
+                .Include(m => m.Images)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (author == null)
                 return NotFound();
@@ -147,12 +237,11 @@ namespace TestMvcProject.Controllers
             if (author.Images != null && author.Images.Count > 0)
             {
                 _appDbContext.Images.RemoveRange(author.Images);
-                _appDbContext.SaveChanges();
+                await _appDbContext.SaveChangesAsync();
             }
 
             _appDbContext.Authors.Remove(author);
-
-            _appDbContext.SaveChanges();
+            await _appDbContext.SaveChangesAsync();
 
             TempData["success"] = "Author deleted successfully!";
 
