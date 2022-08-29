@@ -2,9 +2,9 @@
 
 namespace TestMvcProject.Jikan
 {
-    public interface IMangaLogicService
+    public interface IMangaLib
     {
-        public Task<List<Manga>> GetTopManga();
+        public Task<List<Manga>> GetTopMangaAsync();
         public Task<Manga> GetMangaAsync(long id);
     }
 }

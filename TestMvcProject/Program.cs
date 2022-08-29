@@ -19,8 +19,12 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
 //    .BuildServiceProvider();
 builder.Services.AddScoped<IViewHelper, ViewHelper>();
 builder.Services.AddScoped<IJikan, Jikan>();
-builder.Services.AddScoped<IMangaLogicService, MangaLogicService>();
-builder.Services.AddHostedService<MangaService>();
+
+builder.Services.AddScoped<IMangaLib, MangaLib>();
+
+builder.Services.AddScoped<IAnimeLib, AnimeLib>();
+
+builder.Services.AddHostedService<JikanService>();
 
 
 

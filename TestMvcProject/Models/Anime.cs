@@ -11,7 +11,7 @@ namespace TestMvcProject.Models
         #region
         public string? Duration { get; set; }
         public int? Favorites { get; set; }
-        public decimal? Score { get; set; }
+        public double? Score { get; set; }
         public int? ScoredBy { get; set; }
         public string? TitleJapanese { get; set; }
         public int? Volumes { get; set; }
