@@ -1,7 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using JikanDotNet;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TestMvcProject.Data;
 using TestMvcProject.Models;
+using Anime = TestMvcProject.Models.Anime;
+using Genre = TestMvcProject.Models.Genre;
+using Image = TestMvcProject.Models.Image;
+using Manga = TestMvcProject.Models.Manga;
 
 namespace TestMvcProject.ViewModels
 {
@@ -23,7 +28,7 @@ namespace TestMvcProject.ViewModels
             return img;
         }
 
-        public async Task<SelectList> FillViewBagAuthorList(AppDbContext _appDbContext)
+        public async Task<SelectList> FillViewBagAuthorListAsync(AppDbContext _appDbContext)
         {
             var authors = await _appDbContext.Authors
                 .Include(p => p.Positions)
@@ -35,7 +40,7 @@ namespace TestMvcProject.ViewModels
             return new SelectList(authors, "Id", "FirstName", "LastName");
         }
 
-        public async Task<SelectList> FillViewBagAnimeList(AppDbContext _appDbContext)
+        public async Task<SelectList> FillViewBagAnimeListAsync(AppDbContext _appDbContext)
         {
             var animies = await _appDbContext.Animies
                 .Include(a => a.Images)
@@ -47,7 +52,7 @@ namespace TestMvcProject.ViewModels
             return new SelectList(animies, "Id", "Tittle");
         }
 
-        public async Task<SelectList> FillViewBagMangaList(AppDbContext _appDbContext)
+        public async Task<SelectList> FillViewBagMangaListAsync(AppDbContext _appDbContext)
         {
             var mangas = await _appDbContext.Mangas
                 .Include(a => a.Animies)
@@ -59,7 +64,7 @@ namespace TestMvcProject.ViewModels
             return new SelectList(mangas, "Id", "Tittle");
         }
 
-        public async Task<SelectList> FillViewBagGenreList(AppDbContext _appDbContext)
+        public async Task<SelectList> FillViewBagGenreListAsync(AppDbContext _appDbContext)
         {
             var genres = await _appDbContext.Genres.ToListAsync();
 
@@ -69,16 +74,15 @@ namespace TestMvcProject.ViewModels
             return new SelectList(genres, "Id", "Name");
         }
 
-        //public static async Task<SelectList> s(AppDbContext _appDbContext)
-        //{
-        //    var mangas = await _appDbContext.Mangas
-        //        .Include(a => a.Animies)
-        //        .Include(m => m.Images).ToListAsync();
+        public async Task<List<Author>?> SearchAuthorsImagesAsync(List<Author>? authors, AppDbContext _appDbContext)
+        {
+            if (authors != null)
+                for (int i = 0; i < authors.Count; i++)
+                {
+                    authors[i].Images = await _appDbContext.Images.Where(im => im.AuthorId == authors[i].Id).ToListAsync();
+                }
 
-        //    if (mangas == null)
-        //        mangas = new List<Manga>();
-
-        //    return new SelectList(mangas, "Id", "Tittle");
-        //}
+            return authors;
+        }
     }
 }

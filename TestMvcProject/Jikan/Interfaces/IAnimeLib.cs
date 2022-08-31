@@ -3,9 +3,9 @@ using TestMvcProject.Data;
 using TestMvcProject.Models;
 using Anime = TestMvcProject.Models.Anime;
 
-namespace TestMvcProject.Jikan
+namespace TestMvcProject.Jikan.Interfaces
 {
-    public interface IAnimeLib  
+    public interface IAnimeLib
     {
         public Task<List<Anime>> GetTopAnimeAsync();
         public Task<Anime> GetAnimeAsync(long id);

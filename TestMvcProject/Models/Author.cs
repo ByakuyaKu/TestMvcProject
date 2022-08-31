@@ -8,6 +8,7 @@ namespace TestMvcProject.Models
         [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
         [Required(AllowEmptyStrings = false)]
+        public long MalId { get; set; }
         public string FirstName { get; set; }
         public string? LastName { get; set; }
         public string? AdditionalName { get; set; }

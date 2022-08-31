@@ -1,4 +1,6 @@
-﻿namespace TestMvcProject.Jikan
+﻿using TestMvcProject.Jikan.Interfaces;
+
+namespace TestMvcProject.Jikan
 {
     public class JikanService : IHostedService
     {
@@ -14,7 +16,7 @@
         public Task StartAsync(CancellationToken cancellationToken)
         {
             // Не блокируем поток выполнения: StartAsync должен запустить выполнение фоновой задачи и завершить работу
-            //GetTopAnimeAndManga(cancellationToken);
+            GetTopAnimeAndManga(cancellationToken);
             return Task.CompletedTask;
         }
         private async Task GetTopAnimeAndManga(CancellationToken stoppingToken)
@@ -23,9 +25,10 @@
             {
                 try
                 {
-                    await _IAnimeLib.GetTopAnimeAsync();
+                   // await _IAnimeLib.GetTopAnimeAsync();
+                   // await _IMangaLib.GetTopMangaAsync();
+
                     
-                    await _IMangaLib.GetTopMangaAsync();
 
                 }
                 catch (Exception ex)

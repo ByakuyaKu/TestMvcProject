@@ -57,6 +57,8 @@ namespace TestMvcProject.Controllers
             if (anime == null)
                 return NotFound();
 
+            await _viewHelper.SearchAuthorsImagesAsync(anime.Authors, _appDbContext);
+
             if (anime.Images != null && anime.Images.Count > 0)
                 ViewBag.Poster = string.Format("data:image/png;base64,{0}", (Convert.ToBase64String(anime.Images.Last().Data)));
 
@@ -66,9 +68,9 @@ namespace TestMvcProject.Controllers
         // GET: Anime/Create
         public async Task<IActionResult> Create()
         {
-            ViewBag.AuthorList = await _viewHelper.FillViewBagAuthorList(_appDbContext);
-            ViewBag.MangaList = await _viewHelper.FillViewBagMangaList(_appDbContext);
-            ViewBag.GenreList = await _viewHelper.FillViewBagGenreList(_appDbContext);
+            ViewBag.AuthorList = await _viewHelper.FillViewBagAuthorListAsync(_appDbContext);
+            ViewBag.MangaList = await _viewHelper.FillViewBagMangaListAsync(_appDbContext);
+            ViewBag.GenreList = await _viewHelper.FillViewBagGenreListAsync(_appDbContext);
             return View();
         }
 
@@ -123,9 +125,9 @@ namespace TestMvcProject.Controllers
             if (anime == null)
                 return NotFound();
 
-            ViewBag.MangaList = await _viewHelper.FillViewBagMangaList(_appDbContext);
-            ViewBag.AuthorList = await _viewHelper.FillViewBagAuthorList(_appDbContext);
-            ViewBag.GenreList = await _viewHelper.FillViewBagGenreList(_appDbContext);
+            ViewBag.MangaList = await _viewHelper.FillViewBagMangaListAsync(_appDbContext);
+            ViewBag.AuthorList = await _viewHelper.FillViewBagAuthorListAsync(_appDbContext);
+            ViewBag.GenreList = await _viewHelper.FillViewBagGenreListAsync(_appDbContext);
 
             if (anime.Images != null && anime.Images.Count > 0)
                 ViewBag.Poster = string.Format("data:image/png;base64,{0}", (Convert.ToBase64String(anime.Images.Last().Data)));
@@ -178,9 +180,9 @@ namespace TestMvcProject.Controllers
             if (anime == null)
                 return NotFound();
 
-            ViewBag.MangaList = await _viewHelper.FillViewBagMangaList(_appDbContext);
-            ViewBag.AuthorList = await _viewHelper.FillViewBagAuthorList(_appDbContext);
-            ViewBag.GenreList = await _viewHelper.FillViewBagGenreList(_appDbContext);
+            ViewBag.MangaList = await _viewHelper.FillViewBagMangaListAsync(_appDbContext);
+            ViewBag.AuthorList = await _viewHelper.FillViewBagAuthorListAsync(_appDbContext);
+            ViewBag.GenreList = await _viewHelper.FillViewBagGenreListAsync(_appDbContext);
 
             return View(anime);
         }

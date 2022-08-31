@@ -8,13 +8,16 @@ namespace TestMvcProject.ViewModels
     {
         public Image GetImg(IFormFile avatar, string fileName);
 
-        public  Task<SelectList> FillViewBagAuthorList(AppDbContext _appDbContext);
+        public  Task<SelectList> FillViewBagAuthorListAsync(AppDbContext _appDbContext);
 
-        public  Task<SelectList> FillViewBagAnimeList(AppDbContext _appDbContext);
+        public  Task<SelectList> FillViewBagAnimeListAsync(AppDbContext _appDbContext);
 
-        public  Task<SelectList> FillViewBagMangaList(AppDbContext _appDbContext);
+        public  Task<SelectList> FillViewBagMangaListAsync(AppDbContext _appDbContext);
 
-        public  Task<SelectList> FillViewBagGenreList(AppDbContext _appDbContext);
+        public  Task<SelectList> FillViewBagGenreListAsync(AppDbContext _appDbContext);
+
+        public Task<List<Author>?> SearchAuthorsImagesAsync(List<Author>? authors, AppDbContext _appDbContext);
+
 
 
 

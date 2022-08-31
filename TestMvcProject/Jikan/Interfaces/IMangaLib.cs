@@ -1,6 +1,6 @@
 ﻿using TestMvcProject.Models;
 
-namespace TestMvcProject.Jikan
+namespace TestMvcProject.Jikan.Interfaces
 {
     public interface IMangaLib
     {

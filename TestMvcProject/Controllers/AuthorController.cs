@@ -65,8 +65,8 @@ namespace TestMvcProject.Controllers
         // GET: Author/Create
         public async Task<IActionResult> Create()
         {
-            ViewBag.AnimeList = await _viewHelper.FillViewBagAnimeList(_appDbContext);
-            ViewBag.MangaList = await _viewHelper.FillViewBagMangaList(_appDbContext);
+            ViewBag.AnimeList = await _viewHelper.FillViewBagAnimeListAsync(_appDbContext);
+            ViewBag.MangaList = await _viewHelper.FillViewBagMangaListAsync(_appDbContext);
             //ViewBag.GenreList = await _viewHelper.FillViewBagGenreList(_appDbContext);
             return View();
         }
@@ -90,9 +90,6 @@ namespace TestMvcProject.Controllers
                 author.Images?.Add(img);
 
             }
-
-            //if (author.MangaId != null)
-            //    author.Manga?.AddRange(_appDbContext.Mangas.Where(a => a.Id == author.MangaId));
 
             if (author.AnimeIdList != null && author.AnimeIdList.Count > 0)
                 author.Anime?.AddRange(animies.Where(a => author.AnimeIdList.Any(m => m == a.Id)).ToList());
@@ -124,8 +121,8 @@ namespace TestMvcProject.Controllers
             if (author == null)
                 return NotFound();
 
-            ViewBag.AnimeList = await _viewHelper.FillViewBagAnimeList(_appDbContext);
-            ViewBag.MangaList = await _viewHelper.FillViewBagMangaList(_appDbContext);
+            ViewBag.AnimeList = await _viewHelper.FillViewBagAnimeListAsync(_appDbContext);
+            ViewBag.MangaList = await _viewHelper.FillViewBagMangaListAsync(_appDbContext);
             //ViewBag.GenreList = await _viewHelper.FillViewBagGenreList(_appDbContext);
 
             return View(author);
@@ -209,8 +206,8 @@ namespace TestMvcProject.Controllers
             if (author == null)
                 return NotFound();
 
-            ViewBag.AnimeList = await _viewHelper.FillViewBagAnimeList(_appDbContext);
-            ViewBag.AuthorList = await _viewHelper.FillViewBagAuthorList(_appDbContext);
+            ViewBag.AnimeList = await _viewHelper.FillViewBagAnimeListAsync(_appDbContext);
+            ViewBag.AuthorList = await _viewHelper.FillViewBagAuthorListAsync(_appDbContext);
             //ViewBag.GenreList = await _viewHelper.FillViewBagGenreList(_appDbContext);
 
             if (author.Images != null && author.Images.Count > 0)

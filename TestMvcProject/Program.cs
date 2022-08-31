@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using TestMvcProject.Data;
 using TestMvcProject.Jikan;
+using TestMvcProject.Jikan.Interfaces;
+using TestMvcProject.Jikan.Libs;
 using TestMvcProject.ViewModels;
 
 var builder = WebApplication.CreateBuilder(args);
