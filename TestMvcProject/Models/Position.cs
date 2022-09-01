@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TestMvcProject.Models
@@ -22,7 +21,7 @@ namespace TestMvcProject.Models
 
         public Guid? AnimeId { get; set; }
         [ForeignKey("AuthorId")]
-        public List<Anime>? Animies { get; set; } = new List<Anime>();
+        public List<Anime>? Anime { get; set; } = new List<Anime>();
         #endregion
     }
 }

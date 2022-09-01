@@ -48,10 +48,6 @@
               "target": "Package",
               "version": "[2.2.0, )"
             },
-            "Magick.NET-Q16-HDRI-AnyCPU": {
-              "target": "Package",
-              "version": "[12.0.1, )"
-            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.0-preview.6.22329.4, )"

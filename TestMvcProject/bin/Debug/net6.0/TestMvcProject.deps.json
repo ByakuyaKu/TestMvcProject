@@ -9,7 +9,6 @@
       "TestMvcProject/1.0.0": {
         "dependencies": {
           "JikanDotNet": "2.2.0",
-          "Magick.NET-Q16-HDRI-AnyCPU": "12.0.1",
           "Microsoft.EntityFrameworkCore": "7.0.0-preview.6.22329.4",
           "Microsoft.EntityFrameworkCore.SqlServer": "7.0.0-preview.6.22329.4",
           "Microsoft.EntityFrameworkCore.Tools": "7.0.0-preview.6.22329.4",
@@ -66,62 +65,6 @@
           "lib/net6.0/JikanDotNet.dll": {
             "assemblyVersion": "2.2.0.0",
             "fileVersion": "2.2.0.0"
-          }
-        }
-      },
-      "Magick.NET-Q16-HDRI-AnyCPU/12.0.1": {
-        "dependencies": {
-          "Magick.NET.Core": "12.0.1"
-        },
-        "runtime": {
-          "lib/netstandard21/Magick.NET-Q16-HDRI-AnyCPU.dll": {
-            "assemblyVersion": "12.0.0.0",
-            "fileVersion": "12.0.1.0"
-          }
-        },
-        "runtimeTargets": {
-          "runtimes/linux-arm64/native/Magick.Native-Q16-HDRI-arm64.dll.so": {
-            "rid": "linux-arm64",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
-          "runtimes/linux-musl-x64/native/Magick.Native-Q16-HDRI-x64.dll.so": {
-            "rid": "linux-musl-x64",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
-          "runtimes/linux-x64/native/Magick.Native-Q16-HDRI-x64.dll.so": {
-            "rid": "linux-x64",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
-          "runtimes/osx-x64/native/Magick.Native-Q16-HDRI-x64.dll.dylib": {
-            "rid": "osx-x64",
-            "assetType": "native",
-            "fileVersion": "0.0.0.0"
-          },
-          "runtimes/win-arm64/native/Magick.Native-Q16-HDRI-arm64.dll": {
-            "rid": "win-arm64",
-            "assetType": "native",
-            "fileVersion": "7.1.0.45"
-          },
-          "runtimes/win-x64/native/Magick.Native-Q16-HDRI-x64.dll": {
-            "rid": "win-x64",
-            "assetType": "native",
-            "fileVersion": "7.1.0.45"
-          },
-          "runtimes/win-x86/native/Magick.Native-Q16-HDRI-x86.dll": {
-            "rid": "win-x86",
-            "assetType": "native",
-            "fileVersion": "7.1.0.45"
-          }
-        }
-      },
-      "Magick.NET.Core/12.0.1": {
-        "runtime": {
-          "lib/netstandard21/Magick.NET.Core.dll": {
-            "assemblyVersion": "12.0.0.0",
-            "fileVersion": "12.0.1.0"
           }
         }
       },
@@ -2430,20 +2373,6 @@
       "sha512": "sha512-qYNGe2xeYXzYB5pQpoYj+/uHuJXnIn8y7/YgfeWnAYVs5CL4HYC0WMfr67PSPZz9wH+Aj0IUQaLFkojC+kKyFg==",
       "path": "jikandotnet/2.2.0",
       "hashPath": "jikandotnet.2.2.0.nupkg.sha512"
-    },
-    "Magick.NET-Q16-HDRI-AnyCPU/12.0.1": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-42Hr3IFWSOWWYeE7eexTfFFJqhKJgxkbPtuBitYq0kwOn4Cys6U/Rh9BZvg5BzNj2+GwI8vtqU5K+qRhgaGtZA==",
-      "path": "magick.net-q16-hdri-anycpu/12.0.1",
-      "hashPath": "magick.net-q16-hdri-anycpu.12.0.1.nupkg.sha512"
-    },
-    "Magick.NET.Core/12.0.1": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-gBAeI62GoeqmvaytutJSY9s65/97opf/OhS4PCiAaKhW9aoNFUWtXcrr2+w1/n3R5z81kzFZMiObFj4l2sc6Ow==",
-      "path": "magick.net.core/12.0.1",
-      "hashPath": "magick.net.core.12.0.1.nupkg.sha512"
     },
     "MessagePack/2.1.152": {
       "type": "package",

@@ -1,7 +1,4 @@
-﻿using JikanDotNet;
-using TestMvcProject.Data;
-using TestMvcProject.Models;
-using Anime = TestMvcProject.Models.Anime;
+﻿using Anime = TestMvcProject.Models.Anime;
 
 namespace TestMvcProject.Jikan.Interfaces
 {

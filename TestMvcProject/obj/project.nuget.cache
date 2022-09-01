@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "uEoz8E0GGOUAhGnRQ1DCyPl+fQ1Mhsibl5O7EFVwzzMi9TS8yOKH2FzSN2nNKF+LphUobMHSBz0m/NCICa++dQ==",
+  "dgSpecHash": "+vixgXJ0ASo/b+wHO+5UfdqnY+Q2P8pMM4fJutMfW6gDki5BIUjLfOvuhSy9NQzoPeB8CGxjGL5yXqBLLzaqyw==",
   "success": true,
   "projectFilePath": "D:\\Projects\\TestMvcProject\\TestMvcProject\\TestMvcProject.csproj",
   "expectedPackageFiles": [
@@ -8,8 +8,6 @@
     "C:\\Users\\Toga\\.nuget\\packages\\azure.identity\\1.5.0\\azure.identity.1.5.0.nupkg.sha512",
     "C:\\Users\\Toga\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Toga\\.nuget\\packages\\jikandotnet\\2.2.0\\jikandotnet.2.2.0.nupkg.sha512",
-    "C:\\Users\\Toga\\.nuget\\packages\\magick.net-q16-hdri-anycpu\\12.0.1\\magick.net-q16-hdri-anycpu.12.0.1.nupkg.sha512",
-    "C:\\Users\\Toga\\.nuget\\packages\\magick.net.core\\12.0.1\\magick.net.core.12.0.1.nupkg.sha512",
     "C:\\Users\\Toga\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",
     "C:\\Users\\Toga\\.nuget\\packages\\messagepack.annotations\\2.1.152\\messagepack.annotations.2.1.152.nupkg.sha512",
     "C:\\Users\\Toga\\.nuget\\packages\\messagepackanalyzer\\2.1.152\\messagepackanalyzer.2.1.152.nupkg.sha512",

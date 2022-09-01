@@ -109,18 +109,20 @@
                     }
                     else
                     {
-                        @foreach (var anime in Model.Manga)
+                        @foreach (var manga in Model.Manga)
                         {
                             <div class="col-4">
-                                <h6 class="card-title"> @anime.Tittle </h6>
-                                @if (anime.Images == null || anime.Images.Count < 1)
-                                {
-                                    <img src="~/404.png" class="img-thumbnail card-img mt-2" asp-append-version="true" />
-                                }
-                                else
-                                {
-                                    <img src="data:image/png;base64,@(Convert.ToBase64String(anime.Images.Last().Data))" class="img-thumbnail card-img mt-2" asp-append-version="true" />
-                                }
+                                <h6 class="card-title"> @manga.Tittle </h6>
+                                <a class="text-decoration-none text-white" asp-controller="Manga" asp-action="Details" asp-route-id="@manga.Id">
+                                    @if (manga.Images == null || manga.Images.Count < 1)
+                                    {
+                                        <img src="~/404.png" class="img-thumbnail card-img mt-2" asp-append-version="true" />
+                                    }
+                                    else
+                                    {
+                                        <img src="data:image/png;base64,@(Convert.ToBase64String(manga.Images.Last().Data))" class="img-thumbnail card-img mt-2" asp-append-version="true" />
+                                    }
+                                </a>
                             </div>
                         }
                     }
@@ -141,14 +143,16 @@
                         {
                             <div class="col-4">
                                 <h6 class="card-title"> @anime.Tittle </h6>
-                                @if (anime.Images == null || anime.Images.Count < 1)
-                                {
-                                    <img src="~/404.png" class="img-thumbnail card-img mt-2" asp-append-version="true" />
-                                }
-                                else
-                                {
-                                    <img src="data:image/png;base64,@(Convert.ToBase64String(anime.Images.Last().Data))" class="img-thumbnail card-img mt-2" asp-append-version="true" />
-                                }
+                                <a class="text-decoration-none text-white" asp-controller="Anime" asp-action="Details" asp-route-id="@anime.Id">
+                                    @if (anime.Images == null || anime.Images.Count < 1)
+                                    {
+                                        <img src="~/404.png" class="img-thumbnail card-img mt-2" asp-append-version="true" />
+                                    }
+                                    else
+                                    {
+                                        <img src="data:image/png;base64,@(Convert.ToBase64String(anime.Images.Last().Data))" class="img-thumbnail card-img mt-2" asp-append-version="true" />
+                                    }
+                                </a>
                             </div>
                         }
                     }

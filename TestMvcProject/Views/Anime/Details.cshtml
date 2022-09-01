@@ -136,12 +136,12 @@
             </div>
         </div>
         <h4 class="mt-4">Description</h4>
-        <p class="card-text">@Html.DisplayFor(model => model.Description)</p>
+        <p class="card-text">@Model.Description</p>
 
         <div class="row mt-4">
-            <div class="col-2">
+            <div class="col-4">
                 <div class="row">
-                    <h4 class="card-title"> Anime adaptation </h4>
+                    <h4 class="card-title"> Related manga </h4>
                 </div>
                 <div class="row">
                     @if (Model.Manga == null || Model.Manga.Count < 1)
@@ -152,9 +152,9 @@
                     {
                         @foreach (var manga in Model.Manga)
                         {
-                            <div class="row">
-                                <div class="col-12">
-                                    <h6 class="card-title"> @manga.Tittle </h6>
+                            <div class="col-4">
+                                <h6 class="card-title"> @manga.Tittle </h6>
+                                <a class="text-decoration-none text-white" asp-controller="Manga" asp-action="Details" asp-route-id="@manga.Id">
                                     @if (manga.Images == null || manga.Images.Count < 1)
                                     {
                                         <img src="~/404.png" class="img-thumbnail card-img" asp-append-version="true" />
@@ -163,13 +163,13 @@
                                     {
                                         <img src="data:image/png;base64,@(Convert.ToBase64String(manga.Images.Last().Data))" class="img-thumbnail card-img" asp-append-version="true" />
                                     }
-                                </div>
+                                </a>
                             </div>
                         }
                     }
                 </div>
             </div>
-            <div class="col-2">
+            <div class="col-4">
                 <div class="row">
                     <h4 class="card-title"> Authors </h4>
                 </div>
@@ -182,9 +182,9 @@
                     {
                         @foreach (var author in Model.Authors)
                         {
-                            <div class="row">
-                                <div class="col-12">
-                                    <h6 class="card-title"> @author.FirstName </h6>
+                            <div class="col-4">
+                                <h6 class="card-title"> @author.FirstName </h6>
+                                <a class="text-decoration-none text-white" asp-controller="Author" asp-action="Details" asp-route-id="@author.Id">
                                     @if (author.Images == null || author.Images.Count < 1)
                                     {
                                         <img src="~/404.png" class="img-thumbnail card-img" asp-append-version="true" />
@@ -193,7 +193,7 @@
                                     {
                                         <img src="data:image/png;base64,@(Convert.ToBase64String(author.Images.Last().Data))" class="img-thumbnail card-img mb-3" asp-append-version="true" />
                                     }
-                                </div>
+                                </a>
                             </div>
                         }
                     }

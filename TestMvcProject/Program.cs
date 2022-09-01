@@ -1,12 +1,10 @@
 using JikanDotNet;
-using Microsoft.DotNet.Scaffolding.Shared.ProjectModel;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 using TestMvcProject.Data;
 using TestMvcProject.Jikan;
 using TestMvcProject.Jikan.Interfaces;
 using TestMvcProject.Jikan.Libs;
-using TestMvcProject.ViewModels;
+using TestMvcProject.ViewHelperLib;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +47,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Anime}/{action=IndexUneditable}/{id?}");
 
 app.Run();

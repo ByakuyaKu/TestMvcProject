@@ -1,19 +1,7 @@
-﻿using System;
-using System.Buffers.Text;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.NetworkInformation;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using ImageMagick;
-using JikanDotNet;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TestMvcProject.Data;
-using TestMvcProject.Models;
-using TestMvcProject.ViewModels;
+using TestMvcProject.ViewHelperLib;
 using Manga = TestMvcProject.Models.Manga;
 
 namespace TestMvcProject.Controllers
@@ -32,7 +20,7 @@ namespace TestMvcProject.Controllers
         // GET: Manga
         public async Task<IActionResult> Index()
         {
-            IEnumerable<Manga> MangaList = await _appDbContext.Mangas
+            IEnumerable<Manga> MangaList = await _appDbContext.Manga
                 .AsNoTracking()
                 .Include(a => a.Images)
                 .ToListAsync();
@@ -45,9 +33,9 @@ namespace TestMvcProject.Controllers
             if (id == null || id == Guid.Empty)
                 return NotFound();
 
-            var manga = await _appDbContext.Mangas
+            var manga = await _appDbContext.Manga
                 .AsNoTracking()
-                .Include(m => m.Animies)
+                .Include(m => m.Anime)
                 //.ThenInclude(a => a.Images)
                 .Include(m => m.Images)
                 .Include(m => m.Authors)
@@ -84,7 +72,7 @@ namespace TestMvcProject.Controllers
             if (!ModelState.IsValid)
                 return View(manga);
 
-            var animies = _appDbContext.Animies;
+            var animies = _appDbContext.Anime;
             var authors = _appDbContext.Authors;
             var genres = _appDbContext.Genres;
 
@@ -95,7 +83,7 @@ namespace TestMvcProject.Controllers
             }
 
             if (manga.AnimeIdList != null && manga.AnimeIdList.Count > 0)
-                manga.Animies?.AddRange(animies.Where(a => manga.AnimeIdList.Any(m => m == a.Id)).ToList());
+                manga.Anime?.AddRange(animies.Where(a => manga.AnimeIdList.Any(m => m == a.Id)).ToList());
 
             if (manga.AuthorIdList != null && manga.AuthorIdList.Count > 0)
                 manga.Authors?.AddRange(authors.Where(a => manga.AuthorIdList.Any(m => m == a.Id)).ToList());
@@ -103,7 +91,7 @@ namespace TestMvcProject.Controllers
             if (manga.GenreIdList != null && manga.GenreIdList.Count > 0)
                 manga.Genres?.AddRange(genres.Where(g => manga.GenreIdList.Any(m => m == g.Id)).ToList());
 
-            _appDbContext.Mangas.Add(manga);
+            _appDbContext.Manga.Add(manga);
             await _appDbContext.SaveChangesAsync();
 
             TempData["success"] = "Manga created successfully!";
@@ -117,10 +105,10 @@ namespace TestMvcProject.Controllers
             if (id == null || Guid.Empty == id)
                 return NotFound();
 
-            var manga = await _appDbContext.Mangas
+            var manga = await _appDbContext.Manga
                 .Include(m => m.Images)
                 .Include(m => m.Authors)
-                .Include(m => m.Animies)
+                .Include(m => m.Anime)
                 .Include(m => m.Genres)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
@@ -147,13 +135,13 @@ namespace TestMvcProject.Controllers
             if (!ModelState.IsValid)
                 return View(manga);
 
-            var _manga = await _appDbContext.Mangas
-                .Include(m => m.Animies)
+            var _manga = await _appDbContext.Manga
+                .Include(m => m.Anime)
                 .Include(m => m.Authors)
                 .Include(m => m.Genres)
                 .FirstOrDefaultAsync(m => m.Id == manga.Id);
 
-            manga.Animies = _manga?.Animies;
+            manga.Anime = _manga?.Anime;
             manga.Authors = _manga?.Authors;
             manga.Genres = _manga?.Genres;
 
@@ -169,9 +157,9 @@ namespace TestMvcProject.Controllers
 
             if (manga.AnimeIdList != null && manga.AnimeIdList.Count > 0)
             {
-                var animeList = await _appDbContext.Animies.Where(a => manga.AnimeIdList.Any(m => m == a.Id)).ToListAsync();
-                manga.Animies?.RemoveRange(0, manga.Animies.Count);
-                manga.Animies?.AddRange(animeList);
+                var animeList = await _appDbContext.Anime.Where(a => manga.AnimeIdList.Any(m => m == a.Id)).ToListAsync();
+                manga.Anime?.RemoveRange(0, manga.Anime.Count);
+                manga.Anime?.AddRange(animeList);
             }
 
             if (manga.AuthorIdList != null && manga.AuthorIdList.Count > 0)
@@ -202,10 +190,10 @@ namespace TestMvcProject.Controllers
             if (id == Guid.Empty || id == null)
                 return NotFound();
 
-            var manga = await _appDbContext.Mangas
+            var manga = await _appDbContext.Manga
                 .Include(m => m.Genres)
                 .Include(m => m.Authors)
-                .Include(m => m.Animies)
+                .Include(m => m.Anime)
                 .Include(m => m.Images)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
@@ -230,7 +218,7 @@ namespace TestMvcProject.Controllers
             if (id == Guid.Empty || id == null)
                 return NotFound();
 
-            var manga = await _appDbContext.Mangas
+            var manga = await _appDbContext.Manga
                 .Include(m => m.Images)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
@@ -243,7 +231,7 @@ namespace TestMvcProject.Controllers
                 await _appDbContext.SaveChangesAsync();
             }
 
-            _appDbContext.Mangas.Remove(manga);
+            _appDbContext.Manga.Remove(manga);
             await _appDbContext.SaveChangesAsync();
 
             TempData["success"] = "Manga deleted successfully!";
@@ -254,7 +242,7 @@ namespace TestMvcProject.Controllers
         // GET: Manga
         public async Task<IActionResult> IndexUneditable()
         {
-            IEnumerable<Manga> MangaList = await _appDbContext.Mangas
+            IEnumerable<Manga> MangaList = await _appDbContext.Manga
                 .AsNoTracking()
                 .Include(a => a.Images)
 

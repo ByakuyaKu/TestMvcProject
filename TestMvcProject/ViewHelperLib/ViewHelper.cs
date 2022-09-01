@@ -1,5 +1,4 @@
-﻿using JikanDotNet;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TestMvcProject.Data;
 using TestMvcProject.Models;
@@ -8,7 +7,7 @@ using Genre = TestMvcProject.Models.Genre;
 using Image = TestMvcProject.Models.Image;
 using Manga = TestMvcProject.Models.Manga;
 
-namespace TestMvcProject.ViewModels
+namespace TestMvcProject.ViewHelperLib
 {
     public class ViewHelper : IViewHelper
     {
@@ -42,7 +41,7 @@ namespace TestMvcProject.ViewModels
 
         public async Task<SelectList> FillViewBagAnimeListAsync(AppDbContext _appDbContext)
         {
-            var animies = await _appDbContext.Animies
+            var animies = await _appDbContext.Anime
                 .Include(a => a.Images)
                 .Include(a => a.Manga).ToListAsync();
 
@@ -54,8 +53,8 @@ namespace TestMvcProject.ViewModels
 
         public async Task<SelectList> FillViewBagMangaListAsync(AppDbContext _appDbContext)
         {
-            var mangas = await _appDbContext.Mangas
-                .Include(a => a.Animies)
+            var mangas = await _appDbContext.Manga
+                .Include(a => a.Anime)
                 .Include(m => m.Images).ToListAsync();
 
             if (mangas == null)
@@ -83,6 +82,28 @@ namespace TestMvcProject.ViewModels
                 }
 
             return authors;
+        }
+
+        public async Task<List<Manga>?> SearchMangasImagesAsync(List<Manga>? mangas, AppDbContext _appDbContext)
+        {
+            if (mangas != null)
+                for (int i = 0; i < mangas.Count; i++)
+                {
+                    mangas[i].Images = await _appDbContext.Images.Where(m => m.MangaId == mangas[i].Id).ToListAsync();
+                }
+
+            return mangas;
+        }
+
+        public async Task<List<Anime>?> SearchAnimiesImagesAsync(List<Anime>? animies, AppDbContext _appDbContext)
+        {
+            if (animies != null)
+                for (int i = 0; i < animies.Count; i++)
+                {
+                    animies[i].Images = await _appDbContext.Images.Where(a => a.AnimeId == animies[i].Id).ToListAsync();
+                }
+
+            return animies;
         }
     }
 }

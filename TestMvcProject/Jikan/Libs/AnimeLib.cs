@@ -1,7 +1,5 @@
 ﻿using JikanDotNet;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Net;
 using TestMvcProject.Data;
 using TestMvcProject.Jikan.Interfaces;
 using TestMvcProject.Models;
@@ -22,25 +20,23 @@ namespace TestMvcProject.Jikan.Libs
             var currentAuthors = await _appDbContext.Authors.Include(x=>x.Positions).ToListAsync();
             var newAuthors = new List<Author>();
 
-            var currentPositions = await _appDbContext.Positions.Include(x=>x.Animies).ToListAsync();
+            var currentPositions = await _appDbContext.Positions.Include(x=>x.Anime).ToListAsync();
             var newPositions = new List<Position>();
 
             var currentGenres = await _appDbContext.Genres.ToListAsync();
             var newGenres = new List<Genre>();
 
-            var _animiesTop = await _jikan.GetTopAnimeAsync();
-            var animiesTop = new List<Anime>();
+            var _animeTop = await _jikan.GetTopAnimeAsync();
+            var animeTop = new List<Anime>();
 
-            for (int i = 0; i < _animiesTop.Data.Count; i++)
+            for (int i = 0; i < _animeTop.Data.Count; i++)
             {
-                var curAnime = await GetAnimeFromJikanAnime(_animiesTop.Data.ElementAt(i), 
+                var curAnime = await GetAnimeFromJikanAnime(_animeTop.Data.ElementAt(i), 
                     currentAuthors, newAuthors, 
                     currentPositions, newPositions,
                     currentGenres, newGenres);
 
-                animiesTop.Add(curAnime);
-
-                //Thread.Sleep(1000);
+                animeTop.Add(curAnime);
             }
 
             if (newPositions != null && newPositions.Count > 0)
@@ -48,22 +44,12 @@ namespace TestMvcProject.Jikan.Libs
                 _appDbContext.Positions.AddRange(newPositions);
                 await _appDbContext.SaveChangesAsync();
             }
-            //else
-            //{
-            //    _appDbContext.UpdateRange(positions);
-            //    await _appDbContext.SaveChangesAsync();
-            //}
 
             if (newAuthors != null && newAuthors.Count > 0)
             {
                 _appDbContext.Authors.AddRange(newAuthors);
                 await _appDbContext.SaveChangesAsync();
             }
-            //else
-            //{
-            //    _appDbContext.UpdateRange(authors);
-            //    await _appDbContext.SaveChangesAsync();
-            //}
 
             if (newGenres != null && newGenres.Count > 0)
             {
@@ -71,10 +57,10 @@ namespace TestMvcProject.Jikan.Libs
                 await _appDbContext.SaveChangesAsync();
             }
 
-            _appDbContext.AddRange(animiesTop);
+            _appDbContext.AddRange(animeTop);
             await _appDbContext.SaveChangesAsync();
 
-            return animiesTop;
+            return animeTop;
         }
 
         public async Task<Anime> GetAnimeAsync(long id)
@@ -82,7 +68,7 @@ namespace TestMvcProject.Jikan.Libs
             var currentAuthors = await _appDbContext.Authors.Include(x => x.Positions).ToListAsync();
             var newAuthors = new List<Author>();
 
-            var currentPositions = await _appDbContext.Positions.Include(x => x.Animies).ToListAsync();
+            var currentPositions = await _appDbContext.Positions.Include(x => x.Anime).ToListAsync();
             var newPositions = new List<Position>();
 
             var currentGenres = await _appDbContext.Genres.ToListAsync();

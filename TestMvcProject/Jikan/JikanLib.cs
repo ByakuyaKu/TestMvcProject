@@ -1,5 +1,4 @@
 ﻿using JikanDotNet;
-using Microsoft.EntityFrameworkCore;
 using System.Net;
 using TestMvcProject.Data;
 using TestMvcProject.Models;
@@ -64,9 +63,9 @@ namespace TestMvcProject.Jikan
                 var searchedPosition = positions.FirstOrDefault(x => x.Name == _positions.ElementAt(i));
                 if (searchedPosition != null)
                 {
-                    if (!searchedPosition.Animies.Exists(x => x.Id == anime.Id))
+                    if (!searchedPosition.Anime.Exists(x => x.Id == anime.Id))
                     {
-                        searchedPosition.Animies.Add(anime);
+                        searchedPosition.Anime.Add(anime);
                     }
 
                     author.Positions?.Add(searchedPosition);
@@ -75,7 +74,7 @@ namespace TestMvcProject.Jikan
                 {
                     var curPosition = new Position();
                     curPosition.Name = _positions.ElementAt(i);
-                    curPosition.Animies?.Add(anime);
+                    curPosition.Anime?.Add(anime);
 
                     positions.Add(curPosition);
                     newPositions.Add(curPosition);

@@ -2,7 +2,7 @@
 using TestMvcProject.Data;
 using TestMvcProject.Models;
 
-namespace TestMvcProject.ViewModels
+namespace TestMvcProject.ViewHelperLib
 {
     public interface IViewHelper
     {
@@ -17,6 +17,11 @@ namespace TestMvcProject.ViewModels
         public  Task<SelectList> FillViewBagGenreListAsync(AppDbContext _appDbContext);
 
         public Task<List<Author>?> SearchAuthorsImagesAsync(List<Author>? authors, AppDbContext _appDbContext);
+
+        public Task<List<Manga>?> SearchMangasImagesAsync(List<Manga>? mangas, AppDbContext _appDbContext);
+
+        public Task<List<Anime>?> SearchAnimiesImagesAsync(List<Anime>? animies, AppDbContext _appDbContext);
+
 
 
 

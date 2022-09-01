@@ -16,11 +16,11 @@ namespace TestMvcProject.Models
         #region
         public Guid? MangaId { get; set; }
         [ForeignKey("MangaId")]
-        public List<Manga>? Mangas { get; set; } = new List<Manga>();
+        public List<Manga>? Manga { get; set; } = new List<Manga>();
 
         public Guid? AnimeId { get; set; }
         [ForeignKey("AnimeId")]
-        public List<Anime>? Animies { get; set; } = new List<Anime>();
+        public List<Anime>? Anime { get; set; } = new List<Anime>();
         #endregion
     }
 }

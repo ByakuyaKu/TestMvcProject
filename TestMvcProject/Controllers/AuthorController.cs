@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using TestMvcProject.Data;
 using TestMvcProject.Models;
-using TestMvcProject.ViewModels;
+using TestMvcProject.ViewHelperLib;
 
 namespace TestMvcProject.Controllers
 {
@@ -56,6 +56,9 @@ namespace TestMvcProject.Controllers
             if (author == null)
                 return NotFound();
 
+            await _viewHelper.SearchAnimiesImagesAsync(author.Anime, _appDbContext);
+            await _viewHelper.SearchMangasImagesAsync(author.Manga, _appDbContext);
+
             if (author.Images != null && author.Images.Count > 0)
                 ViewBag.Poster = string.Format("data:image/png;base64,{0}", (Convert.ToBase64String(author.Images.Last().Data)));
 
@@ -67,7 +70,6 @@ namespace TestMvcProject.Controllers
         {
             ViewBag.AnimeList = await _viewHelper.FillViewBagAnimeListAsync(_appDbContext);
             ViewBag.MangaList = await _viewHelper.FillViewBagMangaListAsync(_appDbContext);
-            //ViewBag.GenreList = await _viewHelper.FillViewBagGenreList(_appDbContext);
             return View();
         }
 
@@ -81,8 +83,8 @@ namespace TestMvcProject.Controllers
             if (!ModelState.IsValid)
                 return View(author);
 
-            var animies = _appDbContext.Animies;
-            var mangas = _appDbContext.Mangas;
+            var animies = _appDbContext.Anime;
+            var mangas = _appDbContext.Manga;
 
             if (author.Avatar != null)
             {
@@ -123,7 +125,6 @@ namespace TestMvcProject.Controllers
 
             ViewBag.AnimeList = await _viewHelper.FillViewBagAnimeListAsync(_appDbContext);
             ViewBag.MangaList = await _viewHelper.FillViewBagMangaListAsync(_appDbContext);
-            //ViewBag.GenreList = await _viewHelper.FillViewBagGenreList(_appDbContext);
 
             return View(author);
         }
@@ -163,24 +164,17 @@ namespace TestMvcProject.Controllers
 
             if (author.AnimeIdList != null && author.AnimeIdList.Count > 0)
             {
-                var animeList = await _appDbContext.Animies.Where(a => author.AnimeIdList.Any(m => m == a.Id)).ToListAsync();
+                var animeList = await _appDbContext.Anime.Where(a => author.AnimeIdList.Any(m => m == a.Id)).ToListAsync();
                 author.Anime?.RemoveRange(0, author.Anime.Count);
                 author.Anime?.AddRange(animeList);
             }
 
             if (author.MangaIdList != null && author.MangaIdList.Count > 0)
             {
-                var mangaList = await _appDbContext.Mangas.Where(a => author.MangaIdList.Any(m => m == a.Id)).ToListAsync();
+                var mangaList = await _appDbContext.Manga.Where(a => author.MangaIdList.Any(m => m == a.Id)).ToListAsync();
                 author.Manga?.RemoveRange(0, author.Manga.Count);
                 author.Manga?.AddRange(mangaList);
             }
-
-            //if (author.GenreIdList != null && author.GenreIdList.Count > 0)
-            //{
-            //    var genreList = await _appDbContext.Genres.Where(g => author.GenreIdList.Any(m => m == g.Id)).ToListAsync();
-            //    author.Genres?.RemoveRange(0, author.Genres.Count);
-            //    author.Genres?.AddRange(genreList);
-            //}
 
             await _appDbContext.SaveChangesAsync();
 
@@ -208,7 +202,6 @@ namespace TestMvcProject.Controllers
 
             ViewBag.AnimeList = await _viewHelper.FillViewBagAnimeListAsync(_appDbContext);
             ViewBag.AuthorList = await _viewHelper.FillViewBagAuthorListAsync(_appDbContext);
-            //ViewBag.GenreList = await _viewHelper.FillViewBagGenreList(_appDbContext);
 
             if (author.Images != null && author.Images.Count > 0)
                 ViewBag.Poster = string.Format("data:image/png;base64,{0}", (Convert.ToBase64String(author.Images.Last().Data)));

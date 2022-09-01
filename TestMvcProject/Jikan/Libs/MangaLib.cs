@@ -1,6 +1,5 @@
 ﻿using JikanDotNet;
 using Microsoft.EntityFrameworkCore;
-using System.Net;
 using TestMvcProject.Data;
 using TestMvcProject.Jikan.Interfaces;
 using TestMvcProject.Models;
@@ -31,15 +30,15 @@ namespace TestMvcProject.Jikan.Libs
             var currentGenres = await _appDbContext.Genres.ToListAsync();
             var newGenres = new List<Genre>();
 
-            var _mangasTop = await _jikan.GetTopMangaAsync();
-            var mangasTop = new List<Manga>();
+            var _mangaTop = await _jikan.GetTopMangaAsync();
+            var mangaTop = new List<Manga>();
 
-            for (int i = 0; i < _mangasTop.Data.Count; i++)
+            for (int i = 0; i < _mangaTop.Data.Count; i++)
             {
-                var curManga = await GetMangaFromJikanMangaAsync(_mangasTop.Data.ElementAt(i), 
+                var curManga = await GetMangaFromJikanMangaAsync(_mangaTop.Data.ElementAt(i), 
                     currentGenres, newGenres,
                     currentAuthors, newAuthors);
-                mangasTop.Add(curManga);
+                mangaTop.Add(curManga);
             }
             
             if (newAuthors != null && newAuthors.Count > 0)
@@ -54,10 +53,10 @@ namespace TestMvcProject.Jikan.Libs
                 await _appDbContext.SaveChangesAsync();
             }
 
-            _appDbContext.AddRange(mangasTop);
+            _appDbContext.AddRange(mangaTop);
             await _appDbContext.SaveChangesAsync();
 
-            return mangasTop;
+            return mangaTop;
         }
 
         public async Task<Manga> GetMangaAsync(long id)
@@ -125,7 +124,6 @@ namespace TestMvcProject.Jikan.Libs
             else
             {
                 //searchAuthor.Manga?.Add(manga);
-
                 return searchAuthor;
             }
         }
