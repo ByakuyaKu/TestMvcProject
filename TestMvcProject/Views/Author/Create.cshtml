@@ -8,7 +8,7 @@
 <form method="post" enctype="multipart/form-data">
     <fieldset>
         <div class="col-sm-6">
-            <div asp-validation-summary="All"class="text-danger"></div>
+            <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="FirstName" class="form-label mt-4">Input first name</label>
                 <input asp-for="FirstName" placeholder="Input first name" class="form-control" id="FirstName">
@@ -70,14 +70,6 @@
                 </select>
                 <span asp-validation-for="AnimeIdList" class="text-danger"></span>
             </div>
-
-            @*<div class="form-group">
-                <label asp-for="GenreIdList" class="form-label mt-4">Select genres</label>
-                <select class="form-select" asp-for="GenreIdList" asp-items="ViewBag.GenreList" multiple>
-                </select>
-                <span asp-validation-for="GenreIdList" class="text-danger"></span>
-            </div>*@
-
             <button type="submit" class="btn btn-primary mt-4">Create</button>
             <a asp-controller="Author" asp-action="Index" class="btn btn-primary mt-4"> Back</a>
         </div>

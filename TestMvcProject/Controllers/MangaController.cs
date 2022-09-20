@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using TestMvcProject.Data;
 using TestMvcProject.ViewHelperLib;
@@ -18,13 +19,54 @@ namespace TestMvcProject.Controllers
         }
 
         // GET: Manga
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? sortOrder, string? searchString, string currentFilter, int? pageNumber)
         {
-            IEnumerable<Manga> MangaList = await _appDbContext.Manga
-                .AsNoTracking()
-                .Include(a => a.Images)
-                .ToListAsync();
-            return View(MangaList);
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["CurrentSortView"] = sortOrder?.Replace("_", " ").ToLower();
+
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            IEnumerable<Manga> MangaList = await _viewHelper.FillMangaListAsync(searchString, _appDbContext);
+
+            MangaList = _viewHelper.SortManga(sortOrder, MangaList);
+
+            int pageSize = 10;
+            return View(await PaginatedList<Manga>.CreateAsync(MangaList, pageNumber ?? 1, pageSize));
+        }
+
+        // GET: Manga
+        public async Task<IActionResult> IndexUneditable(string? sortOrder, string? searchString, string currentFilter, int? pageNumber)
+        {
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["CurrentSortView"] = sortOrder?.Replace("_", " ");
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            IEnumerable<Manga> MangaList = await _viewHelper.FillMangaListAsync(searchString, _appDbContext);
+
+            MangaList = _viewHelper.SortManga(sortOrder, MangaList);
+
+            int pageSize = 10;
+            return View(await PaginatedList<Manga>.CreateAsync(MangaList, pageNumber ?? 1, pageSize));
         }
 
         // GET: Manga/Details/5
@@ -46,6 +88,7 @@ namespace TestMvcProject.Controllers
                 return NotFound();
 
             await _viewHelper.SearchAuthorsImagesAsync(manga.Authors, _appDbContext);
+            await _viewHelper.SearchAnimiesImagesAsync(manga.Anime, _appDbContext);
 
             if (manga.Images != null && manga.Images.Count > 0)
                 ViewBag.Poster = string.Format("data:image/png;base64,{0}", (Convert.ToBase64String(manga.Images.Last().Data)));
@@ -237,17 +280,6 @@ namespace TestMvcProject.Controllers
             TempData["success"] = "Manga deleted successfully!";
 
             return RedirectToAction("Index");
-        }
-
-        // GET: Manga
-        public async Task<IActionResult> IndexUneditable()
-        {
-            IEnumerable<Manga> MangaList = await _appDbContext.Manga
-                .AsNoTracking()
-                .Include(a => a.Images)
-
-                .ToListAsync();
-            return View(MangaList);
         }
     }
 }

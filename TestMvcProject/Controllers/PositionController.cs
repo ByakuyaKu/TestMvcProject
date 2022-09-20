@@ -2,28 +2,49 @@
 using Microsoft.EntityFrameworkCore;
 using TestMvcProject.Data;
 using TestMvcProject.Models;
+using TestMvcProject.ViewHelperLib;
 
 namespace TestMvcProject.Controllers
 {
     public class PositionController : Controller
     {
         private readonly AppDbContext _appDbContext;
+        private readonly IViewHelper _viewHelper;
 
-        public PositionController(AppDbContext appDbContext)
+        public PositionController(AppDbContext appDbContext, IViewHelper viewHelper)
         {
             _appDbContext = appDbContext;
+            _viewHelper = viewHelper;
         }
         // GET: PositionController
-        public ActionResult Index()
+        public async Task<ActionResult> IndexAsync(string? sortOrder, string? searchString, string currentFilter, int? pageNumber)
         {
-            IEnumerable<Position> PositionList = _appDbContext.Positions.Include(p=>p.Authors).ToList();
-            return View(PositionList);
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["CurrentSortView"] = sortOrder?.Replace("_", " ").ToLower();
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            IEnumerable<Position> PositionList = await _viewHelper.FillPositionListAsync(searchString, _appDbContext);
+
+            PositionList = _viewHelper.SortPosition(sortOrder, PositionList);
+
+            int pageSize = 10;
+            return View(await PaginatedList<Position>.CreateAsync(PositionList, pageNumber ?? 1, pageSize));
         }
 
         // GET: PositionController/Details/5
         public ActionResult Details(Guid id)
         {
-            var Position = _appDbContext.Positions.Where(p => p.Id == id).Include(p=>p.Authors).ToList();
+            var Position = _appDbContext.Positions.Where(p => p.Id == id).Include(p => p.Authors).ToList();
             if (Position == null)
                 return NotFound();
 

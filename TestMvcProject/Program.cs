@@ -15,8 +15,6 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DBConnectionString")
     ));
 
-//builder.Services.AddSingleton<IJikan, Jikan>()
-//    .BuildServiceProvider();
 builder.Services.AddScoped<IViewHelper, ViewHelper>();
 builder.Services.AddScoped<IJikan, Jikan>();
 

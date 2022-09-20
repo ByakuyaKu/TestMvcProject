@@ -40,20 +40,23 @@ namespace TestMvcProject.Models
 
         //foreign keys
         #region
-        public Guid? GenreId { get; set; }
+        //public Guid? GenreId { get; set; }
         [ForeignKey("GenreId")]
         public List<Genre>? Genres { get; set; } = new List<Genre>();
 
-        public Guid? MangaId { get; set; }
+        //public Guid? MangaId { get; set; }
         [ForeignKey("MangaId")]
         public List<Manga>? Manga { get; set; }
 
-        public Guid? AuthorId { get; set; }
+        //public Guid? AuthorId { get; set; }
         [ForeignKey("AuthorId")]
-        public List<Author>? Authors { get; set; }
+        public List<Author>? Authors { get; set; } = new List<Author>();
 
+        [ForeignKey("ImageId")]
         public List<Image>? Images { get; set; } = new List<Image>();
 
+        //public Guid? PositionId { get; set; }
+        //[ForeignKey("PositionId")]
         public List<Position>? Positions { get; set; } = new List<Position>();
         #endregion
 
@@ -61,12 +64,6 @@ namespace TestMvcProject.Models
         #region
         [NotMapped]
         public IFormFile? Avatar { get; set; }
-        [NotMapped]
-        [FileExtensions(Extensions = "jpg,jpeg,png")]
-        public string? AvatarFileName => Avatar?.FileName;
-        [NotMapped]
-        [Range(1, 1048576)]
-        public long? AvatarFileLength => Avatar?.Length;
         [NotMapped]
         public List<Guid>? MangaIdList { get; set; } = new List<Guid>();
         [NotMapped]

@@ -20,31 +20,30 @@ namespace TestMvcProject.Models
         //public bool IsDeleted { get; set; } = false;
         public DateTime ItemCreation { get; set; } = DateTime.Now;
 
-        [NotMapped]
-        public IFormFile? Avatar { get; set; }
-
         //foreign keys
         #region
-        public Guid? MangaId { get; set; }
         [ForeignKey("MangaId")]
         public List<Manga>? Manga { get; set; } = new List<Manga>();
 
-        public Guid? AnimeId { get; set; }
         [ForeignKey("AnimeId")]
         public List<Anime>? Anime { get; set; } = new List<Anime>();
 
-        //public Guid? PositionId { get; set; }
-        //[ForeignKey("PositionId")]
+        [ForeignKey("PositionId")]
         public List<Position>? Positions { get; set; } = new List<Position>();
+        [ForeignKey("ImageId")]
         public List<Image>? Images { get; set; } = new List<Image>();
         #endregion
 
         //NotMapped fields
         #region
         [NotMapped]
+        public IFormFile? Avatar { get; set; }
+        [NotMapped]
         public List<Guid>? AnimeIdList { get; set; } = new List<Guid>();
         [NotMapped]
         public List<Guid>? MangaIdList { get; set; } = new List<Guid>();
+        [NotMapped]
+        public List<Guid>? PositionIdList { get; set; } = new List<Guid>();
         #endregion
 
     }

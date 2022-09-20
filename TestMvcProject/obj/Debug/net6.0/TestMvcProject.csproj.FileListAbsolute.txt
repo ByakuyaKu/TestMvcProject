@@ -274,3 +274,5 @@ D:\Projects\TestMvcProject\TestMvcProject\bin\Debug\net6.0\runtimes\win\lib\net6
 D:\Projects\TestMvcProject\TestMvcProject\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 D:\Projects\TestMvcProject\TestMvcProject\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 D:\Projects\TestMvcProject\TestMvcProject\bin\Debug\net6.0\JikanDotNet.dll
+D:\Projects\TestMvcProject\TestMvcProject\bin\Debug\net6.0\TestMvcProject.xml
+D:\Projects\TestMvcProject\TestMvcProject\obj\Debug\net6.0\TestMvcProject.xml

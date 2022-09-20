@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Manga>
+﻿@using TestMvcProject.ViewHelperLib
+@model PaginatedList<Manga>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,6 +10,56 @@
         <h1>Manga</h1>
     </div>
     <div class="col-6 text-end mt-3">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sort by @ViewData["CurrentSortView"]</button>
+            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="">
+                <a class="dropdown-item" asp-controller="Manga" asp-action="Index"
+                   asp-route-sortOrder="Score_desc"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]"><i class="bi bi-sort-numeric-down-alt"></i>&nbsp Score descading</a>
+
+                <a class="dropdown-item" asp-controller="Manga" asp-action="Index"
+                   asp-route-sortOrder="Score_asc"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]"><i class="bi bi-sort-numeric-up-alt"></i>&nbsp Score ascading</a>
+
+                <div class="dropdown-divider"></div>
+
+                <a class="dropdown-item" asp-controller="Manga" asp-action="Index"
+                   asp-route-sortOrder="Rank_desc"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]"><i class="bi bi-sort-numeric-down-alt"></i>&nbsp Rank descading</a>
+
+                <a class="dropdown-item" asp-controller="Manga" asp-action="Index"
+                   asp-route-sortOrder="Rank_asc"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]"><i class="bi bi-sort-numeric-up-alt"></i>&nbsp Rank ascading</a>
+
+                <div class="dropdown-divider"></div>
+
+                <a class="dropdown-item" asp-controller="Manga" asp-action="Index"
+                   asp-route-sortOrder="Popularity_desc"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]"><i class="bi bi-sort-numeric-down-alt"></i>&nbsp Popularity descading</a>
+
+                <a class="dropdown-item" asp-controller="Manga" asp-action="Index"
+                   asp-route-sortOrder="Popularity_asc"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]"><i class="bi bi-sort-numeric-up-alt"></i>&nbsp Popularity ascading</a>
+
+                <div class="dropdown-divider"></div>
+
+                <a class="dropdown-item" asp-controller="Manga" asp-action="Index"
+                   asp-route-sortOrder="Name_desc"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]"><i class="bi bi-sort-alpha-down-alt"></i>&nbsp Name descading</a>
+
+                <a class="dropdown-item" asp-controller="Manga" asp-action="Index"
+                   asp-route-sortOrder="Name_asc"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]"><i class="bi bi-sort-alpha-up-alt"></i>&nbsp Name ascading</a>
+            </div>
+        </div>
         <a asp-controller="Manga" asp-action="Create" class="btn btn-primary "><i class="bi bi-plus-circle"></i>&nbsp Create manga</a>
     </div>
 </div>
@@ -128,5 +179,66 @@
             </a>
         </div>
     }
-
 </div>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        <li class="page-item">
+            <a class="page-link"
+               asp-action="Index"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-pageNumber="@(1)"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               class="btn btn-default">
+                1
+            </a>
+        </li>
+        @if (Model.PageIndex - 2 > 2)
+        {
+            <li class="page-item">
+                <a class="page-link"
+               class="btn btn-default" disabled>
+                    ...
+                </a>
+            </li>
+        }
+        @for (int i = -2; i < 3; i++)
+        {
+            if (Model.HasPage(Model.PageIndex + i) && Model.PageIndex + i != 1 && Model.PageIndex + i != Model.TotalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link"
+               asp-action="Index"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-pageNumber="@(Model.PageIndex + i)"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               class="btn btn-default">
+                        @(Model.PageIndex + i)
+                    </a>
+                </li>
+            }
+        }
+        @if (Model.PageIndex + 2 - Model.TotalPages < 0)
+        {
+            <li class="page-item">
+                <a class="page-link"
+               class="btn btn-default" disabled>
+                    ...
+                </a>
+            </li>
+        }
+        @if (Model.TotalPages > 1)
+        {
+            <li class="page-item">
+                <a class="page-link "
+               asp-action="Index"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-pageNumber="@(Model.TotalPages)"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               class="btn btn-default">
+                    @(Model.TotalPages)
+                </a>
+            </li>
+        }
+    </ul>
+</nav>

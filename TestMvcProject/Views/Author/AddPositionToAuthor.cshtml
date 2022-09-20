@@ -1,0 +1,25 @@
+﻿@model Anime
+@{
+    ViewData["Title"] = "AddPositionToAuthor";
+}
+
+<h1 class="mt-4">Add position to authors</h1>
+<hr />
+<form method="post" asp-action="AddPositionToAuthorPost" asp-route-animeId="@Model.Id">
+    <fieldset>
+        @for (int i = 0; i < Model.Authors?.Count(); i++)
+        {
+            <div class="form-group">
+                <label asp-for="@Model.Authors.ElementAt(i).PositionIdList" class="form-label mt-4">Add positions for authors</label>
+                <select class="form-select" asp-for="@Model.Authors.ElementAt(i).PositionIdList" asp-items="ViewBag.PositionList" multiple>
+                </select>
+                <span asp-validation-for="@Model.Authors.ElementAt(i).PositionIdList" class="text-danger"></span>
+            </div>
+        }
+        <button type="submit" class="btn btn-primary mt-4">Create</button>
+    </fieldset>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    }

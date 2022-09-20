@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using TestMvcProject.Data;
+using TestMvcProject.Jikan.Libs;
 using TestMvcProject.ViewHelperLib;
 using Anime = TestMvcProject.Models.Anime;
 
@@ -18,23 +20,53 @@ namespace TestMvcProject.Controllers
             _viewHelper = viewHelper;
         }
         // GET: Anime
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? sortOrder, string? searchString, string currentFilter, int? pageNumber)
         {
-            IEnumerable<Anime> AnimeList = await _appDbContext.Anime
-                .AsNoTracking()
-                .Include(a => a.Images)
-                .ToListAsync();
-            return View(AnimeList);
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["CurrentSortView"] = sortOrder?.Replace("_", " ").ToLower();
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            IEnumerable<Anime> AnimeList = await _viewHelper.FillAnimeListAsync(searchString, _appDbContext);
+
+            AnimeList = _viewHelper.SortAnime(sortOrder, AnimeList);
+
+            int pageSize = 10;
+            return View(await PaginatedList<Anime>.CreateAsync(AnimeList, pageNumber ?? 1, pageSize));
         }
 
         // GET: Anime
-        public async Task<IActionResult> IndexUneditable()
+        public async Task<IActionResult> IndexUneditable(string? sortOrder, string? searchString, string currentFilter, int? pageNumber)
         {
-            IEnumerable<Anime> AnimeList = await _appDbContext.Anime
-                .AsNoTracking()
-                .Include(a => a.Images)
-                .ToListAsync();
-            return View(AnimeList);
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["CurrentSortView"] = sortOrder?.Replace("_", " ").ToLower();
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            IEnumerable<Anime> AnimeList = await _viewHelper.FillAnimeListAsync(searchString, _appDbContext);
+
+            AnimeList = _viewHelper.SortAnime(sortOrder, AnimeList);
+
+            int pageSize = 10;
+            return View(await PaginatedList<Anime>.CreateAsync(AnimeList, pageNumber ?? 1, pageSize));
         }
 
         // GET: Anime/Details/5
@@ -105,6 +137,7 @@ namespace TestMvcProject.Controllers
 
             TempData["success"] = "Anime created successfully!";
 
+            //return RedirectToAction("AddPositionToAuthor", "Author", new { animeId = anime.Id});
             return RedirectToAction("Index");
         }
 
