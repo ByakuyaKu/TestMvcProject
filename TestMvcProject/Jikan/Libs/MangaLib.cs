@@ -14,11 +14,15 @@ namespace TestMvcProject.Jikan.Libs
         public MangaLib(AppDbContext appDbContext, IJikan jikan) : base(appDbContext, jikan)
         {
         }
-
+        /// <summary>
+        /// Get 25 best mangas from Jikan Api.
+        /// </summary>
         public async Task<List<Manga>> GetTopMangaAsync()
         {
             //var a = await _jikan.GetPersonAsync(2836);
-            var currentAuthors = await _appDbContext.Authors.Include(x => x.Manga).ToListAsync();
+            var currentAuthors = await _appDbContext.Authors
+                .Include(a => a.Manga)
+                .ToListAsync();
             var newAuthors = new List<Author>();
 
             //var currentPositions = await _appDbContext.Positions.Include(x => x.ma).ToListAsync();
@@ -35,21 +39,21 @@ namespace TestMvcProject.Jikan.Libs
 
             for (int i = 0; i < _mangaTop.Data.Count; i++)
             {
-                var curManga = await GetMangaFromJikanMangaAsync(_mangaTop.Data.ElementAt(i), 
+                var curManga = await GetMangaFromJikanMangaAsync(_mangaTop.Data.ElementAt(i),
                     currentGenres, newGenres,
                     currentAuthors, newAuthors);
                 mangaTop.Add(curManga);
             }
-            
+
             if (newAuthors != null && newAuthors.Count > 0)
             {
-                _appDbContext.Authors.AddRange(newAuthors);
+                _appDbContext.AddRange(newAuthors);
                 await _appDbContext.SaveChangesAsync();
             }
 
             if (newGenres != null && newGenres.Count > 0)
             {
-                _appDbContext.Genres.AddRange(newGenres);
+                _appDbContext.AddRange(newGenres);
                 await _appDbContext.SaveChangesAsync();
             }
 
@@ -58,7 +62,9 @@ namespace TestMvcProject.Jikan.Libs
 
             return mangaTop;
         }
-
+        /// <summary>
+        /// Get manga by id from Jikan Api.
+        /// </summary>
         public async Task<Manga> GetMangaAsync(long id)
         {
             var currentAuthors = await _appDbContext.Authors.Include(x => x.Manga).ToListAsync();
@@ -88,12 +94,14 @@ namespace TestMvcProject.Jikan.Libs
                 await _appDbContext.SaveChangesAsync();
             }
 
-            _appDbContext.Add(manga);
+            _appDbContext.Manga.Add(manga);
             await _appDbContext.SaveChangesAsync();
 
             return manga;
         }
-
+        /// <summary>
+        /// Get author from Jikan.MalUrl.
+        /// </summary>
         private async Task<Author> GetMangaAuthorAsync(long id, List<Author> currentAuthors, List<Author> newAuthors, Manga manga, MalUrl malUrl)
         {
             var searchAuthor = currentAuthors.FirstOrDefault(a => a.MalId == id);
@@ -127,7 +135,9 @@ namespace TestMvcProject.Jikan.Libs
                 return searchAuthor;
             }
         }
-
+        /// <summary>
+        /// Create new Manga from Jikan.Manga.
+        /// </summary>
         private async Task<Manga> GetMangaFromJikanMangaAsync(JikanDotNet.Manga manga,
             List<Genre> currentGenres, List<Genre> newGenres,
             List<Author> currentAuthors, List<Author> newAuthors)

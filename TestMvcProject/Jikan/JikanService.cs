@@ -2,6 +2,9 @@
 
 namespace TestMvcProject.Jikan
 {
+    /// <summary>
+    /// JikanService is service for fill db by data once.
+    /// </summary>
     public class JikanService : IHostedService
     {
         private readonly IMangaLib _IMangaLib;
@@ -25,10 +28,10 @@ namespace TestMvcProject.Jikan
             {
                 try
                 {
-                   // await _IAnimeLib.GetTopAnimeAsync();
-                   // await _IMangaLib.GetTopMangaAsync();
-
+                    //await _IMangaLib.GetMangaAsync(1);
                     
+                    await _IAnimeLib.GetTopAnimeAsync();
+                    await _IMangaLib.GetTopMangaAsync();
 
                 }
                 catch (Exception ex)
@@ -48,7 +51,7 @@ namespace TestMvcProject.Jikan
                 try
                 {
                     await _IAnimeLib.GetTopAnimeAsync();
-                    
+
                 }
                 catch (Exception ex)
                 {

@@ -5,7 +5,7 @@ using TestMvcProject.Models;
 namespace TestMvcProject.ViewHelperLib
 {
     /// <summary>
-    /// IViewHelper is interface that contain declarations methods for Views logic.
+    /// IViewHelper is interface that contain declarations of methods for Views logic.
     /// </summary>
     public interface IViewHelper
     {

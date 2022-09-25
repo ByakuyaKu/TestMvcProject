@@ -52,12 +52,11 @@ namespace TestMvcProject.Models
         [ForeignKey("AuthorId")]
         public List<Author>? Authors { get; set; } = new List<Author>();
 
-        [ForeignKey("ImageId")]
         public List<Image>? Images { get; set; } = new List<Image>();
 
         //public Guid? PositionId { get; set; }
         //[ForeignKey("PositionId")]
-        public List<Position>? Positions { get; set; } = new List<Position>();
+        //public List<Position>? Positions { get; set; } = new List<Position>();
         #endregion
 
         //NotMapped fields

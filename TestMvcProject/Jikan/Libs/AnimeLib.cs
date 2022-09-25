@@ -14,13 +14,19 @@ namespace TestMvcProject.Jikan.Libs
         public AnimeLib(AppDbContext appDbContext, IJikan jikan) : base(appDbContext, jikan)
         {
         }
-
+        /// <summary>
+        /// Get 25 best animies from Jikan Api.
+        /// </summary>
         public async Task<List<Anime>> GetTopAnimeAsync()
         {
-            var currentAuthors = await _appDbContext.Authors.Include(x=>x.Positions).ToListAsync();
+            var currentAuthors = await _appDbContext.Authors
+                .Include(a => a.Positions)
+                .ToListAsync();
             var newAuthors = new List<Author>();
 
-            var currentPositions = await _appDbContext.Positions.Include(x=>x.Anime).ToListAsync();
+            var currentPositions = await _appDbContext.Positions
+                //.Include(a => a.Anime)
+                .ToListAsync();
             var newPositions = new List<Position>();
 
             var currentGenres = await _appDbContext.Genres.ToListAsync();
@@ -31,12 +37,18 @@ namespace TestMvcProject.Jikan.Libs
 
             for (int i = 0; i < _animeTop.Data.Count; i++)
             {
-                var curAnime = await GetAnimeFromJikanAnime(_animeTop.Data.ElementAt(i), 
-                    currentAuthors, newAuthors, 
+                var curAnime = await GetAnimeFromJikanAnime(_animeTop.Data.ElementAt(i),
+                    currentAuthors, newAuthors,
                     currentPositions, newPositions,
                     currentGenres, newGenres);
 
                 animeTop.Add(curAnime);
+            }
+
+            if (newGenres != null && newGenres.Count > 0)
+            {
+                _appDbContext.Genres.AddRange(newGenres);
+                await _appDbContext.SaveChangesAsync();
             }
 
             if (newPositions != null && newPositions.Count > 0)
@@ -51,24 +63,25 @@ namespace TestMvcProject.Jikan.Libs
                 await _appDbContext.SaveChangesAsync();
             }
 
-            if (newGenres != null && newGenres.Count > 0)
-            {
-                _appDbContext.Genres.AddRange(newGenres);
-                await _appDbContext.SaveChangesAsync();
-            }
 
             _appDbContext.AddRange(animeTop);
             await _appDbContext.SaveChangesAsync();
 
             return animeTop;
         }
-
+        /// <summary>
+        /// Get Anime by id from Jikan Api.
+        /// </summary>
         public async Task<Anime> GetAnimeAsync(long id)
         {
-            var currentAuthors = await _appDbContext.Authors.Include(x => x.Positions).ToListAsync();
+            var currentAuthors = await _appDbContext.Authors
+                .Include(a => a.Positions)
+                .ToListAsync();
             var newAuthors = new List<Author>();
 
-            var currentPositions = await _appDbContext.Positions.Include(x => x.Anime).ToListAsync();
+            var currentPositions = await _appDbContext.Positions
+                //.Include(p => p.Anime)
+                .ToListAsync();
             var newPositions = new List<Position>();
 
             var currentGenres = await _appDbContext.Genres.ToListAsync();
@@ -81,6 +94,13 @@ namespace TestMvcProject.Jikan.Libs
                     currentPositions, newPositions,
                     currentGenres, newGenres);
 
+
+            if (newGenres != null && newGenres.Count > 0)
+            {
+                _appDbContext.Genres.AddRange(newGenres);
+                await _appDbContext.SaveChangesAsync();
+            }
+
             if (newPositions != null && newPositions.Count > 0)
             {
                 _appDbContext.Positions.AddRange(newPositions);
@@ -93,21 +113,17 @@ namespace TestMvcProject.Jikan.Libs
                 await _appDbContext.SaveChangesAsync();
             }
 
-            if (newGenres != null && newGenres.Count > 0)
-            {
-                _appDbContext.Genres.AddRange(newGenres);
-                await _appDbContext.SaveChangesAsync();
-            }
-
             _appDbContext.Add(anime);
             await _appDbContext.SaveChangesAsync();
 
             return anime;
         }
-
-        private async Task<List<Author>> GetAnimeStaffAsync(long id, 
-            List<Author> currentAuthors, List<Author> newAuthors, 
-            List<Position> currentPositions, List<Position> newPositions, 
+        /// <summary>
+        /// Get anime staff from Jikan Api for anime.
+        /// </summary>
+        private async Task<List<Author>> GetAnimeStaffAsync(long id,
+            List<Author> currentAuthors, List<Author> newAuthors,
+            List<Position> currentPositions, List<Position> newPositions,
             Anime anime)
         {
             var staff = await _jikan.GetAnimeStaffAsync(id);
@@ -116,7 +132,7 @@ namespace TestMvcProject.Jikan.Libs
 
             for (int i = 0; i < staff.Data.Count; i++)
             {
-                var author = currentAuthors.FirstOrDefault(x => x.MalId == staff.Data.ElementAt(i).Person.MalId);
+                var author = currentAuthors.FirstOrDefault(a => a.MalId == staff.Data.ElementAt(i).Person.MalId);
                 if (author != null)
                 {
                     author = await AddPositionToAuthor(author, anime, currentPositions, newPositions, staff.Data.ElementAt(i).Position);
@@ -129,7 +145,7 @@ namespace TestMvcProject.Jikan.Libs
                     newAuthor.MalId = staff.Data.ElementAt(i).Person.MalId;
                     var img = GetImgData(staff.Data.ElementAt(i).Person.Images, "PoseterOf" + newAuthor.FirstName);
                     if (img != null)
-                        newAuthor.Images?.Add(img); 
+                        newAuthor.Images?.Add(img);
 
                     newAuthor = await AddPositionToAuthor(newAuthor, anime, currentPositions, newPositions, staff.Data.ElementAt(i).Position);
 
@@ -142,7 +158,9 @@ namespace TestMvcProject.Jikan.Libs
             return _staff;
         }
 
-
+        /// <summary>
+        /// Create new Anime from Jikan.Anime.
+        /// </summary>
         private async Task<Anime> GetAnimeFromJikanAnime(JikanDotNet.Anime anime,
             List<Author> currentAuthors, List<Author> newAuthors,
             List<Position> currentPositions, List<Position> newPositions,

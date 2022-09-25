@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestMvcProject.Data;
 
@@ -11,9 +12,11 @@ using TestMvcProject.Data;
 namespace TestMvcProject.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220923044507_DebugTest")]
+    partial class DebugTest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -199,9 +202,6 @@ namespace TestMvcProject.Migrations
                     b.Property<string>("AdditionalName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("AnimeId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("datetime2");
 
@@ -220,9 +220,6 @@ namespace TestMvcProject.Migrations
 
                     b.Property<long>("MalId")
                         .HasColumnType("bigint");
-
-                    b.Property<Guid?>("MangaId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int?>("MemberFavorites")
                         .HasColumnType("int");
@@ -275,6 +272,9 @@ namespace TestMvcProject.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<Guid?>("ImageId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("ItemCreation")
                         .HasColumnType("datetime2");
 
@@ -291,6 +291,8 @@ namespace TestMvcProject.Migrations
 
                     b.HasIndex("AuthorId");
 
+                    b.HasIndex("ImageId");
+
                     b.HasIndex("MangaId");
 
                     b.ToTable("Images");
@@ -300,6 +302,12 @@ namespace TestMvcProject.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AnimeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AuthorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int?>("ChaptersCount")
@@ -313,6 +321,9 @@ namespace TestMvcProject.Migrations
 
                     b.Property<int?>("Favorites")
                         .HasColumnType("int");
+
+                    b.Property<Guid?>("GenreId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("ItemCreation")
                         .HasColumnType("datetime2");
@@ -473,15 +484,27 @@ namespace TestMvcProject.Migrations
             modelBuilder.Entity("TestMvcProject.Models.Image", b =>
                 {
                     b.HasOne("TestMvcProject.Models.Anime", "Anime")
-                        .WithMany("Images")
+                        .WithMany()
                         .HasForeignKey("AnimeId");
 
                     b.HasOne("TestMvcProject.Models.Author", "Author")
-                        .WithMany("Images")
+                        .WithMany()
                         .HasForeignKey("AuthorId");
 
-                    b.HasOne("TestMvcProject.Models.Manga", "Manga")
+                    b.HasOne("TestMvcProject.Models.Anime", null)
                         .WithMany("Images")
+                        .HasForeignKey("ImageId");
+
+                    b.HasOne("TestMvcProject.Models.Author", null)
+                        .WithMany("Images")
+                        .HasForeignKey("ImageId");
+
+                    b.HasOne("TestMvcProject.Models.Manga", null)
+                        .WithMany("Images")
+                        .HasForeignKey("ImageId");
+
+                    b.HasOne("TestMvcProject.Models.Manga", "Manga")
+                        .WithMany()
                         .HasForeignKey("MangaId");
 
                     b.Navigation("Anime");

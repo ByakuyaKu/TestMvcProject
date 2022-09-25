@@ -8,6 +8,9 @@ using Image = TestMvcProject.Models.Image;
 
 namespace TestMvcProject.Jikan
 {
+    /// <summary>
+    /// JikanLib is class that contain logic for libs.
+    /// </summary>
     public class JikanLib
     {
         protected readonly IJikan _jikan;
@@ -18,7 +21,9 @@ namespace TestMvcProject.Jikan
             _jikan = jikan;
             _appDbContext = appDbContext;
         }
-
+        /// <summary>
+        /// Get Image from JikanDotNet.ImagesSet.
+        /// </summary>
         protected Image GetImgData(JikanDotNet.ImagesSet imagesSet, string imgName)
         {
             var image = new Image();
@@ -30,17 +35,19 @@ namespace TestMvcProject.Jikan
 
             return image;
         }
-
+        /// <summary>
+        /// Get Genres from ICollection<MalUrl>.
+        /// </summary>
         protected List<Genre> GetGenres(ICollection<MalUrl> genres, List<Genre> currentGenres, List<Genre> newGenres)
         {
             var _genres = new List<Genre>();
 
             for (int i = 0; i < genres.Count; i++)
             {
-                var searchedGenre = currentGenres.FirstOrDefault(x => x.Name == genres.ElementAt(i).Name);
+                var searchedGenre = currentGenres.FirstOrDefault(g => g.Name == genres.ElementAt(i).Name);
                 if (searchedGenre != null)
                 {
-                    _genres.Add(currentGenres.FirstOrDefault(x => x.Name == genres.ElementAt(i).Name));
+                    _genres.Add(currentGenres.FirstOrDefault(g => g.Name == genres.ElementAt(i).Name));
                 }
                 else
                 {
@@ -54,19 +61,21 @@ namespace TestMvcProject.Jikan
 
             return _genres;
         }
-
+        /// <summary>
+        /// Add position for author of anime.
+        /// </summary>
         protected async Task<Author> AddPositionToAuthor(Author author, Anime anime, List<Position> positions, List<Position> newPositions,
             ICollection<string> _positions)
         {
             for (int i = 0; i < _positions.Count; i++)
             {
-                var searchedPosition = positions.FirstOrDefault(x => x.Name == _positions.ElementAt(i));
+                var searchedPosition = positions.FirstOrDefault(p => p.Name == _positions.ElementAt(i));
                 if (searchedPosition != null)
                 {
-                    if (!searchedPosition.Anime.Exists(x => x.Id == anime.Id))
-                    {
-                        searchedPosition.Anime.Add(anime);
-                    }
+                    //if (!searchedPosition.Anime.Exists(a => a.Id == anime.Id))
+                    //{
+                    //    searchedPosition.Anime.Add(anime);
+                    //}
 
                     author.Positions?.Add(searchedPosition);
                 }
@@ -74,7 +83,7 @@ namespace TestMvcProject.Jikan
                 {
                     var curPosition = new Position();
                     curPosition.Name = _positions.ElementAt(i);
-                    curPosition.Anime?.Add(anime);
+                    //curPosition.Anime?.Add(anime);
 
                     positions.Add(curPosition);
                     newPositions.Add(curPosition);
