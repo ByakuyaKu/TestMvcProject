@@ -16,16 +16,7 @@ namespace TestMvcProject.Repository
 
         public void Update(T item) => _appDbContext.Update(item);
         public void Remove(T item) => _appDbContext.Remove(item);
-        public void Attach(T item)
-        {
-            //_appDbContext.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Detached;
-            //_appDbContext.Set<T>().Update(item);
-            //_appDbContext.SaveChanges();
-            _appDbContext.Attach(item);
-            //_appDbContext.ChangeTracker.Clear();
-            //_appDbContext.Update(item);
-            //_appDbContext.SaveChanges();
-        }
+        public void Attach(T item) => _appDbContext.Attach(item);
 
         public void AddRange(List<T> items) => _appDbContext.AddRange(items);
 

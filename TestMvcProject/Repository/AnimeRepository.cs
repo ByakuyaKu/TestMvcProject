@@ -158,7 +158,7 @@ namespace TestMvcProject.Repository
         {
             Anime? anime;
 
-            if(asNoTracking)
+            if (asNoTracking)
             {
                 anime = await _appDbContext.Anime
                 .AsNoTracking()
