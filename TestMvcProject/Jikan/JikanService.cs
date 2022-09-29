@@ -30,8 +30,8 @@ namespace TestMvcProject.Jikan
                 {
                     //await _IMangaLib.GetMangaAsync(1);
                     
-                    //await _IAnimeLib.GetTopAnimeAsync();
-                    //await _IMangaLib.GetTopMangaAsync();
+                    await _IAnimeLib.GetTopAnimeAsync();
+                    await _IMangaLib.GetTopMangaAsync();
 
                 }
                 catch (Exception ex)
