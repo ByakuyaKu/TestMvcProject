@@ -2,6 +2,8 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using TestMvcProject.Data;
+using TestMvcProject.Repository;
+using TestMvcProject.Repository.Interfaces;
 using TestMvcProject.ViewHelperLib;
 using Manga = TestMvcProject.Models.Manga;
 
@@ -9,13 +11,23 @@ namespace TestMvcProject.Controllers
 {
     public class MangaController : Controller
     {
-        private readonly AppDbContext _appDbContext;
-        private readonly IViewHelper _viewHelper;
+        private readonly IAnimeRepository _animeRepository;
+        private readonly IMangaRepository _mangaRepository;
+        private readonly IGenreRepository _genreRepository;
+        private readonly IAuthorRepository _authorRepository;
+        private readonly IImageRepository _imageRepository;
 
-        public MangaController(AppDbContext appDbContext, IViewHelper viewHelper)
+        public MangaController(IAnimeRepository animeRepository,
+            IMangaRepository mangaRepository,
+            IGenreRepository genreRepository,
+            IAuthorRepository authorRepository,
+            IImageRepository imageRepository)
         {
-            _appDbContext = appDbContext;
-            _viewHelper = viewHelper;
+            _animeRepository = animeRepository;
+            _mangaRepository = mangaRepository;
+            _genreRepository = genreRepository;
+            _authorRepository = authorRepository;
+            _imageRepository = imageRepository;
         }
 
         // GET: Manga
@@ -36,9 +48,9 @@ namespace TestMvcProject.Controllers
 
             ViewData["CurrentFilter"] = searchString;
 
-            IEnumerable<Manga> MangaList = await _viewHelper.FillMangaListAsync(searchString, _appDbContext);
+            IEnumerable<Manga> MangaList = await _mangaRepository.FillMangaListAsync(searchString);
 
-            MangaList = _viewHelper.SortManga(sortOrder, MangaList);
+            MangaList = _mangaRepository.SortManga(sortOrder, MangaList);
 
             int pageSize = 10;
             return View(await PaginatedList<Manga>.CreateAsync(MangaList, pageNumber ?? 1, pageSize));
@@ -61,9 +73,9 @@ namespace TestMvcProject.Controllers
 
             ViewData["CurrentFilter"] = searchString;
 
-            IEnumerable<Manga> MangaList = await _viewHelper.FillMangaListAsync(searchString, _appDbContext);
+            IEnumerable<Manga> MangaList = await _mangaRepository.FillMangaListAsync(searchString);
 
-            MangaList = _viewHelper.SortManga(sortOrder, MangaList);
+            MangaList = _mangaRepository.SortManga(sortOrder, MangaList);
 
             int pageSize = 10;
             return View(await PaginatedList<Manga>.CreateAsync(MangaList, pageNumber ?? 1, pageSize));
@@ -75,20 +87,13 @@ namespace TestMvcProject.Controllers
             if (id == null || id == Guid.Empty)
                 return NotFound();
 
-            var manga = await _appDbContext.Manga
-                .AsNoTracking()
-                .Include(m => m.Anime)
-                //.ThenInclude(a => a.Images)
-                .Include(m => m.Images)
-                .Include(m => m.Authors)
-                //.ThenInclude(a => a.Images)
-                .Include(m => m.Genres)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var manga = await _mangaRepository.GetMangaByIdFullInfoAsync((Guid)id, true);
+
             if (manga == null)
                 return NotFound();
 
-            await _viewHelper.SearchAuthorsImagesAsync(manga.Authors, _appDbContext);
-            await _viewHelper.SearchAnimiesImagesAsync(manga.Anime, _appDbContext);
+            await _authorRepository.SearchAuthorsImagesAsync(manga.Authors);
+            await _animeRepository.SearchAnimiesImagesAsync(manga.Anime);
 
             if (manga.Images != null && manga.Images.Count > 0)
                 ViewBag.Poster = string.Format("data:image/png;base64,{0}", (Convert.ToBase64String(manga.Images.Last().Data)));
@@ -99,9 +104,9 @@ namespace TestMvcProject.Controllers
         // GET: Manga/Create
         public async Task<IActionResult> Create()
         {
-            ViewBag.AnimeList = await _viewHelper.FillViewBagAnimeListAsync(_appDbContext);
-            ViewBag.AuthorList = await _viewHelper.FillViewBagAuthorListAsync(_appDbContext);
-            ViewBag.GenreList = await _viewHelper.FillViewBagGenreListAsync(_appDbContext);
+            ViewBag.AnimeList = await _animeRepository.FillViewBagAnimeListAsync();
+            ViewBag.AuthorList = await _authorRepository.FillViewBagAuthorListAsync();
+            ViewBag.GenreList = await _genreRepository.FillViewBagGenreListAsync();
             return View();
         }
 
@@ -115,13 +120,13 @@ namespace TestMvcProject.Controllers
             if (!ModelState.IsValid)
                 return View(manga);
 
-            var animies = _appDbContext.Anime;
-            var authors = _appDbContext.Authors;
-            var genres = _appDbContext.Genres;
+            var animies = _animeRepository.GetAll();
+            var authors = _authorRepository.GetAll();
+            var genres = _genreRepository.GetAll();
 
             if (manga.Avatar != null)
             {
-                var img = _viewHelper.GetImg(manga.Avatar, "AvatarOf" + manga.Tittle);
+                var img = _imageRepository.GetImg(manga.Avatar, "AvatarOf" + manga.Tittle);
                 manga.Images?.Add(img);
             }
 
@@ -134,8 +139,8 @@ namespace TestMvcProject.Controllers
             if (manga.GenreIdList != null && manga.GenreIdList.Count > 0)
                 manga.Genres?.AddRange(genres.Where(g => manga.GenreIdList.Any(m => m == g.Id)).ToList());
 
-            _appDbContext.Manga.Add(manga);
-            await _appDbContext.SaveChangesAsync();
+            _mangaRepository.Add(manga);
+            await _mangaRepository.SaveChangesAsync();
 
             TempData["success"] = "Manga created successfully!";
 
@@ -148,19 +153,14 @@ namespace TestMvcProject.Controllers
             if (id == null || Guid.Empty == id)
                 return NotFound();
 
-            var manga = await _appDbContext.Manga
-                .Include(m => m.Images)
-                .Include(m => m.Authors)
-                .Include(m => m.Anime)
-                .Include(m => m.Genres)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var manga = await _mangaRepository.GetMangaByIdFullInfoAsync((Guid)id, false);
 
             if (manga == null)
                 return NotFound();
 
-            ViewBag.AnimeList = await _viewHelper.FillViewBagAnimeListAsync(_appDbContext);
-            ViewBag.AuthorList = await _viewHelper.FillViewBagAuthorListAsync(_appDbContext);
-            ViewBag.GenreList = await _viewHelper.FillViewBagGenreListAsync(_appDbContext);
+            ViewBag.AnimeList = await _animeRepository.FillViewBagAnimeListAsync();
+            ViewBag.AuthorList = await _authorRepository.FillViewBagAuthorListAsync();
+            ViewBag.GenreList = await _genreRepository.FillViewBagGenreListAsync();
 
             return View(manga);
         }
@@ -178,48 +178,48 @@ namespace TestMvcProject.Controllers
             if (!ModelState.IsValid)
                 return View(manga);
 
-            var _manga = await _appDbContext.Manga
-                .Include(m => m.Anime)
-                .Include(m => m.Authors)
-                .Include(m => m.Genres)
-                .FirstOrDefaultAsync(m => m.Id == manga.Id);
-
-            manga.Anime = _manga?.Anime;
-            manga.Authors = _manga?.Authors;
-            manga.Genres = _manga?.Genres;
+            //var _manga = await _mangaRepository.GetMangaByIdWithAnimeAuthorGenreAsync(manga.Id, false);
+            _mangaRepository.Attach(manga);
+            await _mangaRepository.LoadRealatedAnimiesAsync(manga);
+            await _mangaRepository.LoadRealatedAuthorsAsync(manga);
+            await _mangaRepository.LoadRealatedGenresAsync(manga);
 
             if (manga.Avatar != null)
             {
-                var img = _viewHelper.GetImg(manga.Avatar, "AvatarOf" + manga.Tittle);
+                var img = _imageRepository.GetImg(manga.Avatar, "AvatarOf" + manga.Tittle);
 
-                _appDbContext.Images.Add(img);
-                await _appDbContext.SaveChangesAsync();
+                _imageRepository.Add(img);
+                await _imageRepository.SaveChangesAsync();
 
                 manga.Images?.Add(img);
             }
 
             if (manga.AnimeIdList != null && manga.AnimeIdList.Count > 0)
             {
-                var animeList = await _appDbContext.Anime.Where(a => manga.AnimeIdList.Any(m => m == a.Id)).ToListAsync();
+                //var animeList = await _appDbContext.Anime.Where(a => manga.AnimeIdList.Any(m => m == a.Id)).ToListAsync();
+                var animeList = await _animeRepository.GetAnimeListByIdAsync(manga.AnimeIdList);
                 manga.Anime?.RemoveRange(0, manga.Anime.Count);
                 manga.Anime?.AddRange(animeList);
             }
 
             if (manga.AuthorIdList != null && manga.AuthorIdList.Count > 0)
             {
-                var authorList = await _appDbContext.Authors.Where(a => manga.AuthorIdList.Any(m => m == a.Id)).ToListAsync();
+                //var authorList = await _appDbContext.Authors.Where(a => manga.AuthorIdList.Any(m => m == a.Id)).ToListAsync();
+                var authorList = await _authorRepository.GetAuthorListByIdAsync(manga.AuthorIdList);
                 manga.Authors?.RemoveRange(0, manga.Authors.Count);
                 manga.Authors?.AddRange(authorList);
             }
 
             if (manga.GenreIdList != null && manga.GenreIdList.Count > 0)
             {
-                var genreList = await _appDbContext.Genres.Where(g => manga.GenreIdList.Any(m => m == g.Id)).ToListAsync();
+                //var genreList = await _appDbContext.Genres.Where(g => manga.GenreIdList.Any(m => m == g.Id)).ToListAsync();
+                var genreList = await _genreRepository.GetGenreListById(manga.GenreIdList);
                 manga.Genres?.RemoveRange(0, manga.Genres.Count);
                 manga.Genres?.AddRange(genreList);
             }
 
-            await _appDbContext.SaveChangesAsync();
+            _mangaRepository.Update(manga);
+            await _mangaRepository.SaveChangesAsync();
 
             TempData["success"] = "Manga updated successfully!";
 
@@ -233,19 +233,14 @@ namespace TestMvcProject.Controllers
             if (id == Guid.Empty || id == null)
                 return NotFound();
 
-            var manga = await _appDbContext.Manga
-                .Include(m => m.Genres)
-                .Include(m => m.Authors)
-                .Include(m => m.Anime)
-                .Include(m => m.Images)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var manga = await _mangaRepository.GetMangaByIdFullInfoAsync((Guid)id, false);
 
             if (manga == null)
                 return NotFound();
 
-            ViewBag.AnimeList = await _viewHelper.FillViewBagAnimeListAsync(_appDbContext);
-            ViewBag.AuthorList = await _viewHelper.FillViewBagAuthorListAsync(_appDbContext);
-            ViewBag.GenreList = await _viewHelper.FillViewBagGenreListAsync(_appDbContext);
+            ViewBag.AnimeList = await _animeRepository.FillViewBagAnimeListAsync();
+            ViewBag.AuthorList = await _authorRepository.FillViewBagAuthorListAsync();
+            ViewBag.GenreList = await _genreRepository.FillViewBagGenreListAsync();
 
             if (manga.Images != null && manga.Images.Count > 0)
                 ViewBag.Poster = string.Format("data:image/png;base64,{0}", (Convert.ToBase64String(manga.Images.Last().Data)));
@@ -261,21 +256,19 @@ namespace TestMvcProject.Controllers
             if (id == Guid.Empty || id == null)
                 return NotFound();
 
-            var manga = await _appDbContext.Manga
-                .Include(m => m.Images)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var manga = await _mangaRepository.GetMangaByIdWithImageAsync((Guid)id, false);
 
             if (manga == null)
                 return NotFound();
 
             if (manga.Images != null && manga.Images.Count > 0)
             {
-                _appDbContext.Images.RemoveRange(manga.Images);
-                await _appDbContext.SaveChangesAsync();
+                _imageRepository.RemoveRange(manga.Images);
+                await _imageRepository.SaveChangesAsync();
             }
 
-            _appDbContext.Manga.Remove(manga);
-            await _appDbContext.SaveChangesAsync();
+            _mangaRepository.Remove(manga);
+            await _mangaRepository.SaveChangesAsync();
 
             TempData["success"] = "Manga deleted successfully!";
 

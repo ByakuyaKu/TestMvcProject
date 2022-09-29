@@ -43,6 +43,7 @@ namespace TestMvcProject.Jikan.Libs
                     currentGenres, newGenres);
 
                 animeTop.Add(curAnime);
+                await Task.Delay(1000);
             }
 
             if (newGenres != null && newGenres.Count > 0)
@@ -135,7 +136,7 @@ namespace TestMvcProject.Jikan.Libs
                 var author = currentAuthors.FirstOrDefault(a => a.MalId == staff.Data.ElementAt(i).Person.MalId);
                 if (author != null)
                 {
-                    author = await AddPositionToAuthor(author, anime, currentPositions, newPositions, staff.Data.ElementAt(i).Position);
+                    await AddPositionToAuthor(author, anime, currentPositions, newPositions, staff.Data.ElementAt(i).Position);
                     _staff.Add(author);
                 }
                 else
@@ -143,11 +144,12 @@ namespace TestMvcProject.Jikan.Libs
                     var newAuthor = new Author();
                     newAuthor.FirstName = staff.Data.ElementAt(i).Person.Name;
                     newAuthor.MalId = staff.Data.ElementAt(i).Person.MalId;
+
                     var img = GetImgData(staff.Data.ElementAt(i).Person.Images, "PoseterOf" + newAuthor.FirstName);
                     if (img != null)
                         newAuthor.Images?.Add(img);
 
-                    newAuthor = await AddPositionToAuthor(newAuthor, anime, currentPositions, newPositions, staff.Data.ElementAt(i).Position);
+                    await AddPositionToAuthor(newAuthor, anime, currentPositions, newPositions, staff.Data.ElementAt(i).Position);
 
                     currentAuthors.Add(newAuthor);
                     newAuthors.Add(newAuthor);

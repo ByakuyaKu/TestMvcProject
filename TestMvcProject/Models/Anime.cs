@@ -46,7 +46,7 @@ namespace TestMvcProject.Models
 
         //public Guid? MangaId { get; set; }
         [ForeignKey("MangaId")]
-        public List<Manga>? Manga { get; set; }
+        public List<Manga>? Manga { get; set; } = new List<Manga>();
 
         //public Guid? AuthorId { get; set; }
         [ForeignKey("AuthorId")]

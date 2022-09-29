@@ -15,6 +15,11 @@ namespace TestMvcProject.Data
             modelBuilder.Entity<Genre>().HasIndex(g => g.Name).IsUnique();
         }
 
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.EnableSensitiveDataLogging();
+        //}
+
         public DbSet<Anime> Anime { get; set; }
         public DbSet<Manga> Manga { get; set; }
         public DbSet<Author> Authors { get; set; }

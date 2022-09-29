@@ -4,6 +4,8 @@ using TestMvcProject.Data;
 using TestMvcProject.Jikan;
 using TestMvcProject.Jikan.Interfaces;
 using TestMvcProject.Jikan.Libs;
+using TestMvcProject.Repository;
+using TestMvcProject.Repository.Interfaces;
 using TestMvcProject.ViewHelperLib;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,7 +17,16 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DBConnectionString")
     ));
 
-builder.Services.AddScoped<IViewHelper, ViewHelper>();
+
+builder.Services.AddScoped<IAnimeRepository, AnimeRepository>();
+builder.Services.AddScoped<IMangaRepository, MangaRepository>();
+builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
+builder.Services.AddScoped<IImageRepository, ImageRepository>();
+builder.Services.AddScoped<IGenreRepository, GenreRepository>();
+builder.Services.AddScoped<IPositionRepository, PositionRepository>();
+
+
+
 builder.Services.AddScoped<IJikan, Jikan>();
 
 builder.Services.AddScoped<IMangaLib, MangaLib>();

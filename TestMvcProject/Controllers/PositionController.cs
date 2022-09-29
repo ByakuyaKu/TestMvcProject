@@ -2,19 +2,18 @@
 using Microsoft.EntityFrameworkCore;
 using TestMvcProject.Data;
 using TestMvcProject.Models;
+using TestMvcProject.Repository.Interfaces;
 using TestMvcProject.ViewHelperLib;
 
 namespace TestMvcProject.Controllers
 {
     public class PositionController : Controller
     {
-        private readonly AppDbContext _appDbContext;
-        private readonly IViewHelper _viewHelper;
+        private readonly IPositionRepository _positionRepository;
 
-        public PositionController(AppDbContext appDbContext, IViewHelper viewHelper)
+        public PositionController(IPositionRepository positionRepository)
         {
-            _appDbContext = appDbContext;
-            _viewHelper = viewHelper;
+            _positionRepository = positionRepository;
         }
         // GET: PositionController
         public async Task<ActionResult> IndexAsync(string? sortOrder, string? searchString, string currentFilter, int? pageNumber)
@@ -33,18 +32,22 @@ namespace TestMvcProject.Controllers
 
             ViewData["CurrentFilter"] = searchString;
 
-            IEnumerable<Position> PositionList = await _viewHelper.FillPositionListAsync(searchString, _appDbContext);
+            IEnumerable<Position> PositionList = await _positionRepository.FillPositionListAsync(searchString);
 
-            PositionList = _viewHelper.SortPosition(sortOrder, PositionList);
+            PositionList = _positionRepository.SortPosition(sortOrder, PositionList);
 
             int pageSize = 10;
             return View(await PaginatedList<Position>.CreateAsync(PositionList, pageNumber ?? 1, pageSize));
         }
 
         // GET: PositionController/Details/5
-        public ActionResult Details(Guid id)
+        public async Task<ActionResult> Details(Guid? id)
         {
-            var Position = _appDbContext.Positions.Where(p => p.Id == id).Include(p => p.Authors).ToList();
+            if (id == null || id == Guid.Empty)
+                return NotFound();
+
+            var Position = await _positionRepository.GetPositionByIdWithAuthor((Guid)id, true);
+
             if (Position == null)
                 return NotFound();
 
@@ -60,13 +63,13 @@ namespace TestMvcProject.Controllers
         // POST: PositionController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Position position)
+        public async Task<ActionResult> Create(Position position)
         {
             if (!ModelState.IsValid)
                 return View(position);
 
-            _appDbContext.Positions.Add(position);
-            _appDbContext.SaveChanges();
+            _positionRepository.Add(position);
+            await _positionRepository.SaveChangesAsync();
 
             TempData["success"] = "Position created successfully!";
 
@@ -74,12 +77,12 @@ namespace TestMvcProject.Controllers
         }
 
         // GET: PositionController/Edit/5
-        public ActionResult Edit(Guid? id)
+        public async Task<ActionResult> Edit(Guid? id)
         {
             if (id == Guid.Empty || id == null)
                 return NotFound();
 
-            var position = _appDbContext.Positions.Find(id);
+            var position = await _positionRepository.GetPositionById((Guid)id, false);
 
             if (position == null)
                 return NotFound();
@@ -90,14 +93,14 @@ namespace TestMvcProject.Controllers
         // POST: PositionController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Position position)
+        public async Task<ActionResult> Edit(Position position)
         {
             if (!ModelState.IsValid)
                 return View(position);
 
-            _appDbContext.Positions.Update(position);
+            _positionRepository.Update(position);
 
-            _appDbContext.SaveChanges();
+            await _positionRepository.SaveChangesAsync();
 
             TempData["success"] = "Position updated successfully!";
 
@@ -105,12 +108,12 @@ namespace TestMvcProject.Controllers
         }
 
         // GET: PositionController/Delete/5
-        public ActionResult Delete(Guid? id)
+        public async Task<ActionResult> Delete(Guid? id)
         {
             if (id == Guid.Empty || id == null)
                 return NotFound();
 
-            var position = _appDbContext.Positions.Find(id);
+            var position = await _positionRepository.GetPositionById((Guid)id, false);
 
             if (position == null)
                 return NotFound();
@@ -121,19 +124,19 @@ namespace TestMvcProject.Controllers
         // POST: PositionController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeletePost(Guid? id)
+        public async Task<ActionResult> DeletePost(Guid? id)
         {
             if (id == Guid.Empty || id == null)
                 return NotFound();
 
-            var position = _appDbContext.Positions.Find(id);
+            var position = await _positionRepository.GetPositionById((Guid)id, false);
 
             if (position == null)
                 return NotFound();
 
-            _appDbContext.Positions.Remove(position);
+            _positionRepository.Remove(position);
 
-            _appDbContext.SaveChanges();
+            await _positionRepository.SaveChangesAsync();
 
             TempData["success"] = "Position deleted successfully!";
 

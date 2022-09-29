@@ -30,8 +30,8 @@ namespace TestMvcProject.Jikan
                 {
                     //await _IMangaLib.GetMangaAsync(1);
                     
-                    await _IAnimeLib.GetTopAnimeAsync();
-                    await _IMangaLib.GetTopMangaAsync();
+                    //await _IAnimeLib.GetTopAnimeAsync();
+                    //await _IMangaLib.GetTopMangaAsync();
 
                 }
                 catch (Exception ex)
@@ -39,7 +39,7 @@ namespace TestMvcProject.Jikan
                     // обработка ошибки однократного неуспешного выполнения фоновой задачи
                 }
                 //stoppingToken.ThrowIfCancellationRequested();
-                await Task.Delay(TimeSpan.FromDays(10), stoppingToken);
+                await Task.Delay(TimeSpan.FromDays(10000), stoppingToken);
             }
         }
 
