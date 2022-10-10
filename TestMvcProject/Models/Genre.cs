@@ -14,10 +14,8 @@ namespace TestMvcProject.Models
 
         //foreign keys
         #region
-        [ForeignKey("MangaId")]
         public List<Manga>? Manga { get; set; } = new List<Manga>();
 
-        [ForeignKey("AnimeId")]
         public List<Anime>? Anime { get; set; } = new List<Anime>();
         #endregion
     }

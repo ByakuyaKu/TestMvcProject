@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestMvcProject.Data;
 
@@ -11,9 +12,11 @@ using TestMvcProject.Data;
 namespace TestMvcProject.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221010090813_AuthorMangaFix")]
+    partial class AuthorMangaFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,12 +30,12 @@ namespace TestMvcProject.Migrations
                     b.Property<Guid>("AnimeId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AuthorsId")
+                    b.Property<Guid>("AuthorId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("AnimeId", "AuthorsId");
+                    b.HasKey("AnimeId", "AuthorId");
 
-                    b.HasIndex("AuthorsId");
+                    b.HasIndex("AuthorId");
 
                     b.ToTable("AnimeAuthor");
                 });
@@ -42,12 +45,12 @@ namespace TestMvcProject.Migrations
                     b.Property<Guid>("AnimeId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("GenresId")
+                    b.Property<Guid>("GenreId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("AnimeId", "GenresId");
+                    b.HasKey("AnimeId", "GenreId");
 
-                    b.HasIndex("GenresId");
+                    b.HasIndex("GenreId");
 
                     b.ToTable("AnimeGenre");
                 });
@@ -84,28 +87,28 @@ namespace TestMvcProject.Migrations
 
             modelBuilder.Entity("AuthorPosition", b =>
                 {
-                    b.Property<Guid>("AuthorsId")
+                    b.Property<Guid>("AuthorId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("PositionsId")
+                    b.Property<Guid>("PositionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("AuthorsId", "PositionsId");
+                    b.HasKey("AuthorId", "PositionId");
 
-                    b.HasIndex("PositionsId");
+                    b.HasIndex("PositionId");
 
                     b.ToTable("AuthorPosition");
                 });
 
             modelBuilder.Entity("GenreManga", b =>
                 {
-                    b.Property<Guid>("GenresId")
+                    b.Property<Guid>("GenreId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("MangaId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("GenresId", "MangaId");
+                    b.HasKey("GenreId", "MangaId");
 
                     b.HasIndex("MangaId");
 
@@ -376,43 +379,43 @@ namespace TestMvcProject.Migrations
 
             modelBuilder.Entity("AnimeAuthor", b =>
                 {
-                    b.HasOne("TestMvcProject.Models.Anime", null)
+                    b.HasOne("TestMvcProject.Models.Author", null)
                         .WithMany()
                         .HasForeignKey("AnimeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TestMvcProject.Models.Author", null)
+                    b.HasOne("TestMvcProject.Models.Anime", null)
                         .WithMany()
-                        .HasForeignKey("AuthorsId")
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("AnimeGenre", b =>
                 {
-                    b.HasOne("TestMvcProject.Models.Anime", null)
+                    b.HasOne("TestMvcProject.Models.Genre", null)
                         .WithMany()
                         .HasForeignKey("AnimeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TestMvcProject.Models.Genre", null)
+                    b.HasOne("TestMvcProject.Models.Anime", null)
                         .WithMany()
-                        .HasForeignKey("GenresId")
+                        .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("AnimeManga", b =>
                 {
-                    b.HasOne("TestMvcProject.Models.Anime", null)
+                    b.HasOne("TestMvcProject.Models.Manga", null)
                         .WithMany()
                         .HasForeignKey("AnimeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TestMvcProject.Models.Manga", null)
+                    b.HasOne("TestMvcProject.Models.Anime", null)
                         .WithMany()
                         .HasForeignKey("MangaId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -436,28 +439,28 @@ namespace TestMvcProject.Migrations
 
             modelBuilder.Entity("AuthorPosition", b =>
                 {
-                    b.HasOne("TestMvcProject.Models.Author", null)
+                    b.HasOne("TestMvcProject.Models.Position", null)
                         .WithMany()
-                        .HasForeignKey("AuthorsId")
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TestMvcProject.Models.Position", null)
+                    b.HasOne("TestMvcProject.Models.Author", null)
                         .WithMany()
-                        .HasForeignKey("PositionsId")
+                        .HasForeignKey("PositionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("GenreManga", b =>
                 {
-                    b.HasOne("TestMvcProject.Models.Genre", null)
+                    b.HasOne("TestMvcProject.Models.Manga", null)
                         .WithMany()
-                        .HasForeignKey("GenresId")
+                        .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TestMvcProject.Models.Manga", null)
+                    b.HasOne("TestMvcProject.Models.Genre", null)
                         .WithMany()
                         .HasForeignKey("MangaId")
                         .OnDelete(DeleteBehavior.Cascade)

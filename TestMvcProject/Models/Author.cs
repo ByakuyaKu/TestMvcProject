@@ -22,15 +22,10 @@ namespace TestMvcProject.Models
 
         //foreign keys
         #region
-        public Guid? MangaId { get; set; }
-        [ForeignKey("MangaId")]
         public List<Manga>? Manga { get; set; } = new List<Manga>();
 
-        public Guid? AnimeId { get; set; }
-        [ForeignKey("AnimeId")]
         public List<Anime>? Anime { get; set; } = new List<Anime>();
 
-        [ForeignKey("PositionId")]
         public List<Position>? Positions { get; set; } = new List<Position>();
 
         public List<Image>? Images { get; set; } = new List<Image>();
