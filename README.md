@@ -10,6 +10,7 @@
 * New pagination with x.paged
 * Repository rework. IEnumerable and IQyeruable methods
 * maybe new validation
+* Login engine
 
 Данный проект был специально разработан для портфолио.
 
