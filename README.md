@@ -5,6 +5,12 @@
 ## О проекте
 Это библиотека аниме и манги. Также был реализован сервис, для заполнения бд начальными данными (примерное время загрузки данных около 2 минут). Данный сервис использует [Jikan API](https://github.com/Ervie/jikan.net)
 
+## To do
+* AsNoTracking fix
+* New pagination with x.paged
+* Repository rework. IEnumerable and IQyeruable methods
+* maybe new validation
+
 Данный проект был специально разработан для портфолио.
 
 
